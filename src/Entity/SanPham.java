@@ -11,22 +11,22 @@ package Entity;
  */
 public class SanPham {
     private String maSP;
-    private String taLoaiSP;
+    private String maLoaiSP;
     private String tenSanPham;
     private int donGia;
     private String donViTinh;
-    private String anhNV;
+    private String anhSP;
     private String maNV;
     private String chiTiet;
     private boolean trangThai;
 
-    public SanPham(String maSP, String taLoaiSP, String tenSanPham, int donGia, String donViTinh, String anhNV, String maNV, String chiTiet, boolean trangThai) {
+    public SanPham(String maSP, String maLoaiSP, String tenSanPham, int donGia, String donViTinh, String anhSP, String maNV, String chiTiet, boolean trangThai) {
         this.maSP = maSP;
-        this.taLoaiSP = taLoaiSP;
+        this.maLoaiSP = maLoaiSP;
         this.tenSanPham = tenSanPham;
         this.donGia = donGia;
         this.donViTinh = donViTinh;
-        this.anhNV = anhNV;
+        this.anhSP = anhSP;
         this.maNV = maNV;
         this.chiTiet = chiTiet;
         this.trangThai = trangThai;
@@ -43,12 +43,12 @@ public class SanPham {
         this.maSP = maSP;
     }
 
-    public String getTaLoaiSP() {
-        return taLoaiSP;
+    public String getMaLoaiSP() {
+        return maLoaiSP;
     }
 
-    public void setTaLoaiSP(String taLoaiSP) {
-        this.taLoaiSP = taLoaiSP;
+    public void setMaLoaiSP(String taLoaiSP) {
+        this.maLoaiSP = taLoaiSP;
     }
 
     public String getTenSanPham() {
@@ -75,12 +75,12 @@ public class SanPham {
         this.donViTinh = donViTinh;
     }
 
-    public String getAnhNV() {
-        return anhNV;
+    public String getAnhSP() {
+        return anhSP;
     }
 
-    public void setAnhNV(String anhNV) {
-        this.anhNV = anhNV;
+    public void setAnhSP(String anhSP) {
+        this.anhSP = anhSP;
     }
 
     public String getMaNV() {
@@ -106,10 +106,10 @@ public class SanPham {
     public void setTrangThai(boolean trangThai) {
         this.trangThai = trangThai;
     }
-
+    
     @Override
     public String toString() {
-        return "SanPham{" + "maSP=" + maSP + ", taLoaiSP=" + taLoaiSP + ", tenSanPham=" + tenSanPham + ", donGia=" + donGia + ", donViTinh=" + donViTinh + ", anhNV=" + anhNV + ", maNV=" + maNV + ", chiTiet=" + chiTiet + ", trangThai=" + trangThai + '}';
+        return "SanPham{" + "maSP=" + maSP + ", taLoaiSP=" + maLoaiSP + ", tenSanPham=" + tenSanPham + ", donGia=" + donGia + ", donViTinh=" + donViTinh + ", anhSP=" + anhSP + ", maNV=" + maNV + ", chiTiet=" + chiTiet + ", trangThai=" + trangThai + '}';
     }
     
 }
