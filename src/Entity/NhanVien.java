@@ -140,7 +140,7 @@ public class NhanVien {
 
     @Override
     public String toString() {
-        return this.maNV;
+        return this.maNV+" - "+this.tenNV;
     }
 
    
