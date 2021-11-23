@@ -5,6 +5,8 @@
  */
 package Entity;
 
+import java.util.Date;
+
 /**
  *
  * @author doanp
@@ -13,13 +15,13 @@ public class SuKienKhuyenMai {
     private int maSKKM;
     private String tenSKKM;
     private double giaTriKM;
-    private String ngayBatDau;
-    private String ngayKetThuc;
-    private String ngayTao;
+    private Date ngayBatDau;
+    private Date ngayKetThuc;
+    private Date ngayTao;
     private String maNV;
     private boolean trangThai;
 
-    public SuKienKhuyenMai(int maSKKM, String tenSKKM, double giaTriKM, String ngayBatDau, String ngayKetThuc, String ngayTao, String maNV, boolean trangThai) {
+    public SuKienKhuyenMai(int maSKKM, String tenSKKM, double giaTriKM, Date ngayBatDau, Date ngayKetThuc, Date ngayTao, String maNV, boolean trangThai) {
         this.maSKKM = maSKKM;
         this.tenSKKM = tenSKKM;
         this.giaTriKM = giaTriKM;
@@ -57,27 +59,27 @@ public class SuKienKhuyenMai {
         this.giaTriKM = giaTriKM;
     }
 
-    public String getNgayBatDau() {
+    public Date getNgayBatDau() {
         return ngayBatDau;
     }
 
-    public void setNgayBatDau(String ngayBatDau) {
+    public void setNgayBatDau(Date ngayBatDau) {
         this.ngayBatDau = ngayBatDau;
     }
 
-    public String getNgayKetThuc() {
+    public Date getNgayKetThuc() {
         return ngayKetThuc;
     }
 
-    public void setNgayKetThuc(String ngayKetThuc) {
+    public void setNgayKetThuc(Date ngayKetThuc) {
         this.ngayKetThuc = ngayKetThuc;
     }
 
-    public String getNgayTao() {
+    public Date getNgayTao() {
         return ngayTao;
     }
 
-    public void setNgayTao(String ngayTao) {
+    public void setNgayTao(Date ngayTao) {
         this.ngayTao = ngayTao;
     }
 
