@@ -1201,7 +1201,7 @@ public class QuanLyKhachHangFrame extends javax.swing.JFrame {
                 MsgBox.alert(this, "Khôi phục thành công");
             }
         } else {
-            MsgBox.alert(this, "Vui lòng chọn nhân viên cần khách hàng!");
+            MsgBox.alert(this, "Vui lòng chọn khách hàng cần khôi phục!");
         }
     }
     

@@ -413,7 +413,7 @@ public class TrangChuFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
-        this.openThongke(3);
+//        this.openThongke(3);
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -421,7 +421,7 @@ public class TrangChuFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.openChonBan(0);
+        // this.openChonBan(0);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -429,7 +429,7 @@ public class TrangChuFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        this.openLichSuGiaoDich();
+        ///  this.openLichSuGiaoDich();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -437,19 +437,19 @@ public class TrangChuFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        this.openThongke(0);
+        //this.openThongke(0);
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        this.openThongke(1);
+        //   this.openThongke(1);
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-        this.openThongke(2);
+        //   this.openThongke(2);
     }//GEN-LAST:event_jMenuItem9ActionPerformed
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
-        this.openThongke(4);
+        //  this.openThongke(4);
     }//GEN-LAST:event_jMenuItem11ActionPerformed
 
     private void jMenu4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu4ActionPerformed
@@ -481,7 +481,7 @@ public class TrangChuFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        this.openChonBan(0);
+//        this.openChonBan(0);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**
@@ -564,7 +564,7 @@ public class TrangChuFrame extends javax.swing.JFrame {
         setIconImage(Ximage.getAppIcon());
 
         //Auth.user = new NhanVienDAO().selectById("thaidp3");
-        lblHinhAnh.setIcon(Ximage.read(Auth.user.getAnhNV(), lblHinhAnh.getWidth()-10, lblHinhAnh.getHeight()-10));
+        lblHinhAnh.setIcon(Ximage.read(Auth.user.getAnhNV(), lblHinhAnh.getWidth() - 10, lblHinhAnh.getHeight() - 10));
         lblHoten.setText(Auth.user.getTenNV());
         int color = Integer.parseInt(Auth.user.getMauNen(), 16);
         pnBG1.setBackground(new Color(color));
@@ -596,14 +596,13 @@ public class TrangChuFrame extends javax.swing.JFrame {
         }
     }
 
-    void openLichSuGiaoDich() {
-        if (Auth.isLogin()) {
-            new LichSuGiaoDichFrame().setVisible(true);
-        } else {
-            MsgBox.alert(this, "Vui lòng đăng nhập!");
-        }
-    }
-
+//    void openLichSuGiaoDich() {
+//        if (Auth.isLogin()) {
+//            new LichSuGiaoDichFrame().setVisible(true);
+//        } else {
+//            MsgBox.alert(this, "Vui lòng đăng nhập!");
+//        }
+//    }
     void openSuKien() {
         if (Auth.isLogin()) {
             new QuanLySKKMFrame().setVisible(true);
@@ -611,16 +610,16 @@ public class TrangChuFrame extends javax.swing.JFrame {
             MsgBox.alert(this, "Vui lòng đăng nhập!");
         }
     }
-
-    void openChonBan(int index) {
-        if (Auth.isLogin()) {
-            QuanLyBanFrame qlb = new QuanLyBanFrame();
-            qlb.setVisible(true);
-            qlb.selectTab(index);
-        } else {
-            MsgBox.alert(this, "Vui lòng đăng nhập!");
-        }
-    }
+//
+//    void openChonBan(int index) {
+//        if (Auth.isLogin()) {
+//            QuanLyBanFrame qlb = new QuanLyBanFrame();
+//            qlb.setVisible(true);
+//            qlb.selectTab(index);
+//        } else {
+//            MsgBox.alert(this, "Vui lòng đăng nhập!");
+//        }
+//    }
 
     void openQLThucPham() {
         if (Auth.isLogin()) {
@@ -662,20 +661,19 @@ public class TrangChuFrame extends javax.swing.JFrame {
         }
     }
 
-    void openThongke(int index) {
-        if (Auth.isLogin()) {
-            if (index == 4 && index == 5 && !Auth.isManager()) {
-                MsgBox.alert(this, "Bạn không có quyền xem");
-            } else {
-                ThongKeFrame tk = new ThongKeFrame();
-                tk.setVisible(true);
-                tk.selectTab(index);
-            }
-        } else {
-            MsgBox.alert(this, "Vui lòng đăng nhập!");
-        }
-    }
-
+//    void openThongke(int index) {
+//        if (Auth.isLogin()) {
+//            if (index == 4 && index == 5 && !Auth.isManager()) {
+//                MsgBox.alert(this, "Bạn không có quyền xem");
+//            } else {
+//                ThongKeFrame tk = new ThongKeFrame();
+//                tk.setVisible(true);
+//                tk.selectTab(index);
+//            }
+//        } else {
+//            MsgBox.alert(this, "Vui lòng đăng nhập!");
+//        }
+//    }
     void dangXuat() {
         Auth.clear();
         new LoginFrame().setVisible(true);

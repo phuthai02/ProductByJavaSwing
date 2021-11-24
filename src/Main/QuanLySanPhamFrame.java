@@ -874,7 +874,7 @@ public class QuanLySanPhamFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_rdoTu100500LTMouseClicked
 
     private void rdoTren500LTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdoTren500LTMouseClicked
-        fillToLuuTru();    
+        fillToLuuTru();
     }//GEN-LAST:event_rdoTren500LTMouseClicked
 
     /**
@@ -1171,7 +1171,7 @@ public class QuanLySanPhamFrame extends javax.swing.JFrame {
     }
 
     SanPham getForm() {
-        Auth.user = new NhanVienDAO().selectById("PH16552");//////////////////////////Xóa
+        //   Auth.user = new NhanVienDAO().selectById("PH16552");//////////////////////////Xóa
         SanPham sp = new SanPham();
         sp.setMaSP(txtMaSP.getText());
         sp.setMaLoaiSP(lstLSP.get(cboLoaiSP.getSelectedIndex()).getMaLoaiSP());
@@ -1257,7 +1257,8 @@ public class QuanLySanPhamFrame extends javax.swing.JFrame {
                     pageIndexLT = 0;
                     fillToDanhSach();
                     fillToLuuTru();
-//                    resetForm();
+                    MsgBox.alert(this, "Them moi thanh cong!");
+                    resetForm();
                 } catch (Exception e) {
                     if (MsgBox.confirm(this, "Thêm sản phẩm thất bại!! Bạn có muốn báo lỗi tới nhà phát triển?")) {
                         Xmail.writeException(e, getForm());

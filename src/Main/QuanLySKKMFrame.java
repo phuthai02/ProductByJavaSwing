@@ -101,7 +101,7 @@ public class QuanLySKKMFrame extends javax.swing.JFrame {
     void fillTableLT() {
         modelLT.setRowCount(0);
         Map<String, String> mapNV = new NhanVienDAO().selectHoTenNV();
-        List<SuKienKhuyenMai> list = daoSK.selectPagingFull(getSuKienLT(), 1, txtTimKiemLT.getText(), Xdate.toString(new Date(), "yyyy-MM-dd"), pageIndexLT);
+        List<SuKienKhuyenMai> list = daoSK.selectPagingFull(getSuKienLT(), 0, txtTimKiemLT.getText(), Xdate.toString(new Date(), "yyyy-MM-dd"), pageIndexLT);
         lblIndexLT.setText(pageIndexLT + 1 + "");
         for (SuKienKhuyenMai sk : list) {
             modelLT.addRow(new Object[]{
@@ -268,6 +268,8 @@ public class QuanLySKKMFrame extends javax.swing.JFrame {
                 fillTableLT();
                 MsgBox.alert(this, "Khôi phục thành công");
             }
+        } else {
+            MsgBox.alert(this, "Vui lòng chọn sự kiện cần khôi phục!");
         }
     }
 
