@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/QuanLyNhaHang.github.io/src/Untils/Xmail.java</file>
+            <file>file:/D:/DA1_QUANLYNHAHANG/QuanLyNhaHang.github.io/src/Main/TrangChuFrame.java</file>
+            <file>file:/D:/DA1_QUANLYNHAHANG/QuanLyNhaHang.github.io/src/Main/QuanLySanPhamFrame.java</file>
+            <file>file:/D:/DA1_QUANLYNHAHANG/QuanLyNhaHang.github.io/src/Entity/SanPham.java</file>
+            <file>file:/D:/DA1_QUANLYNHAHANG/QuanLyNhaHang.github.io/src/Main/QuanLyNhanVienFrame.java</file>
+            <file>file:/D:/DA1_QUANLYNHAHANG/QuanLyNhaHang.github.io/src/Main/QuanLyKhachHangFrame.java</file>
+            <file>file:/D:/DA1_QUANLYNHAHANG/QuanLyNhaHang.github.io/src/Main/LoginFrame.java</file>
+            <file>file:/D:/DA1_QUANLYNHAHANG/QuanLyNhaHang.github.io/src/Untils/Xjdbc.java</file>
         </group>
     </open-files>
 </project-private>

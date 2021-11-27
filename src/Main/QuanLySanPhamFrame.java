@@ -1171,7 +1171,6 @@ public class QuanLySanPhamFrame extends javax.swing.JFrame {
     }
 
     SanPham getForm() {
-        Auth.user = new NhanVienDAO().selectById("PH16552");//////////////////////////Xóa
         SanPham sp = new SanPham();
         sp.setMaSP(txtMaSP.getText());
         sp.setMaLoaiSP(lstLSP.get(cboLoaiSP.getSelectedIndex()).getMaLoaiSP());
@@ -1257,7 +1256,8 @@ public class QuanLySanPhamFrame extends javax.swing.JFrame {
                     pageIndexLT = 0;
                     fillToDanhSach();
                     fillToLuuTru();
-//                    resetForm();
+                    MsgBox.alert(this, "Thêm sản phẩm thành công");
+                    resetForm();
                 } catch (Exception e) {
                     if (MsgBox.confirm(this, "Thêm sản phẩm thất bại!! Bạn có muốn báo lỗi tới nhà phát triển?")) {
                         Xmail.writeException(e, getForm());
