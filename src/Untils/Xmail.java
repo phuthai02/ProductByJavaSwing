@@ -56,7 +56,7 @@ public class Xmail {
         props.setProperty("mail.smtp.socketFactory.port", "465");
         //----------------------------
         String accountName = "thaidpph17321@fpt.edu.vn";
-        String accountPassword = "thaiad1121@";
+        String accountPassword = "thaiad1121";
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             @Override
             protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
@@ -107,7 +107,7 @@ public class Xmail {
         props.setProperty("mail.smtp.socketFactory.port", "465");
         //----------------------------
         String accountName = "thaidpph17321@fpt.edu.vn";
-        String accountPassword = "thaiad1121@";
+        String accountPassword = "thaiad1121";
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             @Override
             protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
@@ -152,7 +152,7 @@ public class Xmail {
         props.setProperty("mail.smtp.socketFactory.port", "465");
         //----------------------------
         String accountName = "thaidpph17321@fpt.edu.vn";
-        String accountPassword = "thaiad1121@";
+        String accountPassword = "thaiad1121";
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             @Override
             protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
