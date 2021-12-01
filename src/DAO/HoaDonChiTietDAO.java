@@ -22,7 +22,7 @@ public class HoaDonChiTietDAO implements SystemDAO<HoaDonChiTiet, Integer> {
     String SQL_Delete = "update HoaDon set TrangThai=0 where MaHD=? and MaSP=?";
     String SQL_SelectPaging = "chưa rõ điều kiện";
     String SQL_SelectID = "select * from HoaDonChiTiet where MaHD=? AND MaSP=?";
-    
+String SQL_SelectPagingCT = "SELECT * FROM dbo.HoaDon WHERE TrangThai = ?ORDER BY MaNV OFFSET ? *15 ROWS  FETCH NEXT 15 ROWS ONLY"; 
     @Override
     public int insert(HoaDonChiTiet entity) {
         return Xjdbc.update(SQL_Insert, entity.getMaHD(), entity.getMaSP(), entity.getSoLuong(), entity.getGia(), entity.getSoLuong());
@@ -70,10 +70,19 @@ public class HoaDonChiTietDAO implements SystemDAO<HoaDonChiTiet, Integer> {
     
     @Override
     public HoaDonChiTiet selectById(Integer id) {
-        return null;
+         List<HoaDonChiTiet> list = this.selectBySql(SQL_SelectID, id);
+        if (list.isEmpty()) {
+            return null;
+        } else {
+            return list.get(0);
+        }
     }
     
     public HoaDonChiTiet selectById(Integer id1, String id2) {
         return selectBySql(SQL_SelectID, id1, id2).get(0);
+    }
+
+ public List<HoaDonChiTiet> selectByAll(Integer maHD) {
+        return this.selectBySql("Select *from HoaDonChiTiet where MAHD=?",maHD);
     }
 }

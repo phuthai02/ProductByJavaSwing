@@ -29,14 +29,13 @@ public class SKKMDAO implements SystemDAO<SuKienKhuyenMai, String> {
 
     @Override
     public int insert(SuKienKhuyenMai entity) {
-        return Xjdbc.update(SQL_Insert,                
+        return Xjdbc.update(SQL_Insert,
                 entity.getTenSKKM(),
                 entity.getGiaTriKM(),
                 entity.getNgayBatDau(),
                 entity.getNgayKetThuc(),
                 entity.getNgayTao(),
                 entity.getMaNV()
-                
         );
     }
 
@@ -47,7 +46,7 @@ public class SKKMDAO implements SystemDAO<SuKienKhuyenMai, String> {
                 entity.getGiaTriKM(),
                 entity.getNgayBatDau(),
                 entity.getNgayKetThuc(),
-                entity.getNgayTao(),                            
+                entity.getNgayTao(),
                 entity.getMaSKKM()
         );
     }
@@ -108,13 +107,21 @@ public class SKKMDAO implements SystemDAO<SuKienKhuyenMai, String> {
     public List<SuKienKhuyenMai> selectPagingFull(int SQL, int Status, String keyWord, String nowDate, int pageIndex) {
         switch (SQL) {
             case 0:
-                return selectBySql(SQL_SelectDDR, Status, "%" + keyWord + "%", "%" + keyWord + "%", nowDate,pageIndex);
+                return selectBySql(SQL_SelectDDR, Status, "%" + keyWord + "%", "%" + keyWord + "%", nowDate, pageIndex);
             case 1:
-                return selectBySql(SQL_SelectSDR, Status, "%" + keyWord + "%", "%" + keyWord + "%", nowDate,pageIndex);
+                return selectBySql(SQL_SelectSDR, Status, "%" + keyWord + "%", "%" + keyWord + "%", nowDate, pageIndex);
             case 2:
-                return selectBySql(SQL_SelectKT, Status, "%" + keyWord + "%", "%" + keyWord + "%", nowDate,pageIndex);
+                return selectBySql(SQL_SelectKT, Status, "%" + keyWord + "%", "%" + keyWord + "%", nowDate, pageIndex);
         }
         return null;
     }
 
+    public SuKienKhuyenMai selectById1(int id) {
+        List<SuKienKhuyenMai> list = this.selectBySql(SQL_SelectID, id);
+        if (list.isEmpty()) {
+            return null;
+        } else {
+            return list.get(0);
+        }
+    }
 }
