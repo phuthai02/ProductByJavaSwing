@@ -983,6 +983,7 @@ public class QuanLySanPhamFrame extends javax.swing.JFrame {
         daoSP = new SanPhamDAO();
         daoLSP = new LoaiSanPhamDAO();
         lstLSP = daoLSP.selectAll();
+        setDefaultCloseOperation(2);
 //        Auth.user = new NhanVienDAO().selectById("PH16552");
         prepareGUI();
         tabs.setSelectedIndex(0);

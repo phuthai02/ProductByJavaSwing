@@ -27,6 +27,7 @@ public class SanPhamDAO implements SystemDAO<SanPham, String> {
     String SQL_SelectByKeyWord = "SELECT *  FROM dbo.SanPham WHERE TrangThai = ? AND (MaSP LIKE ? OR TenSanPham LIKE ? )";
     String SQL_SelectID = "select * from SanPham where MaSP=?";
     String SQL_SelectHoTenNV = "select MaNV,TenNV from NhanVien";
+    String SQL_SelectByLoai = "select * from SanPham where MaLoaiSP like ? and TrangThai = 1";
 
     @Override
     public int insert(SanPham entity) {
@@ -115,6 +116,10 @@ public class SanPhamDAO implements SystemDAO<SanPham, String> {
 
     public List<SanPham> selectAll() {
         return selectBySql("Select*from sanpham");
+    }
+
+    public List<SanPham> selectByLoai(String maLoai) {
+        return selectBySql(SQL_SelectByLoai, maLoai);
     }
 
     public Map<String, String> selectHoTenNV() {

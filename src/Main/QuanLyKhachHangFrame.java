@@ -26,7 +26,7 @@ import javax.swing.table.DefaultTableModel;
  * @author ASUS
  */
 public class QuanLyKhachHangFrame extends javax.swing.JFrame {
-    
+
     int TrangKH;
     int TrangLT;
     KhachHangDao daoKh;
@@ -700,7 +700,7 @@ public class QuanLyKhachHangFrame extends javax.swing.JFrame {
     private void rdoKhachQuenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoKhachQuenActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_rdoKhachQuenActionPerformed
-    
+
 
     private void jRadioButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton17ActionPerformed
         // TODO add your handling code here:
@@ -721,7 +721,7 @@ public class QuanLyKhachHangFrame extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 
     }//GEN-LAST:event_jButton4ActionPerformed
-    
+
 
     private void tblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseClicked
         if (evt.getClickCount() == 2) {
@@ -733,7 +733,7 @@ public class QuanLyKhachHangFrame extends javax.swing.JFrame {
             this.StatusButton();
         }
     }//GEN-LAST:event_tblKhachHangMouseClicked
-    
+
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
@@ -749,7 +749,7 @@ public class QuanLyKhachHangFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTimKiem2ActionPerformed
 
     private void btnTimKiem2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTimKiem2MouseClicked
-        
+
 
     }//GEN-LAST:event_btnTimKiem2MouseClicked
 
@@ -920,6 +920,7 @@ public class QuanLyKhachHangFrame extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setIconImage(Ximage.getAppIcon());
         this.setTitle("QUẢN LÝ KHÁCH HÀNG");
+        setDefaultCloseOperation(2);
         daoKh = new KhachHangDao();
         daonv = new NhanVienDAO();
         fillComboboxNhanVien();
@@ -927,7 +928,7 @@ public class QuanLyKhachHangFrame extends javax.swing.JFrame {
         fillTableLT();
         StatusButton();
     }
-    
+
     void fillComboboxNhanVien() {
         DefaultComboBoxModel mol = (DefaultComboBoxModel) cbbManv.getModel();
         DefaultComboBoxModel molLT = (DefaultComboBoxModel) cbbManvLT.getModel();
@@ -941,7 +942,7 @@ public class QuanLyKhachHangFrame extends javax.swing.JFrame {
             molLT.addElement(x);
         }
     }
-    
+
     KhachHang getForm() {
         KhachHang kh = new KhachHang();
         kh.setTenKH(txtHoTen.getText());
@@ -953,7 +954,7 @@ public class QuanLyKhachHangFrame extends javax.swing.JFrame {
         kh.setMaKH(Integer.parseInt(txtMa.getText()));
         return kh;
     }
-    
+
     void setForm(KhachHang kh) {
         txtHoTen.setText(kh.getTenKH());
         txtEmail.setText(kh.getEmail());
@@ -966,9 +967,9 @@ public class QuanLyKhachHangFrame extends javax.swing.JFrame {
             rdoNam.setSelected(kh.isGioiTinh());
             rdoNu.setSelected(!kh.isGioiTinh());
         }
-        
+
     }
-    
+
     void fillTable() {
         DefaultTableModel dtm = (DefaultTableModel) tblKhachHang.getModel();
         dtm.setRowCount(0);
@@ -998,7 +999,7 @@ public class QuanLyKhachHangFrame extends javax.swing.JFrame {
             }
         }
     }
-    
+
     void fillTableLT() {
         DefaultTableModel dtm = (DefaultTableModel) tblKhachHangLT.getModel();
         dtm.setRowCount(0);
@@ -1027,14 +1028,14 @@ public class QuanLyKhachHangFrame extends javax.swing.JFrame {
             }
         }
     }
-    
+
     void clearForm() {
         KhachHang kh = new KhachHang();
         this.setForm(kh);
         this.row = -1;
         StatusButton();
     }
-    
+
     void update() {
         if (checkValidate()) {
             KhachHang kh = getForm();
@@ -1049,7 +1050,7 @@ public class QuanLyKhachHangFrame extends javax.swing.JFrame {
             }
         }
     }
-    
+
     void delete() {
         if (MsgBox.confirm(this, "Bạn có chắc chắn muốn xoá Khách hàng này?")) {
             try {
@@ -1068,7 +1069,7 @@ public class QuanLyKhachHangFrame extends javax.swing.JFrame {
             }
         }
     }
-    
+
     void insert() {
         if (checkValidate()) {
             KhachHang kh = getForm();
@@ -1087,9 +1088,9 @@ public class QuanLyKhachHangFrame extends javax.swing.JFrame {
                 }
             }
         }
-        
+
     }
-    
+
     void upDateStatus() {
         NhanVien nv = (NhanVien) cbbManv.getSelectedItem();
         boolean firstDS = TrangKH == 0;
@@ -1101,7 +1102,7 @@ public class QuanLyKhachHangFrame extends javax.swing.JFrame {
         btnNext.setEnabled(!lastDS);
         btnnextLT.setEnabled(!lastLT);
     }
-    
+
     void upDateStatusLT() {
         NhanVien nv = (NhanVien) cbbManvLT.getSelectedItem();
         boolean firstDS = TrangKH == 0;
@@ -1113,7 +1114,7 @@ public class QuanLyKhachHangFrame extends javax.swing.JFrame {
         btnNext.setEnabled(!lastDS);
         btnnextLT.setEnabled(!lastLT);
     }
-    
+
     void StatusButton() {
         boolean edit = (row >= 0);
         txtMa.setEnabled(!edit);
@@ -1121,7 +1122,7 @@ public class QuanLyKhachHangFrame extends javax.swing.JFrame {
         btnSua.setEnabled(edit);
         btnXoa.setEnabled(edit);
     }
-    
+
     void upDateStatusTXT() {
         boolean firstDS = TrangKH == 0;
         boolean firstLT = TrangLT == 0;
@@ -1132,7 +1133,7 @@ public class QuanLyKhachHangFrame extends javax.swing.JFrame {
         btnNext.setEnabled(!lastDS);
         btnnextLT.setEnabled(!lastLT);
     }
-    
+
     void TimKiem() {
         Map<String, String> mapNV = daonv.selectHoTenNV();
         DefaultTableModel dtm = (DefaultTableModel) tblKhachHang.getModel();
@@ -1160,7 +1161,7 @@ public class QuanLyKhachHangFrame extends javax.swing.JFrame {
         }
         clearForm();
     }
-    
+
     void TimKiemLT() {
         Map<String, String> mapNV = daonv.selectHoTenNV();
         DefaultTableModel dtm = (DefaultTableModel) tblKhachHangLT.getModel();
@@ -1187,7 +1188,7 @@ public class QuanLyKhachHangFrame extends javax.swing.JFrame {
         }
         clearForm();
     }
-    
+
     void khoiPhuc() {
         if (tblKhachHangLT.getSelectedRow() >= 0) {
             if (MsgBox.confirm(this, "Bạn có chắc muốn khôi phục khách hàng này?")) {
@@ -1204,7 +1205,7 @@ public class QuanLyKhachHangFrame extends javax.swing.JFrame {
             MsgBox.alert(this, "Vui lòng chọn nhân viên cần khách hàng!");
         }
     }
-    
+
     boolean checkValidate() {
         String pSDT = "^0[0-9]{9}$";
         if (txtMa.getText().length() == 0) {

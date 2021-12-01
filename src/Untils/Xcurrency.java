@@ -13,9 +13,20 @@ import java.util.Locale;
  * @author doanp
  */
 public class Xcurrency {
-        public static String toCurrency(int tienTe){
-            Locale lc = new Locale("vi","VN");
-            NumberFormat nf = NumberFormat.getCurrencyInstance(lc);
-            return  nf.format(tienTe);       
+
+    public static String toCurrency(int tienTe) {
+        Locale lc = new Locale("vi", "VN");
+        NumberFormat nf = NumberFormat.getCurrencyInstance(lc);
+        return nf.format(tienTe);
+    }
+
+    public static int toInt(String tienTe) {
+        String x = "";
+        for (int i = 0; i < tienTe.length(); i++) {
+            if (!tienTe.substring(i, i + 1).equals(".") && !tienTe.substring(i, i + 1).equals(" ") && !tienTe.substring(i, i + 1).equals("đ")) {
+                x += tienTe.substring(i, i + 1);
+            }
         }
+        return Integer.parseInt(x);
+    }
 }
