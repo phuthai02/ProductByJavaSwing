@@ -20,7 +20,9 @@ public class HoaDonDAO implements SystemDAO<HoaDon, Integer> {
     String SQL_Insert = "insert into HoaDon values(?,?,?,?,?,?,?,?)";
     String SQL_Update = "update HoaDon set MaKH=?, NgayTao=?, GhiChu=?, MaNV=?, MaSKKM=?, MaBan=? where MaHD=?";
     String SQL_Delete = "update HoaDon set TrangThai=0 where MaHD=?";
-    String SQL_SelectPaging = "chưa rõ điều kiện";
+    String SQL_SelectPaging = "SELECT * FROM dbo.HoaDon WHERE TrangThai = ? AND \n"
+            + "(NgayTao BETWEEN ? AND ?)  ORDER BY MaNV OFFSET ? *15 ROWS  FETCH NEXT 15 ROWS ONLY";
+   
     String SQL_SelectID = "select * from HoaDon where MaHD=?";
 
     @Override
@@ -39,14 +41,33 @@ public class HoaDonDAO implements SystemDAO<HoaDon, Integer> {
     }
 
     @Override
+    public HoaDon selectById(Integer id) {
+//        return selectBySql(SQL_SelectID, id).get(0);
+        List<HoaDon> list = this.selectBySql(SQL_SelectID, id);
+        if (list.isEmpty()) {
+            return null;
+        } else {
+            return list.get(0);
+        }
+    }
+
+    @Override
     public List<HoaDon> selectBySql(String sql, Object... args) {
         List<HoaDon> list = new ArrayList<>();
         try {
             ResultSet rs = Xjdbc.query(sql, args);
             while (rs.next()) {
-                list.add(new HoaDon(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getInt(6), rs.getString(7), rs.getBoolean(8)));
+                HoaDon entity = new HoaDon();
+                entity.setMaHD(rs.getInt("MaHD"));
+                entity.setMaKH(rs.getInt("MaKH"));
+                entity.setNgayTao(rs.getString("NgayTao"));
+                entity.setGhiChu(rs.getString("GhiChu"));
+                entity.setMaNV(rs.getString("MaNV"));
+                entity.setMaSKKM(rs.getInt("MaSKKM"));
+                entity.setMaBan(rs.getString("MaBan"));
+                entity.setTrangThai(rs.getBoolean("TrangThai"));
+                list.add(entity);
             }
-
             rs.getStatement().getConnection().close();
             return list;
         } catch (Exception e) {
@@ -64,8 +85,14 @@ public class HoaDonDAO implements SystemDAO<HoaDon, Integer> {
         return null;
     }
 
-    @Override
-    public HoaDon selectById(Integer id) {
-        return selectBySql(SQL_SelectID, id).get(0);
+    public List<HoaDon> selectPagingFull(int Status, int pageIndex, String ngayBD, String ngayKT) {
+        List<HoaDon> list = this.selectBySql(SQL_SelectPaging, Status, ngayBD, ngayKT, pageIndex);
+        return list;
+    }
+
+
+
+    public List<HoaDon> selectByAll() {
+        return this.selectBySql("Select *from HoaDon");
     }
 }

@@ -100,5 +100,8 @@ public class HoaDon {
         return "HoaDon{" + "maHD=" + maHD + ", maKH=" + maKH + ", ngayTao=" + ngayTao + ", ghiChu=" + ghiChu + ", maNV=" + maNV + ", maSKKM=" + maSKKM + ", maBan=" + maBan + ", trangThai=" + trangThai + '}';
     }
 
+    public HoaDon() {
+    }
+
   
 }
