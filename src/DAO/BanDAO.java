@@ -20,25 +20,25 @@ import java.util.logging.Logger;
 public class BanDAO implements SystemDAO<Ban, String> {
 
     String SQL_Insert = "insert into Ban values(?,?,?,?,?)";
-    String SQL_Update = "update Ban set TenBan=?, ViTri=?, TrangThai=?, SanSang=? and MaBan=?";
+    String SQL_Update = "update Ban set TenBan=?, ViTri=?, TrangThai=?, SanSang=? WHERE MaBan=?";
     String SQL_Delete = "update Ban set TrangThai=0 where MaBan=?";
-    String SQL_SelectPaging = "SELECT * FROM dbo.Ban WHERE TrangThai=? AND ViTri LIKE ? AND (TenBan LIKE ? OR MaBan LIKE ?) AND SanSang LIKE ? ORDER BY MaBan OFFSET 10*? ROWS FETCH NEXT 10 ROWS ONLY";
+    String SQL_SelectPaging = "SELECT * FROM dbo.Ban WHERE TrangThai=? AND ViTri LIKE ? AND (TenBan LIKE ? OR MaBan LIKE ?) AND SanSang LIKE ? ORDER BY MaBan OFFSET 11*? ROWS FETCH NEXT 11 ROWS ONLY";
     String SQL_SelectID = "select * from Ban where MaBan=?";
     String SQL_SelectTang = "SELECT DISTINCT ViTri FROM dbo.Ban";
 
     @Override
     public int insert(Ban entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Xjdbc.update(SQL_Insert, entity.getMaBan(), entity.getTenBan(), entity.getViTri(), entity.isTrangThai(), entity.isSanSang());
     }
 
     @Override
     public int update(Ban entity) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Xjdbc.update(SQL_Update, entity.getTenBan(), entity.getViTri(), entity.isTrangThai(), entity.isSanSang(), entity.getMaBan());
     }
 
     @Override
     public int delete(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return Xjdbc.update(SQL_Delete, id);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class BanDAO implements SystemDAO<Ban, String> {
 
     @Override
     public Ban selectById(String id) {
-        return selectBySql(SQL_SelectID).get(0);
+        return selectBySql(SQL_SelectID, id).get(0);
     }
 
     public List<Ban> selectPagingFull(int Status, String viTri, String keyWord, String SanSang, int pageIndex) {

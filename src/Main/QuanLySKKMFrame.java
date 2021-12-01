@@ -43,6 +43,7 @@ public class QuanLySKKMFrame extends javax.swing.JFrame {
         setResizable(true);
         setIconImage(Ximage.getAppIcon());
         setTitle("Quản Lý Sự Kiện Khuyến Mãi");
+        setDefaultCloseOperation(2);
         daoSK = new SKKMDAO();
         prepareGUI();
         tabs.setSelectedIndex(0);
@@ -70,7 +71,7 @@ public class QuanLySKKMFrame extends javax.swing.JFrame {
         };
         tblDanhSach.setModel(modelDS);
         fillTableDS();
-        tblLuuTru.setModel(modelLT);       
+        tblLuuTru.setModel(modelLT);
         fillTableLT();
         updateStatusPage();
 
@@ -89,11 +90,7 @@ public class QuanLySKKMFrame extends javax.swing.JFrame {
                 sk.getNgayBatDau(),
                 sk.getNgayKetThuc(),
                 sk.getNgayTao(),
-                sk.getMaNV(),
-                
-                
-                
-            });
+                sk.getMaNV(),});
 
         }
     }
@@ -111,9 +108,7 @@ public class QuanLySKKMFrame extends javax.swing.JFrame {
                 sk.getNgayBatDau(),
                 sk.getNgayKetThuc(),
                 sk.getNgayTao(),
-                sk.getMaNV(),
-                
-            });
+                sk.getMaNV(),});
 
         }
     }
@@ -125,10 +120,11 @@ public class QuanLySKKMFrame extends javax.swing.JFrame {
             return 1;
         } else if (rdoKetThuc.isSelected()) {
             return 2;
-        }  
+        }
         return 0;
     }
-    int getSuKienLT(){
+
+    int getSuKienLT() {
         if (rdoDangDienRaLT.isSelected()) {
             return 0;
         } else if (rdoSapDienRaLT.isSelected()) {
@@ -149,15 +145,17 @@ public class QuanLySKKMFrame extends javax.swing.JFrame {
         btnPreLT.setEnabled(!firstLT);
         btnNextLT.setEnabled(!lastLT);
     }
-    void setForm(SuKienKhuyenMai sk){
-        txtMaSKKM.setText(sk.getMaSKKM()+"");
+
+    void setForm(SuKienKhuyenMai sk) {
+        txtMaSKKM.setText(sk.getMaSKKM() + "");
         txtTenSKKM.setText(sk.getTenSKKM());
-        txtGiaTriKM.setText(sk.getGiaTriKM()+"");
+        txtGiaTriKM.setText(sk.getGiaTriKM() + "");
         txtNgayBatDau.setDate(sk.getNgayBatDau());
         txtNgayKetThuc.setDate(sk.getNgayKetThuc());
         txtNgayTao.setDate(sk.getNgayTao());
     }
-    SuKienKhuyenMai getForm(){
+
+    SuKienKhuyenMai getForm() {
         SuKienKhuyenMai sk = new SuKienKhuyenMai();
         sk.setMaSKKM(Integer.parseInt(txtMaSKKM.getText()));
         sk.setTenSKKM(txtTenSKKM.getText());
@@ -168,52 +166,56 @@ public class QuanLySKKMFrame extends javax.swing.JFrame {
         sk.setMaNV(Auth.user.getMaNV());
         return sk;
     }
-    void statusButton(){
-        boolean edit = (row >=0);
+
+    void statusButton() {
+        boolean edit = (row >= 0);
         btnThem.setEnabled(!edit);
         btnSua.setEnabled(edit);
         btnXoa.setEnabled(edit);
     }
-    void clearForm(){
+
+    void clearForm() {
         SuKienKhuyenMai sk = new SuKienKhuyenMai();
         this.setForm(sk);
         this.row = -1;
         statusButton();
     }
-    boolean checkValidate(){
-        if (txtMaSKKM.getText().trim()== null) {
+
+    boolean checkValidate() {
+        if (txtMaSKKM.getText().trim() == null) {
             MsgBox.alert(this, "Vui lòng nhập mã sự kiện!");
             txtMaSKKM.requestFocus();
             return false;
-        }else if (txtTenSKKM.getText().trim()== null) {
+        } else if (txtTenSKKM.getText().trim() == null) {
             MsgBox.alert(this, "Vui lòng nhập tên sự kiện!");
             txtTenSKKM.requestFocus();
             return false;
-        }else if (txtGiaTriKM.getText().trim() == null) {
+        } else if (txtGiaTriKM.getText().trim() == null) {
             MsgBox.alert(this, "Vui giá trị khuyến mãi!");
             txtGiaTriKM.requestFocus();
             return false;
-        }else if (txtNgayBatDau.getDate() == null) {
+        } else if (txtNgayBatDau.getDate() == null) {
             MsgBox.alert(this, "Vui lòng chọn ngày bắt đầu!");
             return false;
-        }else if (txtNgayKetThuc.getDate() == null) {
+        } else if (txtNgayKetThuc.getDate() == null) {
             MsgBox.alert(this, "Vui lòng chọn ngày kết thúc!");
             return false;
-        }else if (txtNgayTao.getDate() == null) {
+        } else if (txtNgayTao.getDate() == null) {
             MsgBox.alert(this, "Vui lòng chọn ngày tạo!");
         }
         return true;
     }
-    void insert(){
+
+    void insert() {
         if (checkValidate()) {
             SuKienKhuyenMai sk = getForm();
-            if (!(daoSK.selectById(sk.getMaSKKM()+"")==null)) {
+            if (!(daoSK.selectById(sk.getMaSKKM() + "") == null)) {
                 MsgBox.alert(this, "Mã sự kiện đã tồn tại");
                 return;
-            }else{
+            } else {
                 try {
                     daoSK.insert(sk);
-                    this.fillTableDS();                 
+                    this.fillTableDS();
                     this.clearForm();
                     MsgBox.alert(this, "Thêm mới thành công!");
                 } catch (Exception e) {
@@ -223,11 +225,12 @@ public class QuanLySKKMFrame extends javax.swing.JFrame {
             }
         }
     }
-    void update(){
+
+    void update() {
         if (checkValidate()) {
             SuKienKhuyenMai sk = getForm();
             try {
-                daoSK.update(sk); 
+                daoSK.update(sk);
                 this.fillTableDS();
                 this.fillTableLT();
                 clearForm();
@@ -238,7 +241,8 @@ public class QuanLySKKMFrame extends javax.swing.JFrame {
             }
         }
     }
-    void delete(){
+
+    void delete() {
         if (MsgBox.confirm(this, "Bạn có chắc muốn xóa sự kiện này ?")) {
             try {
                 daoSK.delete(txtMaSKKM.getText());
@@ -256,8 +260,9 @@ public class QuanLySKKMFrame extends javax.swing.JFrame {
             }
         }
     }
-    void khoiPhuc(){
-        if (tblLuuTru.getSelectedRow() >=0) {
+
+    void khoiPhuc() {
+        if (tblLuuTru.getSelectedRow() >= 0) {
             if (MsgBox.confirm(this, "Bạn có chắc muốn khôi phục sự kiện này?")) {
                 SuKienKhuyenMai sk = daoSK.selectById(tblLuuTru.getValueAt(tblLuuTru.getSelectedRow(), 0).toString());
                 sk.setTrangThai(true);
@@ -270,7 +275,6 @@ public class QuanLySKKMFrame extends javax.swing.JFrame {
             }
         }
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -1044,14 +1048,14 @@ public class QuanLySKKMFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTimKiemLTKeyReleased
 
     private void tblDanhSachMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDanhSachMouseClicked
-        if (evt.getClickCount()==2) {
+        if (evt.getClickCount() == 2) {
             this.row = tblDanhSach.getSelectedRow();
             int maSKKM = (Integer) tblDanhSach.getValueAt(this.row, 0);
-            SuKienKhuyenMai sk = daoSK.selectById(maSKKM+"");
+            SuKienKhuyenMai sk = daoSK.selectById(maSKKM + "");
             this.setForm(sk);
             tabs.setSelectedIndex(1);
             this.statusButton();
-            
+
         }
     }//GEN-LAST:event_tblDanhSachMouseClicked
 

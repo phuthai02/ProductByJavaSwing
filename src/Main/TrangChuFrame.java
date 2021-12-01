@@ -598,7 +598,7 @@ public class TrangChuFrame extends javax.swing.JFrame {
 
     void openLichSuGiaoDich() {
         if (Auth.isLogin()) {
-            new LichSuGiaoDichFrame().setVisible(true);
+//            new LichSuGiaoDichFrame().setVisible(true);
         } else {
             MsgBox.alert(this, "Vui lòng đăng nhập!");
         }
@@ -616,7 +616,6 @@ public class TrangChuFrame extends javax.swing.JFrame {
         if (Auth.isLogin()) {
             QuanLyBanFrame qlb = new QuanLyBanFrame();
             qlb.setVisible(true);
-            qlb.selectTab(index);
         } else {
             MsgBox.alert(this, "Vui lòng đăng nhập!");
         }
@@ -667,9 +666,9 @@ public class TrangChuFrame extends javax.swing.JFrame {
             if (index == 4 && index == 5 && !Auth.isManager()) {
                 MsgBox.alert(this, "Bạn không có quyền xem");
             } else {
-                ThongKeFrame tk = new ThongKeFrame();
-                tk.setVisible(true);
-                tk.selectTab(index);
+//                ThongKeFrame tk = new ThongKeFrame();
+//                tk.setVisible(true);
+//                tk.selectTab(index);
             }
         } else {
             MsgBox.alert(this, "Vui lòng đăng nhập!");

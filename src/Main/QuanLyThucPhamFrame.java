@@ -38,10 +38,10 @@ public class QuanLyThucPhamFrame extends javax.swing.JFrame {
     int row = -1;
     DefaultTableModel dtmDS;
     DefaultTableModel dtmLT;
-    ThucPhamDAO tpdao ;
-    NhanVienDAO nvdao ;
-    LoaiThucPhamDAO ltpdao ;
-    List<LoaiThucPham> lstLoaiThucPhams ;
+    ThucPhamDAO tpdao;
+    NhanVienDAO nvdao;
+    LoaiThucPhamDAO ltpdao;
+    List<LoaiThucPham> lstLoaiThucPhams;
 
     /**
      * Creates new form QuanLyThucPhamFrame
@@ -56,6 +56,7 @@ public class QuanLyThucPhamFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(true);
         setTitle("QUẢN LÝ THỰC PHẨM");
+        setDefaultCloseOperation(2);
         prepareGUI();
         dtmDS = (DefaultTableModel) tblDS.getModel();
         dtmLT = (DefaultTableModel) tblLT.getModel();
@@ -70,8 +71,9 @@ public class QuanLyThucPhamFrame extends javax.swing.JFrame {
         fillcboDVT();
         updateStatus();
     }
+
     void prepareGUI() {
-        String h[] = {"Mã TP", "Tên TP", "Đơn giá", "Số lượng","ĐVT","Loại TP", "Ngày nhập", "NCC", "Tên NV"};
+        String h[] = {"Mã TP", "Tên TP", "Đơn giá", "Số lượng", "ĐVT", "Loại TP", "Ngày nhập", "NCC", "Tên NV"};
         dtmDS = new DefaultTableModel(h, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -87,6 +89,7 @@ public class QuanLyThucPhamFrame extends javax.swing.JFrame {
         tblDS.setModel(dtmDS);
         tblLT.setModel(dtmLT);
     }
+
     void fillcboLTP() {
         DefaultComboBoxModel dcbmDS = (DefaultComboBoxModel) cboDS.getModel();
         DefaultComboBoxModel dcbmLT = (DefaultComboBoxModel) cboLT.getModel();
@@ -100,15 +103,14 @@ public class QuanLyThucPhamFrame extends javax.swing.JFrame {
             dcbmTT.addElement(x.getTenLoaiTP());
         }
     }
-    void fillcboDVT(){
-    cboDVT.removeAllItems();
-    cboDVT.addItem("Kg");
-    cboDVT.addItem("Gram");
-    cboDVT.addItem("Tá");
+
+    void fillcboDVT() {
+        cboDVT.removeAllItems();
+        cboDVT.addItem("Kg");
+        cboDVT.addItem("Gram");
+        cboDVT.addItem("Tá");
     }
-    
-    
-    
+
     void fillToDanhSach() {
         List<ThucPham> lstThucPhams = tpdao.selectPagingFull(1, pageIndexDS, txtTimDS.getText(), lstLoaiThucPhams.get(cboDS.getSelectedIndex()).getMaLoaiTP());
         lblPageIndexDS.setText(pageIndexDS + 1 + "");
@@ -119,7 +121,6 @@ public class QuanLyThucPhamFrame extends javax.swing.JFrame {
         });
 
     }
-    
 
     void fillToLuuTru() {
         List<ThucPham> lstThucPhams = tpdao.selectPagingFull(0, pageIndexLT, txtTimLT.getText(), lstLoaiThucPhams.get(cboDS.getSelectedIndex()).getMaLoaiTP());
@@ -145,7 +146,7 @@ public class QuanLyThucPhamFrame extends javax.swing.JFrame {
     }
 
     void setForm(ThucPham tp) {
-        txtMa.setText(tp.getMaTP()+"");
+        txtMa.setText(tp.getMaTP() + "");
         txtTen.setText(tp.getTenTP());
         txtSoLuong.setText(String.valueOf(tp.getSoLuong()));
         txtGiaNhap.setText(String.valueOf(tp.getGiaNhap()));
@@ -155,7 +156,6 @@ public class QuanLyThucPhamFrame extends javax.swing.JFrame {
         txtNCC.setText(tp.getNCC());
         txtMoTa.setText(tp.getGhiChu());
     }
-    
 
     void updateStatusPage() {
         boolean firstDS = pageIndexDS == 0;
@@ -167,13 +167,13 @@ public class QuanLyThucPhamFrame extends javax.swing.JFrame {
         btnNextDS.setEnabled(!lastDS);
         btnNextLT.setEnabled(!lastLT);
     }
+
     void updateStatus() {
         boolean edit = (row >= 0);
         btnThem.setEnabled(!edit);
         btnSua.setEnabled(edit);
         btnXoa.setEnabled(edit);
     }
-    
 
     void khoiPhuc() {
         if (tblLT.getSelectedRow() >= 0) {
@@ -192,7 +192,6 @@ public class QuanLyThucPhamFrame extends javax.swing.JFrame {
             MsgBox.alert(this, "Vui lòng chọn nhân viên cần khôi phục!");
         }
     }
-    
 
     ThucPham getForm() {
         ThucPham tp = new ThucPham();
@@ -209,7 +208,7 @@ public class QuanLyThucPhamFrame extends javax.swing.JFrame {
         tp.setTrangThai(true);
         return tp;
     }
-    
+
     void chiTiet() {
         row = tblDS.getSelectedRow();
         setForm(tpdao.selectById(Integer.parseInt(tblDS.getValueAt(row, 0).toString())));
@@ -218,7 +217,7 @@ public class QuanLyThucPhamFrame extends javax.swing.JFrame {
     }
 
     boolean checkValidate() {
-        
+
         if (txtTen.getText().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập tên thực phẩm!");
             txtTen.requestFocus();
@@ -238,7 +237,7 @@ public class QuanLyThucPhamFrame extends javax.swing.JFrame {
             MsgBox.alert(this, "Vui lòng nhập tên nhà cung cấp!");
             txtNCC.requestFocus();
             return false;
-        } 
+        }
         return true;
     }
 
@@ -253,14 +252,13 @@ public class QuanLyThucPhamFrame extends javax.swing.JFrame {
                 resetForm();
             } catch (Exception e) {
                 if (MsgBox.confirm(this, "Thêm sản phẩm thất bại!! Bạn có muốn báo lỗi tới nhà phát triển?")) {
-                        Xmail.writeException(e, getForm());
-                        Xmail.sendBugs("minhdungvipro@gmail.com");
-                    }
-                
+                    Xmail.writeException(e, getForm());
+                    Xmail.sendBugs("minhdungvipro@gmail.com");
+                }
+
             }
         }
     }
-    
 
     void update() {
         if (checkValidate()) {
@@ -293,13 +291,12 @@ public class QuanLyThucPhamFrame extends javax.swing.JFrame {
                 resetForm();
             } catch (Exception e) {
                 if (MsgBox.confirm(this, "Xoá thực phẩm thất bại!! Bạn có muốn báo lỗi tới nhà phát triển?")) {
-                   Xmail.writeException(e, getForm());
-                    Xmail.sendBugs("minhdungvipro@gmail.com"); 
+                    Xmail.writeException(e, getForm());
+                    Xmail.sendBugs("minhdungvipro@gmail.com");
                 }
             }
         }
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -1203,17 +1200,17 @@ public class QuanLyThucPhamFrame extends javax.swing.JFrame {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         pageIndexDS = 0;
-        
+
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void txtTimDSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimDSActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_txtTimDSActionPerformed
 
     private void txtTimLTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimLTActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_txtTimLTActionPerformed
 
     private void btnPreDSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreDSActionPerformed
