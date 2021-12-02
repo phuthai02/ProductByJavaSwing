@@ -8,6 +8,7 @@ package Main;
 import DAO.NhanVienDAO;
 import Entity.NhanVien;
 import Untils.Auth;
+import Untils.MsgBox;
 import Untils.Xdate;
 import Untils.Ximage;
 import java.awt.Color;
@@ -51,6 +52,7 @@ public class ThongTinFrame extends javax.swing.JFrame {
         jPanel1.setBackground(cl);
         Auth.user.setMauNen(hexString);
         new NhanVienDAO().update(Auth.user);
+        MsgBox.alert(this, "Khởi động lại hệ thống để cập nhật!");
     }
 
     /**

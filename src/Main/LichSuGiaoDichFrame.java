@@ -557,10 +557,11 @@ public class LichSuGiaoDichFrame extends javax.swing.JFrame {
         }
     }
 
-    String getTien() {
+  String getTien() {
         int tongTien = 0;
         for (int i = 0; i < tblCT.getRowCount(); i++) {
-            tongTien += (Integer.parseInt(tblCT.getValueAt(i, 2).toString()) * Integer.parseInt(tblCT.getValueAt(i, 3).toString()));
+            tongTien += ((Integer.parseInt(tblCT.getValueAt(i, 2).toString()) * Integer.parseInt(tblCT.getValueAt(i, 3).toString()))-
+                    ((((Integer.parseInt(tblCT.getValueAt(i, 2).toString()) * Integer.parseInt(tblCT.getValueAt(i, 3).toString())))/100)*(Double.parseDouble(tblDS.getValueAt(i, 5).toString()))));
         }
         return Xcurrency.toCurrency(tongTien);
     }

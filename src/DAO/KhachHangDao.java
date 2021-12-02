@@ -23,11 +23,23 @@ public class KhachHangDao implements SystemDAO<KhachHang, Integer> {
     String SQL_SelectPaging = "SELECT * FROM dbo.KhachHang WHERE TrangThai = ?  AND Manv like ? ORDER BY MaKH OFFSET ?*15 ROWS  FETCH NEXT 15 ROWS ONLY";
     String SQL_SelectID = "select * from KhachHang where MaKH=?";
     String SQL_SelectHoTenNV = "select MaNV,TenNV from NhanVien";
+    String SQL_SelectSDT = "select * from KhachHang where SDT like ?";
+    String SQL_InsertNoID = "insert into  KhachHang(TenKH,SDT,Email,NgaySinh,GioiTinh,MaNV,TrangThai) values(?,?,?,?,?,?,1)";
 
     @Override
     public int insert(KhachHang entity) {
         return Xjdbc.update(SQL_Insert,
                 entity.getMaKH(),
+                entity.getTenKH(),
+                entity.getSDT(),
+                entity.getEmail(),
+                entity.getNgaysinh(),
+                entity.isGioiTinh(),
+                entity.getMaNV());
+    }
+
+    public int insertNoID(KhachHang entity) {
+        return Xjdbc.update(SQL_InsertNoID,
                 entity.getTenKH(),
                 entity.getSDT(),
                 entity.getEmail(),
@@ -96,13 +108,17 @@ public class KhachHangDao implements SystemDAO<KhachHang, Integer> {
         return list.get(0);
     }
 
+    public KhachHang selectSDT(String SDT) {
+        return selectBySql(SQL_SelectSDT, SDT).isEmpty() ? null : selectBySql(SQL_SelectSDT, SDT).get(0);
+    }
+
     public List<KhachHang> selectByAll() {
         return this.selectBySql("Select *from KhachHang");
     }
 
-    public List<KhachHang> selectByKeyWord(String keyWord, int status,int pageIndex) {
+    public List<KhachHang> selectByKeyWord(String keyWord, int status, int pageIndex) {
         String sql = "SELECT*FROM KHACHHANG WHERE TrangThai =? AND(MaKH LIKE ? OR TenKH LIKE ? OR SDT LIKE ?) ORDER BY MaKH OFFSET ?*15 ROWS  FETCH NEXT 15 ROWS ONLY";
-        return this.selectBySql(sql,status ,"%" + keyWord + "%", "%" + keyWord + "%", "%" + keyWord + "%",pageIndex);
+        return this.selectBySql(sql, status, "%" + keyWord + "%", "%" + keyWord + "%", "%" + keyWord + "%", pageIndex);
     }
 
     public List<KhachHang> selectPaging(int Status, int pageIndex, String manv) {
