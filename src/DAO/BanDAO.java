@@ -25,6 +25,7 @@ public class BanDAO implements SystemDAO<Ban, String> {
     String SQL_SelectPaging = "SELECT * FROM dbo.Ban WHERE TrangThai=? AND ViTri LIKE ? AND (TenBan LIKE ? OR MaBan LIKE ?) AND SanSang LIKE ? ORDER BY MaBan OFFSET 11*? ROWS FETCH NEXT 11 ROWS ONLY";
     String SQL_SelectID = "select * from Ban where MaBan=?";
     String SQL_SelectTang = "SELECT DISTINCT ViTri FROM dbo.Ban";
+    String SQL_Count = "SELECT COUNT(*) FROM dbo.BangCho WHERE MaBan = ?";
 
     @Override
     public int insert(Ban entity) {
@@ -88,6 +89,18 @@ public class BanDAO implements SystemDAO<Ban, String> {
             Logger.getLogger(BanDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    public int selectCount(String maBan) {
+        try {
+            ResultSet rs = Xjdbc.query(SQL_Count, maBan);
+            while (rs.next()) {                
+                return rs.getInt(1);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(BanDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
     }
 
 }

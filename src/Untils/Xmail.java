@@ -179,4 +179,55 @@ public class Xmail {
             e.printStackTrace();
         }
     }
+
+    public static void sendThanks(String mailTo, String name) {
+        Properties props = new Properties();
+
+        props.put("mail.smtp.user", "username");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "25");
+        props.put("mail.debug", "true");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.EnableSSL.enable", "true");
+
+        props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.setProperty("mail.smtp.socketFactory.fallback", "false");
+        props.setProperty("mail.smtp.port", "465");
+        props.setProperty("mail.smtp.socketFactory.port", "465");
+        //----------------------------
+        String accountName = "thaidpph17321@fpt.edu.vn";
+        String accountPassword = "thaiad1121";
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            @Override
+            protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
+                return new javax.mail.PasswordAuthentication(accountName, accountPassword);
+            }
+        });
+        //----------------------------
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("thaidpph17321@fpt.edu.vn"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(mailTo));
+            message.setSubject("LỜI CẢM ƠN!");
+            message.setText("Chào " + name + "!"
+                    + "\n"
+                    + "Lời đầu tiên, nhà hàng xin gửi lời cảm ơn chân thành và sâu sắc nhất đến quý khách hàng đã tin tưởng hợp tác và sử dụng dịch vụ của chúng tôi. Sự tin tưởng của quý vị đã góp phần lớn quyết định sự phát triển và thành công của nhà hàng trong thời gian qua.\n"
+                    + "\n"
+                    + "Với phương châm “Vì sự hài lòng cao nhất của khách hàng”, trong những năm qua, nhà hàng chúng tôi đã và đang không ngừng phấn đấu, nâng cao chất lượng dịch vụ để mang lại nhiều lợi ích hơn và có thể đáp ứng mọi yêu cầu của khách hàng.\n"
+                    + "\n"
+                    + "Chúng tôi luôn biết rằng, sự ủng hộ và sự tin yêu của quý khách hàng là tài sản vô giá với Nhà hàng chúng tôi, để đạt được điều này chúng tôi luôn nỗ lực không ngừng, hướng tới mục tiêu phát triển bền vững, chú trọng xây dựng các chính sách chăm sóc khách hàng,mang lại những giá trị thiết thực để luôn làm hài lòng khách hàng ở mức cao nhất nhằm đáp lại tình cảm và sự tin yêu của quý khách.\n"
+                    + "\n"
+                    + "Một lần nữa, nhà hàng chúng tôi xin được gửi lời cảm ơn chân thành đến quý khách hàng đã không ngừng quan tâm và luôn đồng hành cùng nhà hàng trong suốt thời gian qua. Chúng tôi cũng hy vọng trong thời gian tới sẽ tiếp tục nhận được sự quan tâm và tín nhiệm của quý khách.\n"
+                    + "\n"
+                    + "Xin chúc quý khách hàng và gia đình có nhiều sức khỏe, may mắn và thành công\n"
+                    + "\n"
+                    + "Trân trọng!");
+
+            Transport.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
 }

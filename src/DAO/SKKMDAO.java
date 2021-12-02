@@ -26,6 +26,7 @@ public class SKKMDAO implements SystemDAO<SuKienKhuyenMai, String> {
     String SQL_SelectDDR = "select * from dbo.SuKienKhuyenMai where TrangThai = ? and  (MaSKKM like ? or TenSKKM like ? ) and ? between NgayBatDau and NgayKetThuc ORDER BY MaSKKM OFFSET ?*15 ROWS  FETCH NEXT 15 ROWS ONLY";
     String SQL_SelectKT = "select * from dbo.SuKienKhuyenMai where TrangThai = ? and  (MaSKKM like ? or TenSKKM like ? ) and ? > NgayKetThuc ORDER BY MaSKKM OFFSET ?*15 ROWS  FETCH NEXT 15 ROWS ONLY";
     String SQL_SelectSDR = "select * from dbo.SuKienKhuyenMai where TrangThai = ? and  (MaSKKM like ? or TenSKKM like ? ) and ? < NgayBatDau ORDER BY MaSKKM OFFSET ?*15 ROWS  FETCH NEXT 15 ROWS ONLY";
+    String SQL_SelectSKDDR = "select * from dbo.SuKienKhuyenMai where TrangThai = ? and ? between NgayBatDau and NgayKetThuc ORDER BY GiaTriKM DESC";
 
     @Override
     public int insert(SuKienKhuyenMai entity) {
@@ -114,6 +115,11 @@ public class SKKMDAO implements SystemDAO<SuKienKhuyenMai, String> {
                 return selectBySql(SQL_SelectKT, Status, "%" + keyWord + "%", "%" + keyWord + "%", nowDate, pageIndex);
         }
         return null;
+    }
+
+    public List<SuKienKhuyenMai> selectSKDDR(int Status, String nowDate) {
+        return selectBySql(SQL_SelectSKDDR, Status, nowDate);
+
     }
 
     public SuKienKhuyenMai selectById1(int id) {

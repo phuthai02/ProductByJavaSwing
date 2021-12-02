@@ -17,17 +17,18 @@ import java.util.List;
  */
 public class HoaDonDAO implements SystemDAO<HoaDon, Integer> {
 
-    String SQL_Insert = "insert into HoaDon values(?,?,?,?,?,?,?,?)";
+    String SQL_Insert = "insert into HoaDon(MaKH,NgayTao,GhiChu, MaNV, MaSKKM, MaBan,TrangThai) values(?,?,?,?,?,?,1)";
     String SQL_Update = "update HoaDon set MaKH=?, NgayTao=?, GhiChu=?, MaNV=?, MaSKKM=?, MaBan=? where MaHD=?";
     String SQL_Delete = "update HoaDon set TrangThai=0 where MaHD=?";
     String SQL_SelectPaging = "SELECT * FROM dbo.HoaDon WHERE TrangThai = ? AND \n"
-            + "(NgayTao BETWEEN ? AND ?)  ORDER BY MaNV OFFSET ? *15 ROWS  FETCH NEXT 15 ROWS ONLY";
-   
+            + "(NgayTao BETWEEN ? AND ?)  ORDER BY MaHD DESC OFFSET ? *15 ROWS  FETCH NEXT 15 ROWS ONLY";
+
     String SQL_SelectID = "select * from HoaDon where MaHD=?";
+    String SQL_SelectMaHD = "SELECT TOP 1 * FROM dbo.HoaDon WHERE MaBan = ? ORDER BY MaHD DESC";
 
     @Override
     public int insert(HoaDon entity) {
-        return Xjdbc.update(SQL_Insert, entity.getMaHD(), entity.getMaKH(), entity.getNgayTao(), entity.getGhiChu(), entity.getMaNV(), entity.getMaSKKM(), entity.getMaBan(), entity.isTrangThai());
+        return Xjdbc.update(SQL_Insert, entity.getMaKH(), entity.getNgayTao(), entity.getGhiChu(), entity.getMaNV(), entity.getMaSKKM(), entity.getMaBan());
     }
 
     @Override
@@ -44,6 +45,15 @@ public class HoaDonDAO implements SystemDAO<HoaDon, Integer> {
     public HoaDon selectById(Integer id) {
 //        return selectBySql(SQL_SelectID, id).get(0);
         List<HoaDon> list = this.selectBySql(SQL_SelectID, id);
+        if (list.isEmpty()) {
+            return null;
+        } else {
+            return list.get(0);
+        }
+    }
+
+    public HoaDon selectMaHD(String maBan) {
+        List<HoaDon> list = this.selectBySql(SQL_SelectMaHD, maBan);
         if (list.isEmpty()) {
             return null;
         } else {
@@ -89,8 +99,6 @@ public class HoaDonDAO implements SystemDAO<HoaDon, Integer> {
         List<HoaDon> list = this.selectBySql(SQL_SelectPaging, Status, ngayBD, ngayKT, pageIndex);
         return list;
     }
-
-
 
     public List<HoaDon> selectByAll() {
         return this.selectBySql("Select *from HoaDon");

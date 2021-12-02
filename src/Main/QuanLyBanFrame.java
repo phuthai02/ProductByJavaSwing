@@ -43,12 +43,12 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
     List<LoaiSp> lstLSP;
     DefaultTableModel modelSP;
     DefaultTableModel modelDS;
-    boolean huyMon = false;
+    boolean huyMon;
+    boolean checkSave;
 
     public QuanLyBanFrame() {
         initComponents();
         init();
-        Auth.user = new NhanVienDAO().selectById("NV01");///////////////////////////////////////////////
     }
 
     /**
@@ -822,7 +822,11 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTimKiemKeyReleased
 
     private void btnChuyenBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChuyenBanActionPerformed
-        chuyenBan();
+        if (!checkSave()) {
+            chuyenBan();
+        } else {
+            MsgBox.alert(this, "Vui lòng lưu lại thay đổi trước khi chuyển bàn!");
+        }
     }//GEN-LAST:event_btnChuyenBanActionPerformed
 
     private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
@@ -838,7 +842,12 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHoanThanhActionPerformed
 
     private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
-       
+        if (!checkSave()) {
+            new ThanhToanFrame(lblMaBan.getText()).setVisible(true);
+            dispose();
+        } else {
+            MsgBox.alert(this, "Vui lòng lưu lại thay đổi trước khi thanh toán!");
+        }
     }//GEN-LAST:event_btnThanhToanActionPerformed
     void updateStatus() {
         boolean check = tblSP.getRowCount() > 0;
@@ -852,6 +861,13 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
         btnThanhToan.setEnabled(check);
         btnHoanThanh.setEnabled(check);
         btnLuuLai.setEnabled(huyMon);
+    }
+
+    boolean checkSave() {
+        if (new BanDAO().selectCount(lblMaBan.getText()) < tblSP.getRowCount() || checkSave) {
+            return true;
+        }
+        return false;
     }
 
     void huyChuyenBan() {
@@ -936,6 +952,7 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
                         Auth.user.getMaNV(),
                         tblSP.getValueAt(i, 6).toString().equalsIgnoreCase("Đã hoàn thành"));
                 new BanChoDAO().insert(bc);
+                checkSave = false;
             }
             MsgBox.alert(this, "Cập nhật dữ liệu thành công");
             fillTable();
@@ -979,6 +996,7 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
         if (MsgBox.confirm(this, "Bạn có chắc chắn muốn hủy món này?")) {
             if (!tblSP.getValueAt(tblSP.getSelectedRow(), 6).equals("Đã hoàn thành")) {
                 huyMon = true;
+                checkSave = true;
                 modelSP.removeRow(tblSP.getSelectedRow());
                 fillTableDS();
             } else {
@@ -993,6 +1011,7 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
         huyMon = false;
         btnXacNhan.setVisible(false);
         btnHuy.setVisible(false);
+        checkSave = false;
         updateStatus();
     }
 
@@ -1096,6 +1115,7 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
             int tongTien = Xcurrency.toInt(tblSP.getValueAt(row, 5).toString()) / Integer.parseInt(tblSP.getValueAt(row, 2).toString()) * slt;
             tblSP.setValueAt(Xcurrency.toCurrency(tongTien), row, 5);
             tblSP.setValueAt(slt, row, 2);
+            checkSave = true;
             updateStatus();
         } catch (Exception e) {
             MsgBox.alert(this, "Số lượng không đúng định dạng");

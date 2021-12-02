@@ -22,6 +22,16 @@ public class KhachHang {
     private String maNV;    
     private boolean trangThai;
 
+    public KhachHang(String tenKH, String SDT, String Email, Date ngaysinh, boolean gioiTinh, String maNV, boolean trangThai) {
+        this.tenKH = tenKH;
+        this.SDT = SDT;
+        this.Email = Email;
+        this.ngaysinh = ngaysinh;
+        this.gioiTinh = gioiTinh;
+        this.maNV = maNV;
+        this.trangThai = trangThai;
+    }
+
     public KhachHang(int maKH, String tenKH, String SDT, String Email, Date ngaysinh, boolean gioiTinh, String maNV, boolean trangThai) {
         this.maKH = maKH;
         this.tenKH = tenKH;

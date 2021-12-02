@@ -20,6 +20,16 @@ public class HoaDon {
     private String maBan;
     boolean trangThai;
 
+    public HoaDon(int maKH, String ngayTao, String ghiChu, String maNV, int maSKKM, String maBan, boolean trangThai) {
+        this.maKH = maKH;
+        this.ngayTao = ngayTao;
+        this.ghiChu = ghiChu;
+        this.maNV = maNV;
+        this.maSKKM = maSKKM;
+        this.maBan = maBan;
+        this.trangThai = trangThai;
+    }
+
     public HoaDon(int maHD, int maKH, String ngayTao, String ghiChu, String maNV, int maSKKM, String maBan, boolean trangThai) {
         this.maHD = maHD;
         this.maKH = maKH;
