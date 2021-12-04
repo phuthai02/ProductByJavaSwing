@@ -112,24 +112,24 @@ public class QuanLyThucPhamFrame extends javax.swing.JFrame {
     }
 
     void fillToDanhSach() {
-        List<ThucPham> lstThucPhams = tpdao.selectPagingFull(1, pageIndexDS, txtTimDS.getText(), lstLoaiThucPhams.get(cboDS.getSelectedIndex()).getMaLoaiTP());
+//        List<ThucPham> lstThucPhams = tpdao.selectPagingFull(1, pageIndexDS, txtTimDS.getText(), lstLoaiThucPhams.get(cboDS.getSelectedIndex()).getMaLoaiTP());
         lblPageIndexDS.setText(pageIndexDS + 1 + "");
         updateStatusPage();
-        dtmDS.setRowCount(0);
-        lstThucPhams.forEach((tp) -> {
-            dtmDS.addRow(new Object[]{tp.getMaTP(), tp.getTenTP(), tp.getGiaNhap(), tp.getSoLuong(), tp.getDonViTinh(), ltpdao.selectById(tp.getMaLoaiTP()).getTenLoaiTP(), tp.getNgayNhap(), tp.getNCC(), nvdao.selectById(tp.getMaNV()).getTenNV()});
-        });
+//        dtmDS.setRowCount(0);
+//        lstThucPhams.forEach((tp) -> {
+//     //       dtmDS.addRow(new Object[]{tp.getMaTP(), tp.getTenTP(), tp.getGiaNhap(), tp.getSoLuong(), tp.getDonViTinh(), ltpdao.selectById(tp.getMaLoaiTP()).getTenLoaiTP(), tp.getNgayNhap(), tp.getNCC(), nvdao.selectById(tp.getMaNV()).getTenNV()});
+//        });
 
     }
 
     void fillToLuuTru() {
-        List<ThucPham> lstThucPhams = tpdao.selectPagingFull(0, pageIndexLT, txtTimLT.getText(), lstLoaiThucPhams.get(cboDS.getSelectedIndex()).getMaLoaiTP());
+      //  List<ThucPham> lstThucPhams = tpdao.selectPagingFull(0, pageIndexLT, txtTimLT.getText(), lstLoaiThucPhams.get(cboDS.getSelectedIndex()).getMaLoaiTP());
         lblPageIndexLT.setText(pageIndexLT + 1 + "");
         updateStatusPage();
         dtmLT.setRowCount(0);
-        lstThucPhams.forEach((tp) -> {
-            dtmLT.addRow(new Object[]{tp.getMaTP(), tp.getTenTP(), tp.getGiaNhap(), tp.getSoLuong(), tp.getDonViTinh(), ltpdao.selectById(tp.getMaLoaiTP()).getTenLoaiTP(), tp.getNgayNhap(), tp.getNCC(), nvdao.selectById(tp.getMaNV()).getTenNV()});
-        });
+//        lstThucPhams.forEach((tp) -> {
+//            dtmLT.addRow(new Object[]{tp.getMaTP(), tp.getTenTP(), tp.getGiaNhap(), tp.getSoLuong(), tp.getDonViTinh(), ltpdao.selectById(tp.getMaLoaiTP()).getTenLoaiTP(), tp.getNgayNhap(), tp.getNCC(), nvdao.selectById(tp.getMaNV()).getTenNV()});
+//        });
 
     }
 
@@ -146,26 +146,26 @@ public class QuanLyThucPhamFrame extends javax.swing.JFrame {
     }
 
     void setForm(ThucPham tp) {
-        txtMa.setText(tp.getMaTP() + "");
-        txtTen.setText(tp.getTenTP());
-        txtSoLuong.setText(String.valueOf(tp.getSoLuong()));
-        txtGiaNhap.setText(String.valueOf(tp.getGiaNhap()));
-        cboLoaiThucPham.setSelectedItem(ltpdao.selectById(tp.getMaLoaiTP()).getTenLoaiTP());
-        txtNgayNhap.setDate(Xdate.toDate(tp.getNgayNhap(), "yyyy-MM-dd"));
-        cboDVT.setSelectedItem(tp.getDonViTinh().toString());
-        txtNCC.setText(tp.getNCC());
-        txtMoTa.setText(tp.getGhiChu());
+//        txtMa.setText(tp.getMaTP() + "");
+//        txtTen.setText(tp.getTenTP());
+//        txtSoLuong.setText(String.valueOf(tp.getSoLuong()));
+//        txtGiaNhap.setText(String.valueOf(tp.getGiaNhap()));
+//        cboLoaiThucPham.setSelectedItem(ltpdao.selectById(tp.getMaLoaiTP()).getTenLoaiTP());
+//        txtNgayNhap.setDate(Xdate.toDate(tp.getNgayNhap(), "yyyy-MM-dd"));
+//        cboDVT.setSelectedItem(tp.getDonViTinh().toString());
+//        txtNCC.setText(tp.getNCC());
+//        txtMoTa.setText(tp.getGhiChu());
     }
 
     void updateStatusPage() {
-        boolean firstDS = pageIndexDS == 0;
-        boolean firstLT = pageIndexLT == 0;
-        boolean lastDS = tpdao.selectPagingFull(1, pageIndexDS + 1, txtTimDS.getText(), lstLoaiThucPhams.get(cboDS.getSelectedIndex()).getMaLoaiTP()).isEmpty();
-        boolean lastLT = tpdao.selectPagingFull(0, pageIndexLT + 1, txtTimLT.getText(), lstLoaiThucPhams.get(cboDS.getSelectedIndex()).getMaLoaiTP()).isEmpty();
-        btnPreDS.setEnabled(!firstDS);
-        btnPreLT.setEnabled(!firstLT);
-        btnNextDS.setEnabled(!lastDS);
-        btnNextLT.setEnabled(!lastLT);
+//        boolean firstDS = pageIndexDS == 0;
+//        boolean firstLT = pageIndexLT == 0;
+////        boolean lastDS = tpdao.selectPagingFull(1, pageIndexDS + 1, txtTimDS.getText(), lstLoaiThucPhams.get(cboDS.getSelectedIndex()).getMaLoaiTP()).isEmpty();
+////        boolean lastLT = tpdao.selectPagingFull(0, pageIndexLT + 1, txtTimLT.getText(), lstLoaiThucPhams.get(cboDS.getSelectedIndex()).getMaLoaiTP()).isEmpty();
+//        btnPreDS.setEnabled(!firstDS);
+//        btnPreLT.setEnabled(!firstLT);
+//        btnNextDS.setEnabled(!lastDS);
+//        btnNextLT.setEnabled(!lastLT);
     }
 
     void updateStatus() {
@@ -195,17 +195,17 @@ public class QuanLyThucPhamFrame extends javax.swing.JFrame {
 
     ThucPham getForm() {
         ThucPham tp = new ThucPham();
-        tp.setMaTP(Integer.parseInt(txtMa.getText()));
-        tp.setTenTP(txtTen.getText());
-        tp.setSoLuong(Integer.parseInt(txtSoLuong.getText()));
-        tp.setNgayNhap(Xdate.toString(txtNgayNhap.getDate(), "yyyy-MM-dd"));
-        tp.setGiaNhap(Integer.parseInt(txtGiaNhap.getText()));
-        tp.setMaLoaiTP(lstLoaiThucPhams.get(cboLoaiThucPham.getSelectedIndex()).getMaLoaiTP());
-        tp.setDonViTinh(cboDVT.getSelectedItem().toString());
-        tp.setNCC(txtNCC.getText());
-        tp.setGhiChu(txtMoTa.getText());
-        tp.setMaNV(Auth.user.getMaNV());
-        tp.setTrangThai(true);
+//        tp.setMaTP(Integer.parseInt(txtMa.getText()));
+//        tp.setTenTP(txtTen.getText());
+//        tp.setSoLuong(Integer.parseInt(txtSoLuong.getText()));
+//        tp.setNgayNhap(Xdate.toString(txtNgayNhap.getDate(), "yyyy-MM-dd"));
+//        tp.setGiaNhap(Integer.parseInt(txtGiaNhap.getText()));
+//        tp.setMaLoaiTP(lstLoaiThucPhams.get(cboLoaiThucPham.getSelectedIndex()).getMaLoaiTP());
+//        tp.setDonViTinh(cboDVT.getSelectedItem().toString());
+//        tp.setNCC(txtNCC.getText());
+//        tp.setGhiChu(txtMoTa.getText());
+//        tp.setMaNV(Auth.user.getMaNV());
+//        tp.setTrangThai(true);
         return tp;
     }
 

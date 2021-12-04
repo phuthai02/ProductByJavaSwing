@@ -16,43 +16,39 @@ import java.util.Map;
  *
  * @author Admin
  */
-public class ThucPhamDAO implements SystemDAO<ThucPham, Integer>{
-    String SQL_Insert = "INSERT INTO ThucPham values(?,?,?,?,?,?,?,?,?,1)";
-    String SQL_Update = "UPDATE ThucPham SET MaLoaiTP=?, TenTP=?, NgayNhap=?, GiaNhap=?, SoLuong=?,DonViTinh=?,MaNV=?,NCC=?,GhiChu=?, TrangThai=? where MaTP=?";
-    String SQL_Delete = "update ThucPham set TrangThai=0 where MaTP=?";
-    String SQL_SelectPaging = "SELECT * FROM dbo.ThucPham WHERE TrangThai = ? AND (MaTP LIKE ? OR TenTP LIKE ? OR NCC LIKE ?) ORDER BY MaTP OFFSET ?*15 ROWS  FETCH NEXT 15 ROWS ONLY";
+public class ThucPhamDAO implements SystemDAO<ThucPham, Integer> {
+
+    String SQL_Insert = "INSERT INTO NguyenLieu values(?,?,?,?,?,?,?,1)";
+    String SQL_Update = "UPDATE NguyenLieu SET MaLoaiTP=?, TenNL=?, Ngaymua=?, NgayNhap=?, SoLuong=?,MaNV=?,MoTa=?, TrangThai=? where MaTP=?";
+    String SQL_Delete = "update NguyenLieu set TrangThai=0 where MaNL=?";
+    String SQL_SelectPaging = "SELECT * FROM dbo.NguyenLieu WHERE TrangThai = ? AND (TenNL Like ?) ORDER BY MaNL OFFSET ?*15 ROWS  FETCH NEXT 15 ROWS ONLY";
     String SQL_SelectTenLoaiTP = "select MaLoaiTP,TenLoaiTP from LoaiThucPham ";
-    String SQL_SelectID = "SELECT * FROM ThucPham WHERE MaTP=?";
-    
+    String SQL_SelectID = "SELECT * FROM NguyenLieu WHERE MaNL=?";
+
     @Override
     public int insert(ThucPham entity) {
         return Xjdbc.update(SQL_Insert,
                 entity.getMaLoaiTP(),
-                entity.getTenTP(),
-                entity.getNgayNhap(),
-                entity.getGiaNhap(),
+                entity.getTenNL(),
+                entity.getNgaymua(),
+                entity.getNgaynhap(),
                 entity.getSoLuong(),
-                entity.getDonViTinh(),
                 entity.getMaNV(),
-                entity.getNCC(),
-                entity.getGhiChu());
-//                entity.isTrangThai());
+                entity.getMoTa());
     }
 
     @Override
     public int update(ThucPham entity) {
         return Xjdbc.update(SQL_Update,
                 entity.getMaLoaiTP(),
-                entity.getTenTP(),
-                entity.getNgayNhap(),
-                entity.getGiaNhap(),
+                entity.getTenNL(),
+                entity.getNgaymua(),
+                entity.getNgaynhap(),
                 entity.getSoLuong(),
-                entity.getDonViTinh(),
                 entity.getMaNV(),
-                entity.getNCC(),
-                entity.getGhiChu(),
-                entity.isTrangThai(),
-                entity.getMaTP());
+                entity.getMoTa(),
+                entity.isTrangThai(),      
+                entity.getMaNL());
     }
 
     @Override
@@ -65,25 +61,23 @@ public class ThucPhamDAO implements SystemDAO<ThucPham, Integer>{
         List<ThucPham> list = new ArrayList<>();
         try {
             ResultSet rs = Xjdbc.query(sql, args);
-            while (rs.next()) {                
+            while (rs.next()) {
                 ThucPham tp = new ThucPham();
-                tp.setMaTP(rs.getInt("MaTP"));
-                tp.setMaLoaiTP(rs.getString("MaLoaiTP"));
-                tp.setTenTP(rs.getString("TenTP"));
-                tp.setNgayNhap(rs.getString("NgayNhap"));
-                tp.setGiaNhap(rs.getInt("GiaNhap"));
-                tp.setSoLuong(rs.getInt("SoLuong"));
-                tp.setDonViTinh(rs.getString("DonViTinh"));
-                tp.setGhiChu(rs.getString("GhiChu"));
-                tp.setMaNV(rs.getString("MaNV"));
-                tp.setNCC(rs.getString("NCC"));
-                tp.setTrangThai(rs.getBoolean("TrangThai"));
+                tp.setMaNL(rs.getInt(1));
+                tp.setMaLoaiTP(rs.getString(2));
+                tp.setTenNL(rs.getString(3));
+                tp.setNgaymua(rs.getDate(4));
+                tp.setNgaynhap(rs.getDate(5));
+                tp.setSoLuong(rs.getInt(6));
+                tp.setMoTa(rs.getString(8));
+                tp.setMaNV(rs.getString(7));
+                tp.setTrangThai(rs.getBoolean(9));
                 list.add(tp);
             }
             rs.getStatement().getConnection().close();
             return list;
         } catch (Exception e) {
-            throw  new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -91,10 +85,12 @@ public class ThucPhamDAO implements SystemDAO<ThucPham, Integer>{
     public List<ThucPham> selectPaging(int Status, int pageIndex) {
         return null;
     }
-    public List<ThucPham> selectPagingFull(int Status, int pageIndex, String keyWord, String gioiTinh) {
-        List<ThucPham> list = this.selectBySql(SQL_SelectPaging, Status, "%" + keyWord + "%", "%" + keyWord + "%", "%" + keyWord + "%", pageIndex);
+
+    public List<ThucPham> selectPagingFull(int Status, int pageIndex, String keyWord) {
+        List<ThucPham> list = this.selectBySql(SQL_SelectPaging, Status, "%" + keyWord + "%", pageIndex);
         return list;
     }
+
     public Map<String, String> selectTenLoaiTP() {
         Map<String, String> map = new HashMap<>();
         try {
@@ -124,5 +120,5 @@ public class ThucPhamDAO implements SystemDAO<ThucPham, Integer>{
         }
         return list.get(0);
     }
-    
+
 }

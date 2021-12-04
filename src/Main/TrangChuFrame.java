@@ -625,7 +625,7 @@ public class TrangChuFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        this.openQLThucPham();
+        this.showTP();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void mniBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniBanActionPerformed
