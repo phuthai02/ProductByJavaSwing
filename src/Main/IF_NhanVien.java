@@ -93,7 +93,7 @@ public class IF_NhanVien extends javax.swing.JInternalFrame {
     }
 
     void fillToDanhSach() {
-        List<NhanVien> lst = daoNV.selectPagingFull(1, pageIndexDS, txtTimDS.getText(), findGioiTinh(cboDS));
+        List<NhanVien> lst = daoNV.selectPagingFull(1, pageIndexDS, txtTimDS.getText().trim(), findGioiTinh(cboDS));
         lblPageIndexDS.setText(pageIndexDS + 1 + "");
         updateStatusPage();
         modelDS.setRowCount(0);
@@ -104,7 +104,7 @@ public class IF_NhanVien extends javax.swing.JInternalFrame {
     }
 
     void fillToLuuTru() {
-        List<NhanVien> lst = daoNV.selectPagingFull(0, pageIndexLT, txtTimLT.getText(), findGioiTinh(cboLT));
+        List<NhanVien> lst = daoNV.selectPagingFull(0, pageIndexLT, txtTimLT.getText().trim(), findGioiTinh(cboLT));
         lblPageIndexLT.setText(pageIndexLT + 1 + "");
         updateStatusPage();
         modelLT.setRowCount(0);
@@ -117,8 +117,8 @@ public class IF_NhanVien extends javax.swing.JInternalFrame {
     void updateStatusPage() {
         boolean firstDS = pageIndexDS == 0;
         boolean firstLT = pageIndexLT == 0;
-        boolean lastDS = daoNV.selectPagingFull(1, pageIndexDS + 1, txtTimDS.getText(), findGioiTinh(cboDS)).isEmpty();
-        boolean lastLT = daoNV.selectPagingFull(0, pageIndexLT + 1, txtTimLT.getText(), findGioiTinh(cboLT)).isEmpty();
+        boolean lastDS = daoNV.selectPagingFull(1, pageIndexDS + 1, txtTimDS.getText().trim(), findGioiTinh(cboDS)).isEmpty();
+        boolean lastLT = daoNV.selectPagingFull(0, pageIndexLT + 1, txtTimLT.getText().trim(), findGioiTinh(cboLT)).isEmpty();
         btnPreDS.setEnabled(!firstDS);
         btnPreLT.setEnabled(!firstLT);
         btnNextDS.setEnabled(!lastDS);
@@ -188,10 +188,10 @@ public class IF_NhanVien extends javax.swing.JInternalFrame {
 
     NhanVien getForm() {
         if (row >= 0) {
-            return new NhanVien(txtMa.getText(), txtTen.getText(), daoNV.selectById(txtMa.getText()).getMatKhau(), txtDiaChi.getText(), txtSdt.getText(), txtEmail.getText(), Xdate.toString(txtNgaySinh.getDate(), "yyyy-MM-dd"), rdoNam.isSelected(), lblAnh.getToolTipText(), daoNV.selectById(txtMa.getText()).getMauNen(), rdoCNH.isSelected(), true);
+            return new NhanVien(txtMa.getText().trim(), txtTen.getText().trim(), daoNV.selectById(txtMa.getText().trim()).getMatKhau().trim(), txtDiaChi.getText().trim(), txtSdt.getText().trim(), txtEmail.getText().trim(), Xdate.toString(txtNgaySinh.getDate(), "yyyy-MM-dd"), rdoNam.isSelected(), lblAnh.getToolTipText(), daoNV.selectById(txtMa.getText().trim()).getMauNen(), rdoCNH.isSelected(), true);
         }
         passWord = Xpassword.randomPassword(8);
-        return new NhanVien(txtMa.getText(), txtTen.getText(), passWord, txtDiaChi.getText(), txtSdt.getText(), txtEmail.getText(), Xdate.toString(txtNgaySinh.getDate(), "yyyy-MM-dd"), rdoNam.isSelected(), lblAnh.getToolTipText(), "F1C232", rdoCNH.isSelected(), true);
+        return new NhanVien(txtMa.getText().trim(), txtTen.getText().trim(), passWord, txtDiaChi.getText().trim(), txtSdt.getText().trim(), txtEmail.getText().trim(), Xdate.toString(txtNgaySinh.getDate(), "yyyy-MM-dd"), rdoNam.isSelected(), lblAnh.getToolTipText(), "F1C232", rdoCNH.isSelected(), true);
     }
 
     void chonAnh() {
@@ -214,36 +214,58 @@ public class IF_NhanVien extends javax.swing.JInternalFrame {
     boolean checkValidate() {
         String pEmail = "^.+@fpt.edu.vn$";
         String pSDT = "^0[0-9]{9}$";
-        if (txtMa.getText().length() == 0) {
+        String s = txtTen.getText().replaceAll("[^0-9]", "");
+        String pKiTu = txtTen.getText().replaceAll("[^!@#$%&*()_+=|<>?{}\\\\[\\\\]~-]", "");
+        if (txtMa.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập mã nhân viên!");
             txtMa.requestFocus();
             return false;
-        } else if (txtTen.getText().length() == 0) {
+        } else if (txtMa.getText().trim().length() > 10) {
+            MsgBox.alert(this, "Mã nhân viên chứa tối đa 10 kí tự!");
+            txtMa.requestFocus();
+            return false;
+        } else if (txtTen.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập tên nhân viên!");
+            txtTen.requestFocus();
+            return false;
+        } else if ((txtTen.getText().trim().matches(s))) {
+            MsgBox.alert(this, "Tên nhân viên phải chứa kí tự chữ");
+            txtTen.requestFocus();
+            return false;
+        } else if ((txtTen.getText().trim().matches(pKiTu))) {
+            MsgBox.alert(this, "Tên nhân viên không được chứa kí tự đặc biệt");
+            txtTen.requestFocus();
+            return false;
+        } else if (!(txtTen.getText().trim().length() >= 6 && txtTen.getText().trim().length() <= 30)) {
+            MsgBox.alert(this, "Họ tên nhân viên chứa từ 6 đến 30 kí tự");
             txtTen.requestFocus();
             return false;
         } else if (txtNgaySinh.getDate() == null) {
             MsgBox.alert(this, "Vui lòng nhập ngày sinh nhân viên!");;
             return false;
-        } else if (txtSdt.getText().length() == 0) {
+        } else if (txtSdt.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập số điện thoại nhân viên!");
             txtSdt.requestFocus();
             return false;
-        } else if (!txtSdt.getText().matches(pSDT)) {
+        } else if (!txtSdt.getText().trim().matches(pSDT)) {
             MsgBox.alert(this, "SDT không chính xác!");
             txtSdt.requestFocus();
             return false;
-        } else if (txtEmail.getText().length() == 0) {
+        } else if (txtEmail.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập email nhân viên!");
             txtEmail.requestFocus();
             return false;
-        } else if (!txtEmail.getText().matches(pEmail)) {
+        } else if (!txtEmail.getText().trim().matches(pEmail)) {
             MsgBox.alert(this, "Email phải có định dạng @fpt.edu.vn!");
             txtEmail.requestFocus();
             return false;
-        } else if (txtDiaChi.getText().length() == 0) {
+        } else if (txtDiaChi.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập địa chỉ nhân viên!");
             txtDiaChi.requestFocus();
+            return false;
+        } else if (!(txtDiaChi.getText().trim().length() >= 4 && txtDiaChi.getText().trim().length() <= 225)) {
+            MsgBox.alert(this, "Địa chỉ nhân viên chứa từ 4 đến 255 kí tự");
+            txtTen.requestFocus();
             return false;
         } else if (lblAnh.getToolTipText() == null) {
             MsgBox.alert(this, "Vui lòng chọn ảnh nhân viên!");
@@ -254,19 +276,25 @@ public class IF_NhanVien extends javax.swing.JInternalFrame {
 
     void insert() {
         if (checkValidate()) {
-            try {
-                daoNV.insert(getForm());
-                pageIndexDS = 0;
-                pageIndexLT = 0;
-                fillToDanhSach();
-                fillToLuuTru();
-                Xmail.sendPassword(txtMa.getText(), passWord, txtEmail.getText());
-                MsgBox.alert(this, "Thêm nhân viên mới thành công. Tài khoản đã được gửi tới email: " + txtEmail.getText());
-                resetForm();
-            } catch (Exception e) {
-                if (MsgBox.confirm(this, "Thêm nhân viên thất bại!! Bạn có muốn báo lỗi tới nhà phát triển?")) {
-                    Xmail.writeException(e, getForm());
-                    Xmail.sendBugs("thaidpph17321@fpt.edu.vn");
+            NhanVien nv = getForm();
+            if (!(daoNV.selectById(nv.getMaNV()) == null)) {
+                MsgBox.alert(this, "Mã nhân viên đã tồn tại!");
+                return;
+            } else {
+                try {
+                    daoNV.insert(nv);
+                    pageIndexDS = 0;
+                    pageIndexLT = 0;
+                    fillToDanhSach();
+                    fillToLuuTru();
+                    Xmail.sendPassword(txtMa.getText().trim(), passWord, txtEmail.getText().trim());
+                    MsgBox.alert(this, "Thêm nhân viên mới thành công. Tài khoản đã được gửi tới email: " + txtEmail.getText().trim());
+                    resetForm();
+                } catch (Exception e) {
+                    if (MsgBox.confirm(this, "Thêm nhân viên thất bại!! Bạn có muốn báo lỗi tới nhà phát triển?")) {
+                        Xmail.writeException(e, getForm());
+                        Xmail.sendBugs("thaidpph17321@fpt.edu.vn");
+                    }
                 }
             }
         }
@@ -294,7 +322,7 @@ public class IF_NhanVien extends javax.swing.JInternalFrame {
     void delete() {
         if (MsgBox.confirm(this, "Bạn có chắc chắn muốn xoá nhân viên này?")) {
             try {
-                daoNV.delete(txtMa.getText());
+                daoNV.delete(txtMa.getText().trim());
                 pageIndexDS = 0;
                 pageIndexLT = 0;
                 fillToDanhSach();
@@ -539,8 +567,8 @@ public class IF_NhanVien extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
-                            .addComponent(txtNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                            .addComponent(txtNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(rdoNam)
