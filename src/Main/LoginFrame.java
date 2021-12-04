@@ -92,11 +92,11 @@ public class LoginFrame extends javax.swing.JFrame {
     }
     
     boolean checkValidate() {
-        if (txtTenDangNhap.getText().equals("Tên đăng nhập")) {
+        if (txtTenDangNhap.getText().trim().equals("Tên đăng nhập")) {
             MsgBox.alert(this, "Vui lòng nhập tên đăng nhập!");
             txtTenDangNhap.requestFocus();
             return false;
-        } else if (txtMatKhau.getText().equals("Mật khẩu")) {
+        } else if (txtMatKhau.getText().trim().equals("Mật khẩu")) {
             MsgBox.alert(this, "Vui lòng nhập mật khẩu!");
             txtMatKhau.requestFocus();
             return false;
@@ -106,10 +106,10 @@ public class LoginFrame extends javax.swing.JFrame {
     
     void dangNhap() {
         if (checkValidate()) {
-            NhanVien nhanVien = new NhanVienDAO().selectById(txtTenDangNhap.getText());
+            NhanVien nhanVien = new NhanVienDAO().selectById(txtTenDangNhap.getText().trim());
             if (nhanVien == null || nhanVien.isTrangThai() == false) {
                 MsgBox.alert(this, "Tên đăng nhập không tồn tại!");
-            } else if (!txtMatKhau.getText().equals(nhanVien.getMatKhau())) {
+            } else if (!txtMatKhau.getText().trim().equals(nhanVien.getMatKhau())) {
                 MsgBox.alert(this, "Sai mật khẩu!");
             } else {
                 Auth.user = nhanVien;

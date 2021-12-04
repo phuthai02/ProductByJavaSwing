@@ -56,28 +56,28 @@ public class IF_DoiMatKhau extends javax.swing.JInternalFrame {
         jPanel1.add(lblCapDo);
         lblCapDo.setBounds(280, 183, 60, 40);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 51, 153));
         jLabel1.setText("ĐỔI MẬT KHẨU");
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(60, 20, 279, 48);
+        jLabel1.setBounds(100, 10, 279, 48);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Mật khẩu hiện tại");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(55, 77, 103, 17);
+        jLabel2.setBounds(55, 77, 150, 17);
         jPanel1.add(txtMatKhauHienTai);
         txtMatKhauHienTai.setBounds(55, 105, 296, 42);
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Mật khẩu mới");
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(55, 158, 82, 17);
+        jLabel3.setBounds(55, 158, 130, 17);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Xác nhận mật khẩu");
         jPanel1.add(jLabel4);
-        jLabel4.setBounds(55, 237, 119, 17);
+        jLabel4.setBounds(55, 237, 140, 17);
 
         btnHuy.setBackground(new java.awt.Color(0, 51, 153));
         btnHuy.setForeground(new java.awt.Color(255, 255, 255));
@@ -132,7 +132,13 @@ public class IF_DoiMatKhau extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void btnDoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoiActionPerformed
-        doiMatKhau();
+        if (txtMatKhauHienTai.getText().trim() == "") {
+            MsgBox.alert(this, "Vui lòng nhập mật khẩu hiện tại!");
+        } else if (txtMatKhauMoi.getText().trim() == "") {
+            MsgBox.alert(this, "Vui lòng nhập mật khẩu mới!");
+        } else {
+            doiMatKhau();
+        }
     }//GEN-LAST:event_btnDoiActionPerformed
 
     private void txtMatKhauMoiKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMatKhauMoiKeyReleased
@@ -148,7 +154,7 @@ public class IF_DoiMatKhau extends javax.swing.JInternalFrame {
 
     void checkLevelPass() {
         if (txtMatKhauMoi.getText().length() > 0) {
-            String level = Xpassword.checkLevelPass(txtMatKhauMoi.getText());
+            String level = Xpassword.checkLevelPass(txtMatKhauMoi.getText().trim());
             lblCapDo.setText(level);
             switch (level) {
                 case "Yếu":
@@ -172,23 +178,26 @@ public class IF_DoiMatKhau extends javax.swing.JInternalFrame {
     }
 
     boolean checkValidate() {
-        if (txtMatKhauHienTai.getText().length() == 0) {
+        if (txtMatKhauHienTai.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập mật khẩu hiện tại!");
             txtMatKhauHienTai.requestFocus();
             return false;
-        } else if (!txtMatKhauHienTai.getText().equals(Auth.user.getMatKhau())) {
+        } else if (!txtMatKhauHienTai.getText().trim().equals(Auth.user.getMatKhau().trim())) {
             MsgBox.alert(this, "Mật khẩu hiện tại không chính xác!");
             txtMatKhauHienTai.requestFocus();
             return false;
-        } else if (txtMatKhauMoi.getText().length() == 0) {
+        } else if (txtMatKhauMoi.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập mật khẩu mới!");
             txtMatKhauMoi.requestFocus();
             return false;
-        } else if (txtXacThuc.getText().length() == 0) {
+        } else if (!(txtMatKhauMoi.getText().trim().length() >= 6 && txtMatKhauMoi.getText().trim().length() <= 8)) {
+            MsgBox.alert(this, "Mật khẩu chứa từ 6 đến 8 kí tự!");
+            return false;
+        } else if (txtXacThuc.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập mật khẩu xác thực!");
             txtXacThuc.requestFocus();
             return false;
-        } else if (!txtMatKhauMoi.getText().equals(txtXacThuc.getText())) {
+        } else if (!txtMatKhauMoi.getText().trim().equals(txtXacThuc.getText().trim())) {
             MsgBox.alert(this, "Mật khẩu xác thực không chính xác!");
             txtXacThuc.requestFocus();
             return false;
@@ -198,10 +207,11 @@ public class IF_DoiMatKhau extends javax.swing.JInternalFrame {
 
     void doiMatKhau() {
         if (checkValidate()) {
-            Auth.user.setMatKhau(txtMatKhauMoi.getText());
+            Auth.user.setMatKhau(txtMatKhauMoi.getText().trim());
             new NhanVienDAO().update(Auth.user);
             MsgBox.alert(this, "Thay đổi mật khẩu thành công");
             resetForm();
+            this.dispose();
         }
     }
 
