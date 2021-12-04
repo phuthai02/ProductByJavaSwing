@@ -10,6 +10,7 @@ import Entity.NhanVien;
 import Untils.MsgBox;
 import Untils.Xpassword;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -37,15 +38,18 @@ public class XacthucFrame extends javax.swing.JFrame {
     }
 
     boolean checkValidate() {
-        if (txtMatKhauMoi.getText().length() == 0) {
+        if (txtMatKhauMoi.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập mật khẩu mới!");
             txtMatKhauMoi.requestFocus();
             return false;
-        } else if (txtXacThuc.getText().length() == 0) {
+        } else if (!(txtMatKhauMoi.getText().trim().length() >= 6 && txtMatKhauMoi.getText().trim().length() <= 8)) {
+            MsgBox.alert(this, "Mật khẩu chứa từ 6 đến 8 kí tự!");
+            return false;
+        } else if (txtXacThuc.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập mật khẩu xác thực!");
             txtXacThuc.requestFocus();
             return false;
-        } else if (!txtXacThuc.getText().equals(txtMatKhauMoi.getText())) {
+        } else if (!txtXacThuc.getText().trim().equals(txtMatKhauMoi.getText().trim())) {
             MsgBox.alert(this, "Mật khẩu xác thực không trùng khớp!");
             txtXacThuc.requestFocus();
             return false;
@@ -63,8 +67,8 @@ public class XacthucFrame extends javax.swing.JFrame {
     }
 
     void checkLevelPass() {
-        if (txtMatKhauMoi.getText().length() > 0) {
-            String level = Xpassword.checkLevelPass(txtMatKhauMoi.getText());
+        if (txtMatKhauMoi.getText().trim().length() > 0) {
+            String level = Xpassword.checkLevelPass(txtMatKhauMoi.getText().trim());
             lblCapDo.setText(level);
             switch (level) {
                 case "Yếu":
@@ -232,11 +236,17 @@ public class XacthucFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_txtMatKhauMoiFocusLost
 
     private void txtMatKhauMoiKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMatKhauMoiKeyReleased
-       checkLevelPass();
+        checkLevelPass();
     }//GEN-LAST:event_txtMatKhauMoiKeyReleased
 
     private void btnThayDoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThayDoiActionPerformed
-        thayDoi();
+        if (txtMatKhauMoi.getText().trim() == "") {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mật khẩu mới!");
+        } else if (txtXacThuc.getText().trim() == "") {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập xác nhận mật khẩu!");
+        } else {
+            thayDoi();
+        }
     }//GEN-LAST:event_btnThayDoiActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
