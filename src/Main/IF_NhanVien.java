@@ -212,7 +212,7 @@ public class IF_NhanVien extends javax.swing.JInternalFrame {
     }
 
     boolean checkValidate() {
-        String pEmail = "^.+@fpt.edu.vn$";
+        String pEmail = "^[A-Za-z0-9]+[A-Za-z0-9]*+@fpt.edu.vn$";
         String pSDT = "^0[0-9]{9}$";
         String s = txtTen.getText().replaceAll("[^0-9]", "");
         String pKiTu = txtTen.getText().replaceAll("[^!@#$%&*()_+=|<>?{}\\\\[\\\\]~-]", "");
