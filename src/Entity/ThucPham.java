@@ -5,47 +5,45 @@
  */
 package Entity;
 
+import java.util.Date;
 
 /**
  *
  * @author doanp
  */
 public class ThucPham {
-    private int maTP;
-    private String maLoaiTP;
-    private String tenTP;
-    private String ngayNhap;
-    private int giaNhap;
-    private int soLuong;
-    private String donViTinh;
-    private String maNV;
-    private String NCC;
-    private String ghiChu;
-    private boolean trangThai;
 
-    public ThucPham(int maTP, String maLoaiTP, String tenTP, String ngayNhap, int giaNhap, int soLuong, String donViTinh, String maNV, String NCC, String ghiChu, boolean trangThai) {
-        this.maTP = maTP;
-        this.maLoaiTP = maLoaiTP;
-        this.tenTP = tenTP;
-        this.ngayNhap = ngayNhap;
-        this.giaNhap = giaNhap;
-        this.soLuong = soLuong;
-        this.donViTinh = donViTinh;
-        this.maNV = maNV;
-        this.NCC = NCC;
-        this.ghiChu = ghiChu;
-        this.trangThai = trangThai;
-    }
+    private int maNL;
+    private String maLoaiTP;
+    private String tenNL;
+    private Date ngaymua;
+    private Date ngaynhap;
+    private int soLuong;
+    private String maNV;
+    private String moTa;
+    private boolean trangThai;
 
     public ThucPham() {
     }
 
-    public int getMaTP() {
-        return maTP;
+    public ThucPham(int maNL, String maLoaiTP, String tenNL, Date ngaymua, Date ngaynhap, int soLuong, String maNV, String moTa, boolean trangThai) {
+        this.maNL = maNL;
+        this.maLoaiTP = maLoaiTP;
+        this.tenNL = tenNL;
+        this.ngaymua = ngaymua;
+        this.ngaynhap = ngaynhap;
+        this.soLuong = soLuong;
+        this.maNV = maNV;
+        this.moTa = moTa;
+        this.trangThai = trangThai;
     }
 
-    public void setMaTP(int maTP) {
-        this.maTP = maTP;
+    public int getMaNL() {
+        return maNL;
+    }
+
+    public void setMaNL(int maNL) {
+        this.maNL = maNL;
     }
 
     public String getMaLoaiTP() {
@@ -56,28 +54,28 @@ public class ThucPham {
         this.maLoaiTP = maLoaiTP;
     }
 
-    public String getTenTP() {
-        return tenTP;
+    public String getTenNL() {
+        return tenNL;
     }
 
-    public void setTenTP(String tenTP) {
-        this.tenTP = tenTP;
+    public void setTenNL(String tenNL) {
+        this.tenNL = tenNL;
     }
 
-    public String getNgayNhap() {
-        return ngayNhap;
+    public Date getNgaymua() {
+        return ngaymua;
     }
 
-    public void setNgayNhap(String ngayNhap) {
-        this.ngayNhap = ngayNhap;
+    public void setNgaymua(Date ngaymua) {
+        this.ngaymua = ngaymua;
     }
 
-    public int getGiaNhap() {
-        return giaNhap;
+    public Date getNgaynhap() {
+        return ngaynhap;
     }
 
-    public void setGiaNhap(int giaNhap) {
-        this.giaNhap = giaNhap;
+    public void setNgaynhap(Date ngaynhap) {
+        this.ngaynhap = ngaynhap;
     }
 
     public int getSoLuong() {
@@ -88,14 +86,6 @@ public class ThucPham {
         this.soLuong = soLuong;
     }
 
-    public String getDonViTinh() {
-        return donViTinh;
-    }
-
-    public void setDonViTinh(String donViTinh) {
-        this.donViTinh = donViTinh;
-    }
-
     public String getMaNV() {
         return maNV;
     }
@@ -104,20 +94,12 @@ public class ThucPham {
         this.maNV = maNV;
     }
 
-    public String getNCC() {
-        return NCC;
+    public String getMoTa() {
+        return moTa;
     }
 
-    public void setNCC(String NCC) {
-        this.NCC = NCC;
-    }
-
-    public String getGhiChu() {
-        return ghiChu;
-    }
-
-    public void setGhiChu(String ghiChu) {
-        this.ghiChu = ghiChu;
+    public void setMoTa(String moTa) {
+        this.moTa = moTa;
     }
 
     public boolean isTrangThai() {
@@ -130,8 +112,9 @@ public class ThucPham {
 
     @Override
     public String toString() {
-        return "ThucPham{" + "maTP=" + maTP + ", maLoaiTP=" + maLoaiTP + ", tenTP=" + tenTP + ", ngayNhap=" + ngayNhap + ", giaNhap=" + giaNhap + ", soLuong=" + soLuong + ", donViTinh=" + donViTinh + ", maNV=" + maNV + ", NCC=" + NCC + ", ghiChu=" + ghiChu + ", trangThai=" + trangThai + '}';
+        return "ThucPham{" + "maNL=" + maNL + ", maLoaiTP=" + maLoaiTP + ", tenNL=" + tenNL + ", ngaymua=" + ngaymua + ", ngaynhap=" + ngaynhap + ", soLuong=" + soLuong + ", maNV=" + maNV + ", moTa=" + moTa + ", trangThai=" + trangThai + '}';
     }
 
-    
+
+
 }
