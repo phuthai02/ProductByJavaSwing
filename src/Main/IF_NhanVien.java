@@ -7,6 +7,7 @@ package Main;
 
 import DAO.NhanVienDAO;
 import Entity.NhanVien;
+import Untils.Auth;
 import Untils.MsgBox;
 import Untils.Xdate;
 import Untils.Ximage;
@@ -275,23 +276,50 @@ public class IF_NhanVien extends javax.swing.JInternalFrame {
     }
 
     void insert() {
-        if (checkValidate()) {
-            NhanVien nv = getForm();
-            if (!(daoNV.selectById(nv.getMaNV()) == null)) {
-                MsgBox.alert(this, "Mã nhân viên đã tồn tại!");
-                return;
-            } else {
+        if (!Auth.isManager()) {
+            MsgBox.alert(this, "Bạn không có quyền thêm nhân viên");
+        } else {
+            if (checkValidate()) {
+                NhanVien nv = getForm();
+                if (!(daoNV.selectById(nv.getMaNV()) == null)) {
+                    MsgBox.alert(this, "Mã nhân viên đã tồn tại!");
+                    return;
+                } else {
+                    try {
+                        daoNV.insert(nv);
+                        pageIndexDS = 0;
+                        pageIndexLT = 0;
+                        fillToDanhSach();
+                        fillToLuuTru();
+                        Xmail.sendPassword(txtMa.getText().trim(), passWord, txtEmail.getText().trim());
+                        MsgBox.alert(this, "Thêm nhân viên mới thành công. Tài khoản đã được gửi tới email: " + txtEmail.getText().trim());
+                        resetForm();
+                    } catch (Exception e) {
+                        if (MsgBox.confirm(this, "Thêm nhân viên thất bại!! Bạn có muốn báo lỗi tới nhà phát triển?")) {
+                            Xmail.writeException(e, getForm());
+                            Xmail.sendBugs("thaidpph17321@fpt.edu.vn");
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    void update() {
+        if (!Auth.isManager()) {
+            MsgBox.alert(this, "Bạn không có quyền sửa nhân viên!");
+        } else {
+            if (checkValidate()) {
                 try {
-                    daoNV.insert(nv);
+                    daoNV.update(getForm());
                     pageIndexDS = 0;
                     pageIndexLT = 0;
                     fillToDanhSach();
                     fillToLuuTru();
-                    Xmail.sendPassword(txtMa.getText().trim(), passWord, txtEmail.getText().trim());
-                    MsgBox.alert(this, "Thêm nhân viên mới thành công. Tài khoản đã được gửi tới email: " + txtEmail.getText().trim());
+                    MsgBox.alert(this, "Chỉnh sửa nhân viên thành công");
                     resetForm();
                 } catch (Exception e) {
-                    if (MsgBox.confirm(this, "Thêm nhân viên thất bại!! Bạn có muốn báo lỗi tới nhà phát triển?")) {
+                    if (MsgBox.confirm(this, "Chỉnh sửa nhân viên thất bại!! Bạn có muốn báo lỗi tới nhà phát triển?")) {
                         Xmail.writeException(e, getForm());
                         Xmail.sendBugs("thaidpph17321@fpt.edu.vn");
                     }
@@ -300,39 +328,24 @@ public class IF_NhanVien extends javax.swing.JInternalFrame {
         }
     }
 
-    void update() {
-        if (checkValidate()) {
-            try {
-                daoNV.update(getForm());
-                pageIndexDS = 0;
-                pageIndexLT = 0;
-                fillToDanhSach();
-                fillToLuuTru();
-                MsgBox.alert(this, "Chỉnh sửa nhân viên thành công");
-                resetForm();
-            } catch (Exception e) {
-                if (MsgBox.confirm(this, "Chỉnh sửa nhân viên thất bại!! Bạn có muốn báo lỗi tới nhà phát triển?")) {
-                    Xmail.writeException(e, getForm());
-                    Xmail.sendBugs("thaidpph17321@fpt.edu.vn");
-                }
-            }
-        }
-    }
-
     void delete() {
-        if (MsgBox.confirm(this, "Bạn có chắc chắn muốn xoá nhân viên này?")) {
-            try {
-                daoNV.delete(txtMa.getText().trim());
-                pageIndexDS = 0;
-                pageIndexLT = 0;
-                fillToDanhSach();
-                fillToLuuTru();
-                MsgBox.alert(this, "Xoá nhân viên thành công");
-                resetForm();
-            } catch (Exception e) {
-                if (MsgBox.confirm(this, "Xoá nhân viên thất bại!! Bạn có muốn báo lỗi tới nhà phát triển?")) {
-                    Xmail.writeException(e, getForm());
-                    Xmail.sendBugs("thaidpph17321@fpt.edu.vn");
+        if (!Auth.isManager()) {
+            MsgBox.alert(this, "Bạn không có quyền xóa nhân viên");
+        } else {
+            if (MsgBox.confirm(this, "Bạn có chắc chắn muốn xoá nhân viên này?")) {
+                try {
+                    daoNV.delete(txtMa.getText().trim());
+                    pageIndexDS = 0;
+                    pageIndexLT = 0;
+                    fillToDanhSach();
+                    fillToLuuTru();
+                    MsgBox.alert(this, "Xoá nhân viên thành công");
+                    resetForm();
+                } catch (Exception e) {
+                    if (MsgBox.confirm(this, "Xoá nhân viên thất bại!! Bạn có muốn báo lỗi tới nhà phát triển?")) {
+                        Xmail.writeException(e, getForm());
+                        Xmail.sendBugs("thaidpph17321@fpt.edu.vn");
+                    }
                 }
             }
         }
@@ -375,6 +388,7 @@ public class IF_NhanVien extends javax.swing.JInternalFrame {
         rdoCNH = new javax.swing.JRadioButton();
         rdoNV = new javax.swing.JRadioButton();
         txtNgaySinh = new com.toedter.calendar.JDateChooser();
+        btnMoi = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         pn = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
@@ -493,6 +507,16 @@ public class IF_NhanVien extends javax.swing.JInternalFrame {
         rdoNV.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         rdoNV.setText("Nhân viên");
 
+        btnMoi.setBackground(new java.awt.Color(0, 51, 153));
+        btnMoi.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnMoi.setForeground(new java.awt.Color(255, 255, 255));
+        btnMoi.setText("Mới");
+        btnMoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMoiActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -543,12 +567,15 @@ public class IF_NhanVien extends javax.swing.JInternalFrame {
                                 .addGap(182, 182, 182)
                                 .addComponent(rdoNV)
                                 .addGap(139, 139, 139)))
-                        .addGap(28, 28, 28)
-                        .addComponent(btnThem)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnThem))
+                        .addGap(46, 46, 46)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnXoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSua, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
+                        .addGap(16, 16, 16)))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -575,31 +602,35 @@ public class IF_NhanVien extends javax.swing.JInternalFrame {
                                 .addComponent(rdoNu, javax.swing.GroupLayout.Alignment.TRAILING))
                             .addComponent(jLabel5))
                         .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(txtSdt, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtSdt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
-                        .addGap(22, 22, 22)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))
-                        .addGap(18, 18, 18))
+                            .addComponent(jLabel7)
+                            .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(16, 16, 16))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(lblAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel8))
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnSua)
-                        .addComponent(btnXoa)
-                        .addComponent(btnThem)))
-                .addGap(20, 20, 20)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rdoCNH)
-                    .addComponent(rdoNV)
-                    .addComponent(jLabel10))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rdoCNH)
+                            .addComponent(rdoNV)
+                            .addComponent(jLabel10)))
+                    .addComponent(btnSua)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(btnMoi)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnThem)
+                            .addComponent(btnXoa))))
                 .addContainerGap(131, Short.MAX_VALUE))
         );
 
@@ -617,11 +648,8 @@ public class IF_NhanVien extends javax.swing.JInternalFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 13, Short.MAX_VALUE))
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(0, 7, Short.MAX_VALUE))
+            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1038,10 +1066,15 @@ public class IF_NhanVien extends javax.swing.JInternalFrame {
         fillToLuuTru();
     }//GEN-LAST:event_btnNextLTActionPerformed
 
+    private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed
+        resetForm();
+    }//GEN-LAST:event_btnMoiActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChitiet;
     private javax.swing.JButton btnKhoiPhuc;
+    private javax.swing.JButton btnMoi;
     private javax.swing.JButton btnNextDS;
     private javax.swing.JButton btnNextLT;
     private javax.swing.JButton btnPreDS;
