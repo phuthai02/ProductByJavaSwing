@@ -218,6 +218,11 @@ public class IF_NhanVien extends javax.swing.JInternalFrame {
             MsgBox.alert(this, "Vui lòng nhập mã nhân viên!");
             txtMa.requestFocus();
             return false;
+        }
+        if (new NhanVienDAO().selectById(txtMa.getText()) != null && tblNhanVien.getSelectedRow() < 0) {
+            MsgBox.alert(this, "Mã nhân viên đã tồn tại!");
+            txtMa.requestFocus();
+            return false;
         } else if (txtTen.getText().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập tên nhân viên!");
             txtTen.requestFocus();
