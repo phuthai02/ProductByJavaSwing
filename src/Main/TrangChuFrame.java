@@ -609,23 +609,43 @@ public class TrangChuFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem13ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        showNV();
+        if (!Auth.isManager()) {
+            MsgBox.alert(this, "Bạn không có quyền!");
+        } else {
+            showNV();
+        }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        showKH();
+        if (!Auth.isManager()) {
+            MsgBox.alert(this, "Bạn không có quyền!");
+        } else {
+            showKH();
+        }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        this.openSuKienKhuyenMai();
+        if (!Auth.isManager()) {
+            MsgBox.alert(this, "Bạn không có quyền!");
+        } else {
+            this.showSKKM();
+        }
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        showSP();
+        if (!Auth.isManager()) {
+            MsgBox.alert(this, "Bạn không có quyền!");
+        } else {
+            showSP();
+        }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        this.openQLThucPham();
+        if (!Auth.isManager()) {
+            MsgBox.alert(this, "Bạn không có quyền!");
+        } else {
+            this.showTP();
+        }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void mniBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniBanActionPerformed

@@ -9,6 +9,7 @@ import DAO.NhanVienDAO;
 import Entity.NhanVien;
 import Untils.MsgBox;
 import Untils.Xmail;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -61,11 +62,11 @@ public class ForgotPassFrame extends javax.swing.JFrame {
 
     void guiMa() {
         if (checkUser()) {
-            nv = new NhanVienDAO().selectById(txtTenDangNhap.getText());
+            nv = new NhanVienDAO().selectById(txtTenDangNhap.getText().trim());
             if (nv == null || nv.isTrangThai() == false) {
                 MsgBox.alert(this, "Tên đăng nhập không tồn tại!");
             } else {
-                sendCode(nv.getEmail());
+                sendCode(nv.getEmail().trim());
                 MsgBox.alert(this, "Đã gửi mã xác thực!");
                 txtMa.setEnabled(true);
                 btnGuiLai.setEnabled(true);
@@ -79,10 +80,10 @@ public class ForgotPassFrame extends javax.swing.JFrame {
 
     void xacThuc() {
         if (txtMa.getText().length() == 0) {
-            MsgBox.alert(this, "Vui lòng nhập tên đăng nhập!");
+            MsgBox.alert(this, "Vui lòng nhập mã xác nhận!");
             txtMa.requestFocus();
         } else {
-            if (Integer.parseInt(txtMa.getText()) != code) {
+            if (Integer.parseInt(txtMa.getText().trim()) != code) {
                 MsgBox.alert(this, "Mã xác thực không chính xác!");
             } else {
                 dispose();
@@ -271,7 +272,13 @@ public class ForgotPassFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_txtMaKeyReleased
 
     private void btnXNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXNActionPerformed
-        xacThuc();
+        if (txtTenDangNhap.getText().trim() == "") {
+            JOptionPane.showMessageDialog(this, "Vui lòng điền tên đăng nhập!");
+        } else if (txtMa.getText().trim() == "") {
+            JOptionPane.showMessageDialog(this, "Vui lòng điền mã xác thực!");
+        } else {
+            xacThuc();
+        }
     }//GEN-LAST:event_btnXNActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
@@ -293,7 +300,11 @@ public class ForgotPassFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTenDangNhapKeyReleased
 
     private void btnGuiMaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuiMaActionPerformed
-        guiMa();
+        if (txtTenDangNhap.getText().trim() == "") {
+            JOptionPane.showMessageDialog(this, "Vui lòng điền tên đăng nhập!");
+        } else {
+            guiMa();
+        }
     }//GEN-LAST:event_btnGuiMaActionPerformed
 
     private void btnGuiLaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuiLaiActionPerformed
@@ -338,9 +349,9 @@ public class ForgotPassFrame extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-          public void run() {
-              new ForgotPassFrame().setVisible(true);
-           }
+            public void run() {
+                new ForgotPassFrame().setVisible(true);
+            }
         });
     }
 
