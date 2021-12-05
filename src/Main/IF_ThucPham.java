@@ -62,16 +62,16 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
     }
 
     void fillcboLTP() {
-        DefaultComboBoxModel dcbmLT = (DefaultComboBoxModel) cboLT.getModel();
-        DefaultComboBoxModel dcbmTT = (DefaultComboBoxModel) cboLoaiThucPham.getModel();
-        // dcbmDS.removeAllElements();
-        dcbmLT.removeAllElements();
-        dcbmTT.removeAllElements();
-        for (LoaiThucPham x : lstLoaiThucPhams) {
-            //      dcbmDS.addElement(x.getTenLoaiTP());
-            dcbmLT.addElement(x.getTenLoaiTP());
-            dcbmTT.addElement(x.getTenLoaiTP());
-        }
+//        DefaultComboBoxModel dcbmLT = (DefaultComboBoxModel) cboLT.getModel();
+//        DefaultComboBoxModel dcbmTT = (DefaultComboBoxModel) cboLoaiThucPham.getModel();
+//        // dcbmDS.removeAllElements();
+//        dcbmLT.removeAllElements();
+//        dcbmTT.removeAllElements();
+//        for (LoaiThucPham x : lstLoaiThucPhams) {
+//            //      dcbmDS.addElement(x.getTenLoaiTP());
+//            dcbmLT.addElement(x.getTenLoaiTP());
+//            dcbmTT.addElement(x.getTenLoaiTP());
+//        }
     }
 
     void fillToDanhSach() {

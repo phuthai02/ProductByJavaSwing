@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class KhachHangDao implements SystemDAO<KhachHang, Integer> {
 
-    String SQL_Insert = "insert into KhachHang values(?,?,?,?,?,?,?,1)";
+    String SQL_Insert = "insert into KhachHang values(?,?,?,?,?,?,1)";
     String SQL_Update = "update KhachHang set TenKH=?, SDT=?, Email=?, NgaySinh=?,GioiTinh=?,TrangThai=1 WHERE MaKH =?";
     String SQL_Delete = "update KhachHang set TrangThai=0 where MaKH=?";
     String SQL_SelectPaging = "SELECT * FROM dbo.KhachHang WHERE TrangThai = ?  AND Manv like ? ORDER BY MaKH OFFSET ?*15 ROWS  FETCH NEXT 15 ROWS ONLY";
@@ -29,7 +29,6 @@ public class KhachHangDao implements SystemDAO<KhachHang, Integer> {
     @Override
     public int insert(KhachHang entity) {
         return Xjdbc.update(SQL_Insert,
-                entity.getMaKH(),
                 entity.getTenKH(),
                 entity.getSDT(),
                 entity.getEmail(),

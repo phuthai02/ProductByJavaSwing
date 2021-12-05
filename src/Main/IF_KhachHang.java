@@ -47,6 +47,7 @@ public class IF_KhachHang extends javax.swing.JInternalFrame {
         fillTable();
         fillTableLT();
         StatusButton();
+        txtMa.setEditable(false);
     }
 
     void fillComboboxNhanVien() {
@@ -65,12 +66,12 @@ public class IF_KhachHang extends javax.swing.JInternalFrame {
 
     KhachHang getForm() {
         KhachHang kh = new KhachHang();
-        kh.setTenKH(txtHoTen.getText());
+        kh.setTenKH(txtHoTen.getText().trim());
         kh.setNgaysinh(txtNgaySinh.getDate());
-        kh.setSDT(txtSDT.getText());
+        kh.setSDT(txtSDT.getText().trim());
         kh.setGioiTinh(rdoNam.isSelected());
-        kh.setMaNV(Auth.user.getMaNV());
-        kh.setEmail(txtEmail.getText());
+        kh.setMaNV(Auth.user.getMaNV().trim());
+        kh.setEmail(txtEmail.getText().trim());
         kh.setMaKH(Integer.parseInt(txtMa.getText()));
         return kh;
     }
@@ -174,7 +175,7 @@ public class IF_KhachHang extends javax.swing.JInternalFrame {
     void delete() {
         if (MsgBox.confirm(this, "Bạn có chắc chắn muốn xoá Khách hàng này?")) {
             try {
-                daoKh.delete(Integer.parseInt(txtMa.getText()));
+                daoKh.delete(Integer.parseInt(txtMa.getText().trim()));
                 TrangKH = 0;
                 TrangLT = 0;
                 fillTable();
@@ -227,8 +228,8 @@ public class IF_KhachHang extends javax.swing.JInternalFrame {
         NhanVien nv = (NhanVien) cbbManvLT.getSelectedItem();
         boolean firstDS = TrangKH == 0;
         boolean firstLT = TrangLT == 0;
-        boolean lastDS = daoKh.selectPaging(1, TrangKH + 1, nv.getMaNV()).isEmpty();
-        boolean lastLT = daoKh.selectPaging(1, TrangKH + 1, nv.getMaNV()).isEmpty();
+        boolean lastDS = daoKh.selectPaging(1, TrangKH + 1, nv.getMaNV().trim()).isEmpty();
+        boolean lastLT = daoKh.selectPaging(1, TrangKH + 1, nv.getMaNV().trim()).isEmpty();
         btnlast.setEnabled(!firstDS);
         btnLastLT.setEnabled(!firstLT);
         btnNext.setEnabled(!lastDS);
@@ -246,8 +247,8 @@ public class IF_KhachHang extends javax.swing.JInternalFrame {
     void upDateStatusTXT() {
         boolean firstDS = TrangKH == 0;
         boolean firstLT = TrangLT == 0;
-        boolean lastDS = daoKh.selectPaging(1, TrangKH + 1, txtTimKiem2.getText()).isEmpty();
-        boolean lastLT = daoKh.selectPaging(1, TrangKH + 1, txtTimKiemLT.getText()).isEmpty();
+        boolean lastDS = daoKh.selectPaging(1, TrangKH + 1, txtTimKiem2.getText().trim()).isEmpty();
+        boolean lastLT = daoKh.selectPaging(1, TrangKH + 1, txtTimKiemLT.getText().trim()).isEmpty();
         btnlast.setEnabled(!firstDS);
         btnLastLT.setEnabled(!firstLT);
         btnNext.setEnabled(!lastDS);
@@ -259,7 +260,7 @@ public class IF_KhachHang extends javax.swing.JInternalFrame {
         DefaultTableModel dtm = (DefaultTableModel) tblKhachHang.getModel();
         dtm.setRowCount(0);
         try {
-            String keyword = txtTimKiem2.getText();
+            String keyword = txtTimKiem2.getText().trim();
             List<KhachHang> listKh = daoKh.selectByKeyWord(keyword, 1, TrangKH);
             lblTrangKh.setText(TrangKH + 1 + "");
             upDateStatusTXT();
@@ -287,7 +288,7 @@ public class IF_KhachHang extends javax.swing.JInternalFrame {
         DefaultTableModel dtm = (DefaultTableModel) tblKhachHangLT.getModel();
         dtm.setRowCount(0);
         try {
-            String keyword = txtTimKiemLT.getText();
+            String keyword = txtTimKiemLT.getText().trim();
             List<KhachHang> listKh = daoKh.selectByKeyWord(keyword, 0, TrangLT);
             lblTrangKhachHangLT.setText(TrangLT + 1 + "");
             upDateStatusTXT();
@@ -327,26 +328,45 @@ public class IF_KhachHang extends javax.swing.JInternalFrame {
     }
 
     boolean checkValidate() {
+        String pEmail = "^[A-Za-z0-9]+[A-Za-z0-9]*+@fpt.edu.vn$";
         String pSDT = "^0[0-9]{9}$";
-        if (txtMa.getText().length() == 0) {
-            MsgBox.alert(this, "Vui lòng nhập mã khách hàng!");
-            txtMa.requestFocus();
-            return false;
-        } else if (txtHoTen.getText().length() == 0) {
+        String s = txtHoTen.getText().replaceAll("[^0-9]", "");
+        String pKiTu = txtHoTen.getText().replaceAll("[^!@#$%&*()_+=|<>?{}\\\\[\\\\]~-]", "");
+        if (txtHoTen.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập tên khách hàng!");
+            txtHoTen.requestFocus();
+            return false;
+        } else if ((txtHoTen.getText().trim().matches(s))) {
+            MsgBox.alert(this, "Tên khách hàng phải chứa kí tự chữ");
+            txtHoTen.requestFocus();
+            return false;
+        } else if ((txtHoTen.getText().trim().matches(pKiTu))) {
+            MsgBox.alert(this, "Tên khách hàng không được chứa kí tự đặc biệt");
+            txtHoTen.requestFocus();
+            return false;
+        } else if (!(txtHoTen.getText().trim().length() >= 6 && txtHoTen.getText().trim().length() <= 50)) {
+            MsgBox.alert(this, "Họ tên khách hàng chứa từ 6 đến 50 kí tự");
             txtHoTen.requestFocus();
             return false;
         } else if (txtNgaySinh.getDate() == null) {
             MsgBox.alert(this, "Vui lòng nhập ngày sinh khách hàng!");;
             return false;
-        } else if (txtSDT.getText().length() == 0) {
+        } else if (txtSDT.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập số điện thoại khách hàng!");
             txtSDT.requestFocus();
             return false;
-        } else if (!txtSDT.getText().matches(pSDT)) {
+        } else if (!txtSDT.getText().trim().matches(pSDT)) {
             MsgBox.alert(this, "SDT không chính xác!");
             txtSDT.requestFocus();
             return false;
+        } else if (txtEmail.getText().trim().length() > 0) {
+            if (!txtEmail.getText().trim().matches(pEmail)) {
+                MsgBox.alert(this, "Email phải có định dạng A@fpt.edu.vn!");
+                txtSDT.requestFocus();
+                return false;
+            }else{
+                return true;
+            }
         }
         return true;
     }
@@ -1061,10 +1081,12 @@ public class IF_KhachHang extends javax.swing.JInternalFrame {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         this.update();
+        tabs.setSelectedIndex(0);
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         this.delete();
+        tabs.setSelectedIndex(2);
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
