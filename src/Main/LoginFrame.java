@@ -28,37 +28,36 @@ public class LoginFrame extends javax.swing.JFrame {
         initComponents();
         init();
     }
-    
+
     void init() {
         new ChaoDiaLog(this, true).setVisible(true);
         setLocationRelativeTo(null);
         setResizable(false);
-        
-        
+
         hidePass();
         matKhauFocusLost();
     }
-    
+
     void showPass() {
         lblShow.setIcon(new ImageIcon("src/icon/show.png"));
         txtMatKhau.setEchoChar('\u0000');
     }
-    
+
     void hidePass() {
         lblShow.setIcon(new ImageIcon("src/icon/hide.png"));
         if (!txtMatKhau.getText().equals("Mật khẩu")) {
             txtMatKhau.setEchoChar('*');
         }
     }
-    
+
     void addPlaceHolderStyle(JTextField textField) {
         textField.setForeground(new Color(128, 128, 128));
     }
-    
+
     void removePlaceHolderStyle(JTextField textField) {
         textField.setForeground(Color.BLACK);
     }
-    
+
     void tenDangNhapFocusGained() {
         if (txtTenDangNhap.getText().equals("Tên đăng nhập")) {
             txtTenDangNhap.setText(null);
@@ -66,14 +65,14 @@ public class LoginFrame extends javax.swing.JFrame {
             removePlaceHolderStyle(txtTenDangNhap);
         }
     }
-    
+
     void tenDangNhapFocusLost() {
         if (txtTenDangNhap.getText().length() == 0) {
             addPlaceHolderStyle(txtTenDangNhap);
             txtTenDangNhap.setText("Tên đăng nhập");
         }
     }
-    
+
     void matKhauFocusGained() {
         if (txtMatKhau.getText().equals("Mật khẩu")) {
             txtMatKhau.setText(null);
@@ -82,7 +81,7 @@ public class LoginFrame extends javax.swing.JFrame {
             removePlaceHolderStyle(txtMatKhau);
         }
     }
-    
+
     void matKhauFocusLost() {
         if (txtMatKhau.getText().length() == 0) {
             addPlaceHolderStyle(txtMatKhau);
@@ -90,7 +89,7 @@ public class LoginFrame extends javax.swing.JFrame {
             txtMatKhau.setEchoChar('\u0000');
         }
     }
-    
+
     boolean checkValidate() {
         if (txtTenDangNhap.getText().trim().equals("Tên đăng nhập")) {
             MsgBox.alert(this, "Vui lòng nhập tên đăng nhập!");
@@ -103,7 +102,7 @@ public class LoginFrame extends javax.swing.JFrame {
         }
         return true;
     }
-    
+
     void dangNhap() {
         if (checkValidate()) {
             NhanVien nhanVien = new NhanVienDAO().selectById(txtTenDangNhap.getText().trim());
@@ -118,7 +117,7 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         }
     }
-    
+
     void openWeb(String link) {
         try {
             Runtime run = Runtime.getRuntime();
@@ -368,7 +367,13 @@ public class LoginFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
-        dangNhap();
+        if (txtTenDangNhap.getText().trim() == "") {
+            MsgBox.alert(this, "VuNv01i lòng nhập tên đăng nhập!");
+        } else if (txtMatKhau.getText().trim() == "") {
+            MsgBox.alert(this, "Vui lòng nhập mật khẩu!");
+        } else {
+            dangNhap();
+        }
     }//GEN-LAST:event_btnOKActionPerformed
 
     private void lblBackgroundMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblBackgroundMouseMoved
