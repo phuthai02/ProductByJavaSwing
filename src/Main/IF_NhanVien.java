@@ -221,7 +221,7 @@ public class IF_NhanVien extends javax.swing.JInternalFrame {
             MsgBox.alert(this, "Vui lòng nhập mã nhân viên!");
             txtMa.requestFocus();
             return false;
-        } else if (txtMa.getText().trim().length() > 10) {
+        }  else if (txtMa.getText().trim().length() > 10) {
             MsgBox.alert(this, "Mã nhân viên chứa tối đa 10 kí tự!");
             txtMa.requestFocus();
             return false;

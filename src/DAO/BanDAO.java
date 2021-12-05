@@ -24,8 +24,9 @@ public class BanDAO implements SystemDAO<Ban, String> {
     String SQL_Delete = "update Ban set TrangThai=0 where MaBan=?";
     String SQL_SelectPaging = "SELECT * FROM dbo.Ban WHERE TrangThai=? AND ViTri LIKE ? AND (TenBan LIKE ? OR MaBan LIKE ?) AND SanSang LIKE ? ORDER BY MaBan OFFSET 11*? ROWS FETCH NEXT 11 ROWS ONLY";
     String SQL_SelectID = "select * from Ban where MaBan=?";
-    String SQL_SelectTang = "SELECT DISTINCT ViTri FROM dbo.Ban";
+    String SQL_SelectTang = "SELECT DISTINCT ViTri FROM dbo.Ban where TrangThai = 1";
     String SQL_Count = "SELECT COUNT(*) FROM dbo.BangCho WHERE MaBan = ?";
+    String SQL_SelectALL = "SELECT * FROM BAN WHERE ViTri LIKE ? and TrangThai = ?";
 
     @Override
     public int insert(Ban entity) {
@@ -63,6 +64,10 @@ public class BanDAO implements SystemDAO<Ban, String> {
         return null;
     }
 
+    public List<Ban> selectALL(String tang, String stt) {
+        return selectBySql(SQL_SelectALL, "%" + tang + "%", stt);
+    }
+
     @Override
     public List<Ban> selectByKeyWord(String keyWord, int Status) {
         return null;
@@ -70,7 +75,7 @@ public class BanDAO implements SystemDAO<Ban, String> {
 
     @Override
     public Ban selectById(String id) {
-        return selectBySql(SQL_SelectID, id).get(0);
+        return selectBySql(SQL_SelectID, id).isEmpty() ? null : selectBySql(SQL_SelectID, id).get(0);
     }
 
     public List<Ban> selectPagingFull(int Status, String viTri, String keyWord, String SanSang, int pageIndex) {
@@ -94,7 +99,7 @@ public class BanDAO implements SystemDAO<Ban, String> {
     public int selectCount(String maBan) {
         try {
             ResultSet rs = Xjdbc.query(SQL_Count, maBan);
-            while (rs.next()) {                
+            while (rs.next()) {
                 return rs.getInt(1);
             }
         } catch (Exception ex) {

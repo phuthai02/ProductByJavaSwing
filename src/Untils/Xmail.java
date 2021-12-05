@@ -230,4 +230,51 @@ public class Xmail {
             e.printStackTrace();
         }
     }
+
+    public static void sendLichDat(String mailTo, String name, String time, String ban) {
+        Properties props = new Properties();
+
+        props.put("mail.smtp.user", "username");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "25");
+        props.put("mail.debug", "true");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.EnableSSL.enable", "true");
+
+        props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.setProperty("mail.smtp.socketFactory.fallback", "false");
+        props.setProperty("mail.smtp.port", "465");
+        props.setProperty("mail.smtp.socketFactory.port", "465");
+        //----------------------------
+        String accountName = "thaidpph17321@fpt.edu.vn";
+        String accountPassword = "thaiad1121";
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            @Override
+            protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
+                return new javax.mail.PasswordAuthentication(accountName, accountPassword);
+            }
+        });
+        //----------------------------
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("thaidpph17321@fpt.edu.vn"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(mailTo));
+            message.setSubject("LỜI NHẮC!");
+            message.setText("Chào " + name + "!"
+                    + "\n"
+                    + "Lời đầu tiên, nhà hàng xin gửi lời cảm ơn chân thành và sâu sắc nhất đến quý khách hàng đã tin tưởng hợp tác và sử dụng dịch vụ của chúng tôi.\n"
+                    + "\n"
+                    + "Và xin kính nhắc quý khách hàng bỏ lỡ lịch hẹn vào lúc: " + time + " tại bàn " + ban + " của nhà hàng chúng tôi.\n"
+                    + "\n"
+                    + "Xin chúc quý khách hàng và gia đình có nhiều sức khỏe, may mắn và thành công\n"
+                    + "\n"
+                    + "Trân trọng!");
+
+            Transport.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
 }

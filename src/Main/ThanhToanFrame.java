@@ -62,12 +62,27 @@ public class ThanhToanFrame extends javax.swing.JFrame {
 
         setTextToLB();
         thanhToan();
-        DefaultForm();
+        DefaultForm(true);
     }
 
-    void DefaultForm() {
-        btnHoanThanh.setEnabled(false);
-        btnInHoaDon.setEnabled(false);
+    void DefaultForm(boolean done) {
+        btnHoanThanh.setEnabled(!done);
+        btnInHoaDon.setEnabled(!done);
+        txtSDT.setEnabled(done);
+        txtEmail.setEnabled(done);
+        txtTen.setEnabled(done);
+        txtNgaySinh.setEnabled(done);
+    }
+
+    void huyChon() {
+        DefaultForm(true);
+        txtTen.setText("");
+        txtEmail.setText("");
+        txtNgaySinh.setDate(null);
+        rdoNam.setSelected(true);
+        rdoNu.setSelected(false);
+        txtSDT.setText("");
+
     }
 
     void traLai() {
@@ -141,6 +156,9 @@ public class ThanhToanFrame extends javax.swing.JFrame {
                 txtSDT.setEnabled(false);
                 txtEmail.setEnabled(false);
                 txtTen.setEnabled(false);
+                txtNgaySinh.setEnabled(false);
+                rdoNam.setEnabled(false);
+                rdoNu.setEnabled(false);
             } else {
                 btnHoanThanh.setEnabled(false);
                 btnInHoaDon.setEnabled(false);
@@ -227,6 +245,7 @@ public class ThanhToanFrame extends javax.swing.JFrame {
         btnHuy = new javax.swing.JButton();
         btnThemMoi = new javax.swing.JButton();
         txtNgaySinh = new com.toedter.calendar.JDateChooser();
+        btnHuyChon = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -402,6 +421,13 @@ public class ThanhToanFrame extends javax.swing.JFrame {
 
         txtNgaySinh.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
+        btnHuyChon.setText("Hủy chọn");
+        btnHuyChon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuyChonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -462,7 +488,8 @@ public class ThanhToanFrame extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnKT)
-                            .addComponent(btnThemMoi)))
+                            .addComponent(btnThemMoi)
+                            .addComponent(btnHuyChon)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -496,7 +523,7 @@ public class ThanhToanFrame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnKT, btnThemMoi});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnHuyChon, btnKT, btnThemMoi});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -521,7 +548,8 @@ public class ThanhToanFrame extends javax.swing.JFrame {
                     .addComponent(jLabel9)
                     .addComponent(lblGioVao)
                     .addComponent(jLabel8)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnHuyChon))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -536,7 +564,7 @@ public class ThanhToanFrame extends javax.swing.JFrame {
                     .addComponent(jLabel14)
                     .addComponent(rdoNam)
                     .addComponent(rdoNu))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -662,6 +690,10 @@ public class ThanhToanFrame extends javax.swing.JFrame {
         hoanThanh();
     }//GEN-LAST:event_btnHoanThanhActionPerformed
 
+    private void btnHuyChonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyChonActionPerformed
+        huyChon();
+    }//GEN-LAST:event_btnHuyChonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -700,6 +732,7 @@ public class ThanhToanFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnHoanThanh;
     private javax.swing.JButton btnHuy;
+    private javax.swing.JButton btnHuyChon;
     private javax.swing.JButton btnInHoaDon;
     private javax.swing.JButton btnKT;
     private javax.swing.JButton btnThemMoi;
