@@ -24,6 +24,7 @@ import Untils.MsgBox;
 import Untils.Xcurrency;
 import Untils.Xdate;
 import Untils.Xmail;
+import java.awt.Color;
 import java.util.Date;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -52,6 +53,7 @@ public class ThanhToanFrame extends javax.swing.JFrame {
         setResizable(false);
         setDefaultCloseOperation(2);
         setTitle("THANH TOÁN");
+        jLabel3.setBackground(new Color(Integer.parseInt(Auth.user.getMauNen(), 16)));
         prepareGUI();
     }
     
@@ -440,7 +442,6 @@ public class ThanhToanFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -529,6 +530,7 @@ public class ThanhToanFrame extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnHuyChon, btnKT, btnThemMoi});

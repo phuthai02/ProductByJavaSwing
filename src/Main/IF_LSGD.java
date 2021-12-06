@@ -13,9 +13,11 @@ import DAO.SKKMDAO;
 import DAO.SanPhamDAO;
 import Entity.HoaDon;
 import Entity.HoaDonChiTiet;
+import Untils.Auth;
 import Untils.MsgBox;
 import Untils.Xcurrency;
 import Untils.Xdate;
+import java.awt.Color;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -413,6 +415,7 @@ public class IF_LSGD extends javax.swing.JInternalFrame {
         setResizable(true);
         setTitle("LỊCH SỬ GIAO DỊCH");
         setDefaultCloseOperation(2);
+        jPanel3.setBackground(new Color(Integer.parseInt(Auth.user.getMauNen(), 16)));
         daoSP = new SanPhamDAO();
         daoKH = new KhachHangDao();
         daoHD = new HoaDonDAO();

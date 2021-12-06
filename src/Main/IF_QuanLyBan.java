@@ -1809,6 +1809,7 @@ public class IF_QuanLyBan extends javax.swing.JInternalFrame {
         setResizable(false);
         setDefaultCloseOperation(2);
         setTitle("QUẢN LÝ BÀN");
+        jPanel4.setBackground(new Color(Integer.parseInt(Auth.user.getMauNen(), 16)));
         daoBan = new BanDAO();
         prepareGUI();
 
