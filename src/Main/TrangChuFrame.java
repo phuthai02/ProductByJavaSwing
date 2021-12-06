@@ -5,9 +5,18 @@
  */
 package Main;
 
+import DAO.BanChoDAO;
+import DAO.BanDAO;
+import DAO.BanDatDAO;
+import DAO.KhachHangDao;
+import DAO.SanPhamDAO;
+import Entity.BanCho;
+import Entity.BanDat;
 import Untils.Auth;
 import Untils.MsgBox;
+import Untils.Xdate;
 import Untils.Ximage;
+import Untils.Xmail;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -47,6 +56,28 @@ public class TrangChuFrame extends javax.swing.JFrame {
 
             }
         }
+    }
+
+    void startDatLich() {
+        t = new Timer(60000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                String gioDat = Xdate.toString(new Date(), "hh:mm - EE, dd/MM/yyyy");
+                int truoc = (Integer.parseInt(gioDat.substring(0, 2)) + 1);
+                String truocGioDat = (truoc < 10 ? "0" + truoc : truoc) + gioDat.substring(2);
+                BanDat bdt = new BanDatDAO().selectByGioDat(truocGioDat);
+                if (bdt != null) {
+                    Xmail.sendLichDat(new KhachHangDao().selectById(bdt.getMaKH()).getEmail(), new KhachHangDao().selectById(bdt.getMaKH()).getTenKH(), truocGioDat, new BanDAO().selectById(bdt.getMaBan()).getTenBan());
+                }
+                BanDat bd = new BanDatDAO().selectByGioDat(gioDat);
+                if (bd != null) {
+                    BanCho bc = new BanCho(bd.getMaBan(), "PDB", 1, new SanPhamDAO().selectById("PDB").getDonGia(), bd.getGioDat(), bd.getMaNV(), true);
+                    new BanChoDAO().insert(bc);
+                    showBan();
+                }
+            }
+        });
+        t.start();
     }
 
     void showBan() {
@@ -752,6 +783,7 @@ public class TrangChuFrame extends javax.swing.JFrame {
         pnBG1.setBackground(new Color(color));
         pnBG2.setBackground(new Color(color));
         startDongHo();
+        startDatLich();
 
     }
     Timer t;

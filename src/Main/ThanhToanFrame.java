@@ -40,31 +40,29 @@ public class ThanhToanFrame extends javax.swing.JFrame {
     String maBan;
     DefaultTableModel modelSP;
     List<SuKienKhuyenMai> lstSKKM;
-
+    
     public ThanhToanFrame(String Ban) {
         initComponents();
         maBan = Ban;
         init();
     }
-
+    
     void init() {
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(2);
         setTitle("THANH TOÁN");
-
         prepareGUI();
     }
-
+    
     void prepareGUI() {
         setTableSP();
         fillCboSK();
-
         setTextToLB();
-        thanhToan();
         DefaultForm(true);
+        thanhToan();
     }
-
+    
     void DefaultForm(boolean done) {
         btnHoanThanh.setEnabled(!done);
         btnInHoaDon.setEnabled(!done);
@@ -72,19 +70,22 @@ public class ThanhToanFrame extends javax.swing.JFrame {
         txtEmail.setEnabled(done);
         txtTen.setEnabled(done);
         txtNgaySinh.setEnabled(done);
+        btnHuyChon.setEnabled(!done);
     }
-
+    
     void huyChon() {
         DefaultForm(true);
         txtTen.setText("");
         txtEmail.setText("");
         txtNgaySinh.setDate(null);
         rdoNam.setSelected(true);
-        rdoNu.setSelected(false);
         txtSDT.setText("");
-
+        rdoNam.setEnabled(true);
+        rdoNu.setEnabled(true);
+        btnKT.setEnabled(true);
+        btnThemMoi.setEnabled(true);
     }
-
+    
     void traLai() {
         int tongCong = Xcurrency.toInt(lblTongcong.getText());
         int traLai = Integer.parseInt(txtKhachDua.getText()) - tongCong;
@@ -94,7 +95,7 @@ public class ThanhToanFrame extends javax.swing.JFrame {
             lblTraLai.setText("Còn thiếu " + Xcurrency.toCurrency(Math.abs(traLai)));
         }
     }
-
+    
     void setTextToLB() {
         lblBan.setText(new BanDAO().selectById(maBan).getTenBan());
         lblOrder.setText(new NhanVienDAO().selectById(new BanChoDAO().getNV(maBan)).getTenNV());
@@ -102,7 +103,7 @@ public class ThanhToanFrame extends javax.swing.JFrame {
         lblGioRa.setText(Xdate.toString(new Date(), "hh:mm:ss - EE, dd/MM/yyyy"));
         lblThanhToan.setText(Auth.user.getTenNV());
     }
-
+    
     void thanhToan() {
         lblCongtien.setText(getCongTien());
         lblGiam.setText(getGiam());
@@ -112,18 +113,22 @@ public class ThanhToanFrame extends javax.swing.JFrame {
             traLai();
         }
     }
-
+    
     String getTongCong() {
         int tongCong = Xcurrency.toInt(lblCongtien.getText()) - Xcurrency.toInt(lblGiam.getText());
         return Xcurrency.toCurrency(tongCong);
     }
-
+    
     String getGiam() {
-        int tienGiam = Xcurrency.toInt(lblCongtien.getText());
-        double giaTri = lstSKKM.get(cboSK.getSelectedIndex()).getGiaTriKM();
-        return Xcurrency.toCurrency((int) Math.round(tienGiam * giaTri / 100));
+        if (cboSK.getItemCount() > 0) {
+            int tienGiam = Xcurrency.toInt(lblCongtien.getText());
+            double giaTri = lstSKKM.get(cboSK.getSelectedIndex()).getGiaTriKM();
+            return Xcurrency.toCurrency((int) Math.round(tienGiam * giaTri / 100));
+        } else {
+            return "0 đ";
+        }
     }
-
+    
     String getCongTien() {
         int tongTien = 0;
         for (int i = 0; i < tblSP.getRowCount(); i++) {
@@ -131,7 +136,7 @@ public class ThanhToanFrame extends javax.swing.JFrame {
         }
         return Xcurrency.toCurrency(tongTien);
     }
-
+    
     void fillCboSK() {
         cboSK.removeAllItems();
         lstSKKM = new SKKMDAO().selectSKDDR(1, Xdate.toString(new Date(), "yyyy-MM-dd"));
@@ -139,7 +144,7 @@ public class ThanhToanFrame extends javax.swing.JFrame {
             cboSK.addItem(sk.getTenSKKM());
         }
     }
-
+    
     void kiemTra() {
         if (txtSDT.getText().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập số điện thoại!");
@@ -159,6 +164,9 @@ public class ThanhToanFrame extends javax.swing.JFrame {
                 txtNgaySinh.setEnabled(false);
                 rdoNam.setEnabled(false);
                 rdoNu.setEnabled(false);
+                btnKT.setEnabled(false);
+                btnThemMoi.setEnabled(false);
+                btnHuyChon.setEnabled(true);
             } else {
                 btnHoanThanh.setEnabled(false);
                 btnInHoaDon.setEnabled(false);
@@ -166,7 +174,7 @@ public class ThanhToanFrame extends javax.swing.JFrame {
             }
         }
     }
-
+    
     void setTableSP() {
         String h[] = {"Mã sản phẩm", "Tên sản phẩm", "Số lượng", "ĐVT", "Đơn giá", "Tổng tiền"};
         modelSP = new DefaultTableModel(h, 0) {
@@ -178,14 +186,14 @@ public class ThanhToanFrame extends javax.swing.JFrame {
         tblSP.setModel(modelSP);
         fillTableDS();
     }
-
+    
     void fillTableDS() {
         modelSP.setRowCount(0);
         List<BanCho> lst = new BanChoDAO().selectByBan(maBan);
         for (BanCho banCho : lst) {
             SanPham sp = new SanPhamDAO().selectById(banCho.getMaSP());
             modelSP.addRow(new Object[]{sp.getMaSP(), sp.getTenSanPham(), banCho.getSoLuong(), sp.getDonViTinh(), Xcurrency.toCurrency(sp.getDonGia()), Xcurrency.toCurrency(sp.getDonGia() * banCho.getSoLuong())});
-
+            
         }
     }
 
@@ -613,7 +621,7 @@ public class ThanhToanFrame extends javax.swing.JFrame {
             }
         } else {
             lblTraLai.setText("0 đ");
-
+            
         }
     }//GEN-LAST:event_txtKhachDuaKeyReleased
     void themMoi() {
@@ -623,7 +631,7 @@ public class ThanhToanFrame extends javax.swing.JFrame {
             MsgBox.alert(this, "Thêm mới thành công");
         }
     }
-
+    
     void hoanThanh() {
         HoaDon hd = new HoaDon(new KhachHangDao().selectSDT(txtSDT.getText()).getMaKH(), Xdate.toString(new Date(), "yyyy-MM-dd"), "", Auth.user.getMaNV(), lstSKKM.get(cboSK.getSelectedIndex()).getMaSKKM(), maBan, true);
         new HoaDonDAO().insert(hd);
@@ -638,7 +646,7 @@ public class ThanhToanFrame extends javax.swing.JFrame {
         new QuanLyBanFrame().setVisible(true);
         dispose();
     }
-
+    
     boolean checkValidate() {
         String pEmail = "^.+@fpt.edu.vn$";
         String pSDT = "^0[0-9]{9}$";
