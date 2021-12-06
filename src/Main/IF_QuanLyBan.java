@@ -22,13 +22,9 @@ import Untils.Auth;
 import Untils.MsgBox;
 import Untils.Xcurrency;
 import Untils.Xdate;
-import Untils.Xmail;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Date;
-
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultComboBoxModel;
@@ -40,10 +36,10 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author doanp
  */
-public class QuanLyBanFrame extends javax.swing.JFrame {
+public class IF_QuanLyBan extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form QuanLyBanFrame
+     * Creates new form IF_QuanLyBan
      */
     DefaultComboBoxModel modelCbo;
     BanDAO daoBan;
@@ -60,10 +56,9 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
     List<BanDat> lstDB;
     boolean clickdatBan = false;
 
-    public QuanLyBanFrame() {
+    public IF_QuanLyBan() {
         initComponents();
         init();
-        Auth.user = new NhanVienDAO().selectById("NV01");
     }
 
     /**
@@ -77,7 +72,6 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         buttonGroup2 = new javax.swing.ButtonGroup();
-        buttonGroup3 = new javax.swing.ButtonGroup();
         tabs = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -180,7 +174,7 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
         btnSuaBan = new javax.swing.JButton();
         btnXoaBan = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setClosable(true);
 
         jPanel4.setBackground(new java.awt.Color(255, 217, 102));
 
@@ -203,7 +197,7 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
 
         jLabel3.setText("Trạng thái:");
 
-        buttonGroup1.add(rdoALL);
+        buttonGroup2.add(rdoALL);
         rdoALL.setSelected(true);
         rdoALL.setText("Tất cả");
         rdoALL.setOpaque(false);
@@ -213,7 +207,7 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
             }
         });
 
-        buttonGroup1.add(rdoTrong);
+        buttonGroup2.add(rdoTrong);
         rdoTrong.setText("Còn trống");
         rdoTrong.setOpaque(false);
         rdoTrong.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -222,7 +216,7 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
             }
         });
 
-        buttonGroup1.add(rdoCoKhach);
+        buttonGroup2.add(rdoCoKhach);
         rdoCoKhach.setText("Có khách");
         rdoCoKhach.setOpaque(false);
         rdoCoKhach.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -497,14 +491,14 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnlBan, javax.swing.GroupLayout.DEFAULT_SIZE, 875, Short.MAX_VALUE)
+                .addComponent(pnlBan, javax.swing.GroupLayout.DEFAULT_SIZE, 900, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(pnlBan, javax.swing.GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE)
+                .addComponent(pnlBan, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -643,7 +637,7 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
                         .addComponent(btnSoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnHoanThanh)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 152, Short.MAX_VALUE)
                         .addComponent(btnChuyenBan)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnLuuLai)
@@ -667,7 +661,7 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
                     .addComponent(lblMaBan))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -680,8 +674,6 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
                     .addComponent(btnChuyenBan))
                 .addGap(14, 14, 14))
         );
-
-        jPanel2Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cboLoai, txtTimKiemTT});
 
         tabs.addTab("Thông tin bàn", jPanel2);
 
@@ -741,11 +733,12 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
         jLabel15.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel15.setText("Giới tính:");
 
-        buttonGroup3.add(rdoNam);
+        buttonGroup1.add(rdoNam);
         rdoNam.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        rdoNam.setSelected(true);
         rdoNam.setText("Nam");
 
-        buttonGroup3.add(rdoNu);
+        buttonGroup1.add(rdoNu);
         rdoNu.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         rdoNu.setText("Nữ");
 
@@ -902,7 +895,7 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                 .addComponent(jLabel19))
                                             .addComponent(txtNgaydat, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 606, Short.MAX_VALUE))
+                                    .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 631, Short.MAX_VALUE))
                                 .addContainerGap())
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(btnDatLich)
@@ -916,9 +909,6 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
                         .addComponent(jLabel7)
                         .addGap(226, 226, 226))))
         );
-
-        jPanel3Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnHuyChon, btnKT, btnThemMoi});
-
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
@@ -934,7 +924,7 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -1107,7 +1097,7 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(cboTangQL, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel22))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 207, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 232, Short.MAX_VALUE)
                         .addComponent(jLabel23)
                         .addGap(166, 166, 166))))
         );
@@ -1126,7 +1116,7 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel23)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 29, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 18, Short.MAX_VALUE)))
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
@@ -1157,141 +1147,69 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(tabs, javax.swing.GroupLayout.DEFAULT_SIZE, 1118, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabs, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(tabs)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSoLuongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSoLuongActionPerformed
-        if (tblSP.getSelectedRow() >= 0) {
-            chinhSua();
-        } else {
-            MsgBox.alert(this, "Vui lòng chọn sản phẩm!");
+    private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
+        pageIndexTB = 0;
+        fillTable();
+    }//GEN-LAST:event_txtTimKiemKeyReleased
+
+    private void cboTangItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboTangItemStateChanged
+        if (cboTang.getItemCount() > 1) {
+            pageIndexTB = 0;
+            fillTable();
         }
-    }//GEN-LAST:event_btnSoLuongActionPerformed
+    }//GEN-LAST:event_cboTangItemStateChanged
 
-    private void btnHuyMonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyMonActionPerformed
-        if (tblSP.getSelectedRow() >= 0) {
-            huyMon();
-        } else {
-            MsgBox.alert(this, "Vui lòng chọn sản phẩm!");
-        }
-    }//GEN-LAST:event_btnHuyMonActionPerformed
+    private void rdoALLMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdoALLMouseClicked
+        pageIndexTB = 0;
+        fillTable();
+    }//GEN-LAST:event_rdoALLMouseClicked
 
-    private void btnLuuLaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuLaiActionPerformed
-        save();
-    }//GEN-LAST:event_btnLuuLaiActionPerformed
+    private void rdoTrongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdoTrongMouseClicked
+        pageIndexTB = 0;
+        fillTable();
+    }//GEN-LAST:event_rdoTrongMouseClicked
 
-    private void btnThemVaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVaoActionPerformed
-        if (tblDS.getSelectedRow() >= 0) {
-            themVao();
-            updateStatus();
-        } else {
-            MsgBox.alert(this, "Vui lòng chọn sản phẩm!");
-        }
-    }//GEN-LAST:event_btnThemVaoActionPerformed
+    private void rdoCoKhachMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdoCoKhachMouseClicked
+        pageIndexTB = 0;
+        fillTable();
+    }//GEN-LAST:event_rdoCoKhachMouseClicked
 
-    private void txtTimKiemTTKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemTTKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTimKiemTTKeyTyped
+    private void btnPreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreActionPerformed
+        pageIndexTB--;
+        fillTable();
+    }//GEN-LAST:event_btnPreActionPerformed
 
-    private void txtTimKiemTTKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemTTKeyReleased
-        fillTableDS();
-    }//GEN-LAST:event_txtTimKiemTTKeyReleased
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        pageIndexTB++;
+        fillTable();
+    }//GEN-LAST:event_btnNextActionPerformed
 
-    private void cboLoaiItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboLoaiItemStateChanged
-        if (cboLoai.getItemCount() > 1) {
-            fillTableDS();
-        }
-    }//GEN-LAST:event_cboLoaiItemStateChanged
+    private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
+        xacNhan();
+    }//GEN-LAST:event_btnXacNhanActionPerformed
 
-    private void btn12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn12MouseClicked
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
+        huyChuyenBan();
+    }//GEN-LAST:event_btnHuyActionPerformed
+
+    private void btn2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn2MouseClicked
         if (evt.getClickCount() == 2 && !btnXacNhan.isVisible()) {
-            lblMaBan.setText(btn12.getToolTipText());
-            fillTableSP(new BanChoDAO().selectByBan(btn12.getToolTipText()));
+            lblMaBan.setText(btn2.getToolTipText());
+            fillTableSP(new BanChoDAO().selectByBan(btn2.getToolTipText()));
             tabs.setSelectedIndex(1);
         }
-        setBorder(btn12);
-    }//GEN-LAST:event_btn12MouseClicked
-
-    private void btn11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn11MouseClicked
-        if (evt.getClickCount() == 2 && !btnXacNhan.isVisible()) {
-            lblMaBan.setText(btn11.getToolTipText());
-            fillTableSP(new BanChoDAO().selectByBan(btn11.getToolTipText()));
-            tabs.setSelectedIndex(1);
-        }
-        setBorder(btn11);
-    }//GEN-LAST:event_btn11MouseClicked
-
-    private void btn10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn10MouseClicked
-        if (evt.getClickCount() == 2 && !btnXacNhan.isVisible()) {
-            lblMaBan.setText(btn10.getToolTipText());
-            fillTableSP(new BanChoDAO().selectByBan(btn10.getToolTipText()));
-            tabs.setSelectedIndex(1);
-        }
-        setBorder(btn10);
-    }//GEN-LAST:event_btn10MouseClicked
-
-    private void btn9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn9MouseClicked
-        if (evt.getClickCount() == 2 && !btnXacNhan.isVisible()) {
-            lblMaBan.setText(btn9.getToolTipText());
-            fillTableSP(new BanChoDAO().selectByBan(btn9.getToolTipText()));
-            tabs.setSelectedIndex(1);
-        }
-        setBorder(btn9);
-    }//GEN-LAST:event_btn9MouseClicked
-
-    private void btn8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn8MouseClicked
-        if (evt.getClickCount() == 2 && !btnXacNhan.isVisible()) {
-            lblMaBan.setText(btn8.getToolTipText());
-            fillTableSP(new BanChoDAO().selectByBan(btn8.getToolTipText()));
-            tabs.setSelectedIndex(1);
-        }
-        setBorder(btn8);
-    }//GEN-LAST:event_btn8MouseClicked
-
-    private void btn7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn7MouseClicked
-        if (evt.getClickCount() == 2 && !btnXacNhan.isVisible()) {
-            lblMaBan.setText(btn7.getToolTipText());
-            fillTableSP(new BanChoDAO().selectByBan(btn7.getToolTipText()));
-            tabs.setSelectedIndex(1);
-        }
-        setBorder(btn7);
-    }//GEN-LAST:event_btn7MouseClicked
-
-    private void btn6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn6MouseClicked
-        if (evt.getClickCount() == 2 && !btnXacNhan.isVisible()) {
-            lblMaBan.setText(btn6.getToolTipText());
-            fillTableSP(new BanChoDAO().selectByBan(btn6.getToolTipText()));
-            tabs.setSelectedIndex(1);
-        }
-        setBorder(btn6);
-    }//GEN-LAST:event_btn6MouseClicked
-
-    private void btn5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn5MouseClicked
-        if (evt.getClickCount() == 2 && !btnXacNhan.isVisible()) {
-            lblMaBan.setText(btn5.getToolTipText());
-            fillTableSP(new BanChoDAO().selectByBan(btn5.getToolTipText()));
-            tabs.setSelectedIndex(1);
-        }
-        setBorder(btn5);
-    }//GEN-LAST:event_btn5MouseClicked
-
-    private void btn4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn4MouseClicked
-        if (evt.getClickCount() == 2 && !btnXacNhan.isVisible()) {
-            lblMaBan.setText(btn4.getToolTipText());
-            fillTableSP(new BanChoDAO().selectByBan(btn4.getToolTipText()));
-            tabs.setSelectedIndex(1);
-        }
-        setBorder(btn4);
-    }//GEN-LAST:event_btn4MouseClicked
+        setBorder(btn2);
+    }//GEN-LAST:event_btn2MouseClicked
 
     private void btn3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn3MouseClicked
         if (evt.getClickCount() == 2 && !btnXacNhan.isVisible()) {
@@ -1302,76 +1220,129 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
         setBorder(btn3);
     }//GEN-LAST:event_btn3MouseClicked
 
-    private void btn2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn2MouseClicked
+    private void btn4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn4MouseClicked
         if (evt.getClickCount() == 2 && !btnXacNhan.isVisible()) {
-            lblMaBan.setText(btn2.getToolTipText());
-            fillTableSP(new BanChoDAO().selectByBan(btn2.getToolTipText()));
+            lblMaBan.setText(btn4.getToolTipText());
+            fillTableSP(new BanChoDAO().selectByBan(btn4.getToolTipText()));
             tabs.setSelectedIndex(1);
         }
-        setBorder(btn2);
+        setBorder(btn4);
+    }//GEN-LAST:event_btn4MouseClicked
 
-    }//GEN-LAST:event_btn2MouseClicked
-
-    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-        pageIndexTB++;
-        fillTable();
-    }//GEN-LAST:event_btnNextActionPerformed
-
-    private void btnPreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreActionPerformed
-        pageIndexTB--;
-        fillTable();
-    }//GEN-LAST:event_btnPreActionPerformed
-
-    private void rdoCoKhachMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdoCoKhachMouseClicked
-        pageIndexTB = 0;
-        fillTable();
-    }//GEN-LAST:event_rdoCoKhachMouseClicked
-
-    private void rdoTrongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdoTrongMouseClicked
-        pageIndexTB = 0;
-        fillTable();
-    }//GEN-LAST:event_rdoTrongMouseClicked
-
-    private void rdoALLMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdoALLMouseClicked
-        pageIndexTB = 0;
-        fillTable();
-    }//GEN-LAST:event_rdoALLMouseClicked
-
-    private void cboTangItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboTangItemStateChanged
-        if (cboTang.getItemCount() > 1) {
-            pageIndexTB = 0;
-            fillTable();
+    private void btn5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn5MouseClicked
+        if (evt.getClickCount() == 2 && !btnXacNhan.isVisible()) {
+            lblMaBan.setText(btn5.getToolTipText());
+            fillTableSP(new BanChoDAO().selectByBan(btn5.getToolTipText()));
+            tabs.setSelectedIndex(1);
         }
-    }//GEN-LAST:event_cboTangItemStateChanged
+        setBorder(btn5);
+    }//GEN-LAST:event_btn5MouseClicked
 
-    private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
-        pageIndexTB = 0;
-        fillTable();
-    }//GEN-LAST:event_txtTimKiemKeyReleased
+    private void btn6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn6MouseClicked
+        if (evt.getClickCount() == 2 && !btnXacNhan.isVisible()) {
+            lblMaBan.setText(btn6.getToolTipText());
+            fillTableSP(new BanChoDAO().selectByBan(btn6.getToolTipText()));
+            tabs.setSelectedIndex(1);
+        }
+        setBorder(btn6);
+    }//GEN-LAST:event_btn6MouseClicked
 
-    private void btnChuyenBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChuyenBanActionPerformed
-        if (!checkSave()) {
-            chuyenBan();
+    private void btn7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn7MouseClicked
+        if (evt.getClickCount() == 2 && !btnXacNhan.isVisible()) {
+            lblMaBan.setText(btn7.getToolTipText());
+            fillTableSP(new BanChoDAO().selectByBan(btn7.getToolTipText()));
+            tabs.setSelectedIndex(1);
+        }
+        setBorder(btn7);
+    }//GEN-LAST:event_btn7MouseClicked
+
+    private void btn8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn8MouseClicked
+        if (evt.getClickCount() == 2 && !btnXacNhan.isVisible()) {
+            lblMaBan.setText(btn8.getToolTipText());
+            fillTableSP(new BanChoDAO().selectByBan(btn8.getToolTipText()));
+            tabs.setSelectedIndex(1);
+        }
+        setBorder(btn8);
+    }//GEN-LAST:event_btn8MouseClicked
+
+    private void btn9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn9MouseClicked
+        if (evt.getClickCount() == 2 && !btnXacNhan.isVisible()) {
+            lblMaBan.setText(btn9.getToolTipText());
+            fillTableSP(new BanChoDAO().selectByBan(btn9.getToolTipText()));
+            tabs.setSelectedIndex(1);
+        }
+        setBorder(btn9);
+    }//GEN-LAST:event_btn9MouseClicked
+
+    private void btn10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn10MouseClicked
+        if (evt.getClickCount() == 2 && !btnXacNhan.isVisible()) {
+            lblMaBan.setText(btn10.getToolTipText());
+            fillTableSP(new BanChoDAO().selectByBan(btn10.getToolTipText()));
+            tabs.setSelectedIndex(1);
+        }
+        setBorder(btn10);
+    }//GEN-LAST:event_btn10MouseClicked
+
+    private void btn11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn11MouseClicked
+        if (evt.getClickCount() == 2 && !btnXacNhan.isVisible()) {
+            lblMaBan.setText(btn11.getToolTipText());
+            fillTableSP(new BanChoDAO().selectByBan(btn11.getToolTipText()));
+            tabs.setSelectedIndex(1);
+        }
+        setBorder(btn11);
+    }//GEN-LAST:event_btn11MouseClicked
+
+    private void btn12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn12MouseClicked
+        if (evt.getClickCount() == 2 && !btnXacNhan.isVisible()) {
+            lblMaBan.setText(btn12.getToolTipText());
+            fillTableSP(new BanChoDAO().selectByBan(btn12.getToolTipText()));
+            tabs.setSelectedIndex(1);
+        }
+        setBorder(btn12);
+    }//GEN-LAST:event_btn12MouseClicked
+
+    private void cboLoaiItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboLoaiItemStateChanged
+        if (cboLoai.getItemCount() > 1) {
+            fillTableDS();
+        }
+    }//GEN-LAST:event_cboLoaiItemStateChanged
+
+    private void txtTimKiemTTKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemTTKeyReleased
+        fillTableDS();
+    }//GEN-LAST:event_txtTimKiemTTKeyReleased
+
+    private void txtTimKiemTTKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemTTKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTimKiemTTKeyTyped
+
+    private void btnThemVaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemVaoActionPerformed
+        if (tblDS.getSelectedRow() >= 0) {
+            themVao();
+            updateStatus();
         } else {
-            MsgBox.alert(this, "Vui lòng lưu lại thay đổi trước khi chuyển bàn!");
+            MsgBox.alert(this, "Vui lòng chọn sản phẩm!");
         }
-    }//GEN-LAST:event_btnChuyenBanActionPerformed
+    }//GEN-LAST:event_btnThemVaoActionPerformed
 
-    private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
-        xacNhan();
-    }//GEN-LAST:event_btnXacNhanActionPerformed
+    private void btnLuuLaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuLaiActionPerformed
+        save();
+    }//GEN-LAST:event_btnLuuLaiActionPerformed
 
-    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
-        huyChuyenBan();
-    }//GEN-LAST:event_btnHuyActionPerformed
-
-    private void btnHoanThanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoanThanhActionPerformed
-        if (!checkSave()) {
-            hoanThanh();
+    private void btnHuyMonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyMonActionPerformed
+        if (tblSP.getSelectedRow() >= 0) {
+            huyMon();
         } else {
-            MsgBox.alert(this, "Vui lòng lưu lại thay đổi trước khi hoàn thành!");
+            MsgBox.alert(this, "Vui lòng chọn sản phẩm!");
         }
-    }//GEN-LAST:event_btnHoanThanhActionPerformed
+    }//GEN-LAST:event_btnHuyMonActionPerformed
+
+    private void btnSoLuongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSoLuongActionPerformed
+        if (tblSP.getSelectedRow() >= 0) {
+            chinhSua();
+        } else {
+            MsgBox.alert(this, "Vui lòng chọn sản phẩm!");
+        }
+    }//GEN-LAST:event_btnSoLuongActionPerformed
 
     private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
         if (!checkSave()) {
@@ -1381,6 +1352,35 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
             MsgBox.alert(this, "Vui lòng lưu lại thay đổi trước khi thanh toán!");
         }
     }//GEN-LAST:event_btnThanhToanActionPerformed
+
+    private void btnHoanThanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoanThanhActionPerformed
+        if (!checkSave()) {
+            hoanThanh();
+        } else {
+            MsgBox.alert(this, "Vui lòng lưu lại thay đổi trước khi hoàn thành!");
+        }
+    }//GEN-LAST:event_btnHoanThanhActionPerformed
+
+    private void btnChuyenBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChuyenBanActionPerformed
+        if (!checkSave()) {
+            chuyenBan();
+        } else {
+            MsgBox.alert(this, "Vui lòng lưu lại thay đổi trước khi chuyển bàn!");
+        }
+    }//GEN-LAST:event_btnChuyenBanActionPerformed
+
+    private void tblDBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDBMouseClicked
+        if (evt.getClickCount() == 2) {
+            setFormDB(new BanDatDAO().selectByID(lstDB.get(tblDB.getSelectedRow()).getMaBan(), lstDB.get(tblDB.getSelectedRow()).getGioDat()));
+            btnDatLich.setEnabled(false);
+            tblDB.setEnabled(false);
+            clickdatBan = true;
+        }
+    }//GEN-LAST:event_tblDBMouseClicked
+
+    private void txtTimBanDatKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimBanDatKeyReleased
+        fillTableDB();
+    }//GEN-LAST:event_txtTimBanDatKeyReleased
 
     private void btnThemMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemMoiActionPerformed
         themMoi();
@@ -1392,7 +1392,6 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
 
     private void btnHuyChonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyChonActionPerformed
         huyChon();
-
     }//GEN-LAST:event_btnHuyChonActionPerformed
 
     private void cboTangDBItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboTangDBItemStateChanged
@@ -1401,30 +1400,17 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cboTangDBItemStateChanged
 
-    private void txtTimBanDatKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimBanDatKeyReleased
-        fillTableDB();
-    }//GEN-LAST:event_txtTimBanDatKeyReleased
-
-    private void tblDBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDBMouseClicked
-        if (evt.getClickCount() == 2) {
-            setFormDB(new BanDatDAO().selectByID(lstDB.get(tblDB.getSelectedRow()).getMaBan(), lstDB.get(tblDB.getSelectedRow()).getGioDat()));
-            btnDatLich.setEnabled(false);
-            tblDB.setEnabled(false);
-            clickdatBan = true;
-        }
-    }//GEN-LAST:event_tblDBMouseClicked
-
     private void btnDatLichActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatLichActionPerformed
         datLich();
     }//GEN-LAST:event_btnDatLichActionPerformed
 
-    private void btnThayDoiLichActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThayDoiLichActionPerformed
-        thayDoiLich();
-    }//GEN-LAST:event_btnThayDoiLichActionPerformed
-
     private void btnHuyLichActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyLichActionPerformed
         huyLich();
     }//GEN-LAST:event_btnHuyLichActionPerformed
+
+    private void btnThayDoiLichActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThayDoiLichActionPerformed
+        thayDoiLich();
+    }//GEN-LAST:event_btnThayDoiLichActionPerformed
 
     private void cboTangQLItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboTangQLItemStateChanged
         if (cboTangQL.getItemCount() > 1) {
@@ -1820,7 +1806,6 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
     }
 
     void init() {
-        setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(2);
         setTitle("QUẢN LÝ BÀN");
@@ -2222,48 +2207,6 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
         });
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(QuanLyBanFrame.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(QuanLyBanFrame.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(QuanLyBanFrame.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(QuanLyBanFrame.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new QuanLyBanFrame().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btn1;
@@ -2300,7 +2243,6 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnXoaBan;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JComboBox<String> cboBan;
     private javax.swing.JComboBox<String> cboGio;
     private javax.swing.JComboBox<String> cboLoai;
