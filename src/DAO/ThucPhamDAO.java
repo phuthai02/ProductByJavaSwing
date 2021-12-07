@@ -18,12 +18,14 @@ import java.util.Map;
  */
 public class ThucPhamDAO implements SystemDAO<ThucPham, Integer> {
 
-    String SQL_Insert = "INSERT INTO NguyenLieu values(?,?,?,?,?,?,?,1)";
-    String SQL_Update = "UPDATE NguyenLieu SET MaLoaiTP=?, TenNL=?, Ngaymua=?, NgayNhap=?, SoLuong=?,MaNV=?,MoTa=?, TrangThai=? where MaTP=?";
+    String SQL_Insert = "INSERT INTO NguyenLieu values(?,?,?,?,?,?,?,?,?,1)";
+    String SQL_Update = "UPDATE NguyenLieu SET MaLoaiTP=?, TenNL=?, Ngaymua=?, NgayTao=?,GiaNhap=?, SoLuong=?,DonViTinh=?,MaNV=?, MoTa=?, TrangThai=? where MaNL=?";
     String SQL_Delete = "update NguyenLieu set TrangThai=0 where MaNL=?";
-    String SQL_SelectPaging = "SELECT * FROM dbo.NguyenLieu WHERE TrangThai = ? AND (TenNL Like ?) ORDER BY MaNL OFFSET ?*15 ROWS  FETCH NEXT 15 ROWS ONLY";
+    String SQL_SelectPaging = "SELECT * FROM dbo.NguyenLieu WHERE TrangThai = ? AND (TenNL Like ?) AND Ngaymua like ?  ORDER BY MaNL OFFSET ?*15 ROWS  FETCH NEXT 15 ROWS ONLY";
     String SQL_SelectTenLoaiTP = "select MaLoaiTP,TenLoaiTP from LoaiThucPham ";
+    String SQL_SelectTenNV = "select MaNV,TenNV from NhanVien ";
     String SQL_SelectID = "SELECT * FROM NguyenLieu WHERE MaNL=?";
+    
 
     @Override
     public int insert(ThucPham entity) {
@@ -32,7 +34,9 @@ public class ThucPhamDAO implements SystemDAO<ThucPham, Integer> {
                 entity.getTenNL(),
                 entity.getNgaymua(),
                 entity.getNgaynhap(),
+                entity.getGiaNhap(),
                 entity.getSoLuong(),
+                entity.getDVT(),
                 entity.getMaNV(),
                 entity.getMoTa());
     }
@@ -44,7 +48,9 @@ public class ThucPhamDAO implements SystemDAO<ThucPham, Integer> {
                 entity.getTenNL(),
                 entity.getNgaymua(),
                 entity.getNgaynhap(),
+                entity.getGiaNhap(),
                 entity.getSoLuong(),
+                entity.getDVT(),
                 entity.getMaNV(),
                 entity.getMoTa(),
                 entity.isTrangThai(),      
@@ -68,10 +74,12 @@ public class ThucPhamDAO implements SystemDAO<ThucPham, Integer> {
                 tp.setTenNL(rs.getString(3));
                 tp.setNgaymua(rs.getDate(4));
                 tp.setNgaynhap(rs.getDate(5));
-                tp.setSoLuong(rs.getInt(6));
-                tp.setMoTa(rs.getString(8));
-                tp.setMaNV(rs.getString(7));
-                tp.setTrangThai(rs.getBoolean(9));
+                tp.setGiaNhap(rs.getInt(6));
+                tp.setSoLuong(rs.getInt(7));
+                tp.setDVT(rs.getString(8));
+                tp.setMaNV(rs.getString(9));
+                tp.setMoTa(rs.getString(10));
+                tp.setTrangThai(rs.getBoolean(11));
                 list.add(tp);
             }
             rs.getStatement().getConnection().close();
@@ -86,8 +94,8 @@ public class ThucPhamDAO implements SystemDAO<ThucPham, Integer> {
         return null;
     }
 
-    public List<ThucPham> selectPagingFull(int Status, int pageIndex, String keyWord) {
-        List<ThucPham> list = this.selectBySql(SQL_SelectPaging, Status, "%" + keyWord + "%", pageIndex);
+    public List<ThucPham> selectPagingFull(int Status, int pageIndex, String keyWord, String ngayMua) {
+        List<ThucPham> list = this.selectBySql(SQL_SelectPaging, Status, "%" + keyWord + "%","%" + ngayMua + "%", pageIndex);
         return list;
     }
 
@@ -98,6 +106,21 @@ public class ThucPhamDAO implements SystemDAO<ThucPham, Integer> {
             while (rs.next()) {
                 String key = rs.getString("MaLoaiTP");
                 String value = rs.getString("TenLoaiTP");
+                map.put(key, value);
+            }
+            rs.getStatement().getConnection().close();
+            return map;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public Map<String, String> selectTenNV() {
+        Map<String, String> map = new HashMap<>();
+        try {
+            ResultSet rs = Xjdbc.query(SQL_SelectTenNV);
+            while (rs.next()) {
+                String key = rs.getString("MaNV");
+                String value = rs.getString("TenNV");
                 map.put(key, value);
             }
             rs.getStatement().getConnection().close();

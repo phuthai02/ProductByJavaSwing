@@ -5,6 +5,7 @@
  */
 package Main;
 
+import DAO.BanChoDAO;
 import DAO.LoaiSanPhamDAO;
 import DAO.NhanVienDAO;
 import DAO.SanPhamDAO;
@@ -14,6 +15,7 @@ import Untils.Auth;
 import Untils.MsgBox;
 import Untils.Ximage;
 import Untils.Xmail;
+import java.awt.Color;
 import java.io.File;
 import java.util.List;
 import javax.swing.JComboBox;
@@ -35,6 +37,7 @@ public class IF_SanPham extends javax.swing.JInternalFrame {
     DefaultTableModel modelDS;
     DefaultTableModel modelLT;
     SanPhamDAO daoSP;
+    BanChoDAO daoBC;
     LoaiSanPhamDAO daoLSP;
     List<LoaiSp> lstLSP;
 
@@ -49,7 +52,14 @@ public class IF_SanPham extends javax.swing.JInternalFrame {
         daoSP = new SanPhamDAO();
         daoLSP = new LoaiSanPhamDAO();
         lstLSP = daoLSP.selectAll();
+        daoBC = new BanChoDAO();
         setDefaultCloseOperation(2);
+        jPanel13.setBackground(new Color(Integer.parseInt(Auth.user.getMauNen(), 16)));
+        jPanel10.setBackground(new Color(Integer.parseInt(Auth.user.getMauNen(), 16)));
+        jPanel2.setBackground(new Color(Integer.parseInt(Auth.user.getMauNen(), 16)));
+        jPanel8.setBackground(new Color(Integer.parseInt(Auth.user.getMauNen(), 16)));
+        jPanel14.setBackground(new Color(Integer.parseInt(Auth.user.getMauNen(), 16)));
+        jPanel11.setBackground(new Color(Integer.parseInt(Auth.user.getMauNen(), 16)));
 //        Auth.user = new NhanVienDAO().selectById("PH16552");
         prepareGUI();
         tabs.setSelectedIndex(0);
@@ -269,7 +279,7 @@ public class IF_SanPham extends javax.swing.JInternalFrame {
             MsgBox.alert(this, "Vui lòng nhập mã sản phẩm!");
             txtMaSP.requestFocus();
             return false;
-        }else if (txtTenSP.getText().trim().length() == 0) {
+        } else if (txtTenSP.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập tên sản phẩm!");
             txtTenSP.requestFocus();
             return false;
@@ -281,7 +291,7 @@ public class IF_SanPham extends javax.swing.JInternalFrame {
             MsgBox.alert(this, "Tên sản phẩm không được chứa kí tự đặc biệt");
             txtTenSP.requestFocus();
             return false;
-        }else if (txtDonGia.getText().trim().length() == 0) {
+        } else if (txtDonGia.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập đơn giá sản phẩm!");
             txtDonGia.requestFocus();
             return false;
@@ -363,6 +373,10 @@ public class IF_SanPham extends javax.swing.JInternalFrame {
     }
 
     void delete() {
+        if (daoBC.selectById(txtMaSP.getText()) != null) {
+            MsgBox.confirm(this, "Không thể xóa");
+            return;
+        }
         if (MsgBox.confirm(this, "Bạn có chắc chắn muốn xoá sản phẩm này?")) {
             try {
                 daoSP.delete(txtMaSP.getText());
@@ -1238,7 +1252,7 @@ public class IF_SanPham extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSauLTActionPerformed
 
     private void btnMOiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMOiActionPerformed
-       resetForm();
+        resetForm();
     }//GEN-LAST:event_btnMOiActionPerformed
 
 

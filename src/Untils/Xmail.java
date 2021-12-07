@@ -89,6 +89,56 @@ public class Xmail {
             e.printStackTrace();
         }
     }
+    public static void sendExcelNL(String mailTo, File f ) {
+        Properties props = new Properties();
+
+        props.put("mail.smtp.user", "username");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "25");
+        props.put("mail.debug", "true");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.EnableSSL.enable", "true");
+
+        props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.setProperty("mail.smtp.socketFactory.fallback", "false");
+        props.setProperty("mail.smtp.port", "465");
+        props.setProperty("mail.smtp.socketFactory.port", "465");
+        //----------------------------
+        String accountName = "thaidpph17321@fpt.edu.vn";
+        String accountPassword = "thaiad1121";
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+            @Override
+            protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
+                return new javax.mail.PasswordAuthentication(accountName, accountPassword);
+            }
+        });
+        //----------------------------
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("thaidpph17321@fpt.edu.vn"));
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(mailTo));
+            message.setSubject("Thông báo mua nguyên liệu");
+            message.setText("Hệ thống quản lý nhà hàng");
+
+            MimeBodyPart contentPart = new MimeBodyPart();
+            contentPart.setContent("Exception", "text/html; charser=utf-8");
+            MimeBodyPart filePart = new MimeBodyPart();
+//            File f = new File("excels/nguyenlieu.xlsx");
+            FileDataSource fds = new FileDataSource(f);
+            filePart.setDataHandler(new DataHandler(fds));
+            filePart.setFileName(f.getName());
+            MimeMultipart mm = new MimeMultipart();
+            mm.addBodyPart(contentPart);
+            mm.addBodyPart(filePart);
+
+            message.setContent(mm);
+            Transport.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void sendPassword(String user, String passWord, String mailTo) {
         Properties props = new Properties();

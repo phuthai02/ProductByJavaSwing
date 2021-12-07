@@ -13,9 +13,11 @@ import DAO.SKKMDAO;
 import DAO.SanPhamDAO;
 import Entity.HoaDon;
 import Entity.HoaDonChiTiet;
+import Untils.Auth;
 import Untils.MsgBox;
 import Untils.Xcurrency;
 import Untils.Xdate;
+import java.awt.Color;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -484,6 +486,7 @@ public class LichSuGiaoDichFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         setResizable(true);
         setTitle("LỊCH SỬ GIAO DỊCH");
+        jPanel3.setBackground(new Color(Integer.parseInt(Auth.user.getMauNen(), 16)));
         daoSP = new SanPhamDAO();
         daoKH = new KhachHangDao();
         daoHD = new HoaDonDAO();
@@ -551,17 +554,19 @@ public class LichSuGiaoDichFrame extends javax.swing.JFrame {
                     new NhanVienDAO().selectById(hd.getMaNV()).getTenNV(), hd.getNgayTao(), daoSKKM.selectById1(hd.getMaSKKM()).getGiaTriKM(), hd.getGhiChu()});
 
             }
+
         } catch (Exception e) {
             e.printStackTrace();
             MsgBox.alert(this, "Lỗi truy vấn");
         }
     }
 
-  String getTien() {
+    String getTien() {
         int tongTien = 0;
         for (int i = 0; i < tblCT.getRowCount(); i++) {
-            tongTien += ((Integer.parseInt(tblCT.getValueAt(i, 2).toString()) * Integer.parseInt(tblCT.getValueAt(i, 3).toString()))-
-                    ((((Integer.parseInt(tblCT.getValueAt(i, 2).toString()) * Integer.parseInt(tblCT.getValueAt(i, 3).toString())))/100)*(Double.parseDouble(tblDS.getValueAt(i, 5).toString()))));
+            tongTien += ((Integer.parseInt(tblCT.getValueAt(i, 2).toString()) * Integer.parseInt(tblCT.getValueAt(i, 3).toString()))
+                    - ((((Integer.parseInt(tblCT.getValueAt(i, 2).toString()) * Integer.parseInt(tblCT.getValueAt(i, 3).toString()))) / 100) * (Double.parseDouble(tblDS.getValueAt(tblDS.getSelectedRow(), 5).toString()))));
+
         }
         return Xcurrency.toCurrency(tongTien);
     }

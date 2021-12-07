@@ -5,9 +5,12 @@
  */
 package Main;
 
+import DAO.BanChoDAO;
+import DAO.BanDatDAO;
 import DAO.LoaiSanPhamDAO;
 import DAO.NhanVienDAO;
 import DAO.SanPhamDAO;
+import Entity.BanCho;
 import Entity.LoaiSp;
 import Entity.SanPham;
 import Untils.Auth;
@@ -33,6 +36,7 @@ public class QuanLySanPhamFrame extends javax.swing.JFrame {
     DefaultTableModel modelLT;
     SanPhamDAO daoSP;
     LoaiSanPhamDAO daoLSP;
+    BanChoDAO daoBC;
     List<LoaiSp> lstLSP;
 
     public QuanLySanPhamFrame() {
@@ -873,7 +877,7 @@ public class QuanLySanPhamFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_rdoTu100500LTMouseClicked
 
     private void rdoTren500LTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdoTren500LTMouseClicked
-        fillToLuuTru();    
+        fillToLuuTru();
     }//GEN-LAST:event_rdoTren500LTMouseClicked
 
     /**
@@ -982,6 +986,7 @@ public class QuanLySanPhamFrame extends javax.swing.JFrame {
         daoSP = new SanPhamDAO();
         daoLSP = new LoaiSanPhamDAO();
         lstLSP = daoLSP.selectAll();
+        daoBC = new BanChoDAO();
         setDefaultCloseOperation(2);
 //        Auth.user = new NhanVienDAO().selectById("PH16552");
         prepareGUI();
@@ -1290,7 +1295,12 @@ public class QuanLySanPhamFrame extends javax.swing.JFrame {
     }
 
     void delete() {
-        if (MsgBox.confirm(this, "Bạn có chắc chắn muốn xoá nhân viên này?")) {
+        if (daoBC.selectById(txtMaSP.getText()) != null) {
+            MsgBox.confirm(this, "Không thể xóa");
+            return;
+        }
+
+        if (MsgBox.confirm(this, "Bạn có chắc chắn muốn xoá sản phẩm này?")) {
             try {
                 daoSP.delete(txtMaSP.getText());
                 pageIndexDS = 0;

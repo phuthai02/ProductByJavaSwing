@@ -13,9 +13,11 @@ import DAO.SKKMDAO;
 import DAO.SanPhamDAO;
 import Entity.HoaDon;
 import Entity.HoaDonChiTiet;
+import Untils.Auth;
 import Untils.MsgBox;
 import Untils.Xcurrency;
 import Untils.Xdate;
+import java.awt.Color;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -413,6 +415,7 @@ public class IF_LSGD extends javax.swing.JInternalFrame {
         setResizable(false);
         setTitle("LỊCH SỬ GIAO DỊCH");
         setDefaultCloseOperation(2);
+        jPanel3.setBackground(new Color(Integer.parseInt(Auth.user.getMauNen(), 16)));
         daoSP = new SanPhamDAO();
         daoKH = new KhachHangDao();
         daoHD = new HoaDonDAO();
@@ -486,10 +489,14 @@ public class IF_LSGD extends javax.swing.JInternalFrame {
         }
     }
 
-    String getTien() {
+
+
+     String getTien() {
         int tongTien = 0;
         for (int i = 0; i < tblCT.getRowCount(); i++) {
-            tongTien += (Integer.parseInt(tblCT.getValueAt(i, 2).toString()) * Integer.parseInt(tblCT.getValueAt(i, 3).toString()));
+            tongTien += ((Integer.parseInt(tblCT.getValueAt(i, 2).toString()) * Integer.parseInt(tblCT.getValueAt(i, 3).toString()))
+                    - ((((Integer.parseInt(tblCT.getValueAt(i, 2).toString()) * Integer.parseInt(tblCT.getValueAt(i, 3).toString()))) / 100) * (Double.parseDouble(tblDS.getValueAt(tblDS.getSelectedRow(), 5).toString()))));
+
         }
         return Xcurrency.toCurrency(tongTien);
     }

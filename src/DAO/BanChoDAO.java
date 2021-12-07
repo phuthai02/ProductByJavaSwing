@@ -28,6 +28,7 @@ public class BanChoDAO {
     String SQL_UpdateALL = "UPDATE dbo.Ban SET SanSang = 1";
     String SQL_GioVao = "SELECT DISTINCT GioVao FROM dbo.BangCho WHERE MaBan = ?";
     String SQL_NV = "SELECT DISTINCT MaNV FROM dbo.BangCho WHERE MaBan = ?";
+    String SQL_MASP = "select *from BangCho where MASP=?";
 
     public void chuyenBan(String toBan, List<BanCho> lst) {
         lst.forEach((entity) -> {
@@ -79,8 +80,6 @@ public class BanChoDAO {
         }
         return null;
     }
-    
-    
 
     public int update(BanCho entity) {
         return Xjdbc.update(SQL_Update, entity.isHoanThanh(), entity.getMaBan(), entity.getMaSP());
@@ -110,6 +109,15 @@ public class BanChoDAO {
             return list;
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public BanCho selectById(String id) {
+        List<BanCho> list = this.selectBySql(SQL_MASP, id);
+        if (list.isEmpty()) {
+            return null;
+        } else {
+            return list.get(0);
         }
     }
 }
