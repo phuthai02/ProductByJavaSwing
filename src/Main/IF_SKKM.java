@@ -41,8 +41,8 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
     }
 
     void init() {
-        setResizable(true);
-        setTitle("Quản Lý Sự Kiện Khuyến Mãi");
+        setResizable(false);
+        setTitle("QUẢN LÝ SỰ KIỆN KHUYẾN MÃI");
         setDefaultCloseOperation(2);
         jPanel13.setBackground(new Color(Integer.parseInt(Auth.user.getMauNen(), 16)));
         jPanel10.setBackground(new Color(Integer.parseInt(Auth.user.getMauNen(), 16)));

@@ -41,6 +41,7 @@ public class IF_KhachHang extends javax.swing.JInternalFrame {
 
     void init() {
         this.setTitle("QUẢN LÝ KHÁCH HÀNG");
+        setResizable(false);
         setDefaultCloseOperation(2);
         jPanel13.setBackground(new Color(Integer.parseInt(Auth.user.getMauNen(), 16)));
         jPanel10.setBackground(new Color(Integer.parseInt(Auth.user.getMauNen(), 16)));
