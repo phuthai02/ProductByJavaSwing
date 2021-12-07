@@ -410,7 +410,7 @@ public class IF_LSGD extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMaKHActionPerformed
     private void init() {
-        setResizable(true);
+        setResizable(false);
         setTitle("LỊCH SỬ GIAO DỊCH");
         setDefaultCloseOperation(2);
         daoSP = new SanPhamDAO();

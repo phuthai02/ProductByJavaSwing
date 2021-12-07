@@ -40,8 +40,8 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
     }
 
     void init() {
-        setResizable(true);
-        setTitle("Quản Lý Sự Kiện Khuyến Mãi");
+        setResizable(false);
+        setTitle("QUẢN LÝ SỰ KIỆN KHUYẾN MÃI");
         setDefaultCloseOperation(2);
         daoSK = new SKKMDAO();
         prepareGUI();

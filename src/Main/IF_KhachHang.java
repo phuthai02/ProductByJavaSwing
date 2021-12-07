@@ -40,6 +40,7 @@ public class IF_KhachHang extends javax.swing.JInternalFrame {
 
     void init() {
         this.setTitle("QUẢN LÝ KHÁCH HÀNG");
+        setResizable(false);
         setDefaultCloseOperation(2);
         daoKh = new KhachHangDao();
         daonv = new NhanVienDAO();

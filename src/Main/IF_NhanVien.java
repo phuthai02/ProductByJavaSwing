@@ -42,7 +42,7 @@ public class IF_NhanVien extends javax.swing.JInternalFrame {
     String passWord;
 
     void init() {
-        setResizable(true);
+        setResizable(false);
         setTitle("QUẢN LÝ NHÂN VIÊN");
         prepareGUI();
         tabs.setSelectedIndex(1);
