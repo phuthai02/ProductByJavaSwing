@@ -18,13 +18,14 @@ import java.util.Map;
  */
 public class ThucPhamDAO implements SystemDAO<ThucPham, Integer> {
 
-    String SQL_Insert = "INSERT INTO NguyenLieu values(?,?,?,?,?,?,?,?,1)";
-    String SQL_Update = "UPDATE NguyenLieu SET MaLoaiTP=?, TenNL=?, Ngaymua=?, NgayTao=?, SoLuong=?,DonViTinh=?,MaNV=?, MoTa=?, TrangThai=? where MaNL=?";
+    String SQL_Insert = "INSERT INTO NguyenLieu values(?,?,?,?,?,?,?,?,?,1)";
+    String SQL_Update = "UPDATE NguyenLieu SET MaLoaiTP=?, TenNL=?, Ngaymua=?, NgayTao=?,GiaNhap=?, SoLuong=?,DonViTinh=?,MaNV=?, MoTa=?, TrangThai=? where MaNL=?";
     String SQL_Delete = "update NguyenLieu set TrangThai=0 where MaNL=?";
     String SQL_SelectPaging = "SELECT * FROM dbo.NguyenLieu WHERE TrangThai = ? AND (TenNL Like ?) AND Ngaymua like ?  ORDER BY MaNL OFFSET ?*15 ROWS  FETCH NEXT 15 ROWS ONLY";
     String SQL_SelectTenLoaiTP = "select MaLoaiTP,TenLoaiTP from LoaiThucPham ";
     String SQL_SelectTenNV = "select MaNV,TenNV from NhanVien ";
     String SQL_SelectID = "SELECT * FROM NguyenLieu WHERE MaNL=?";
+    
 
     @Override
     public int insert(ThucPham entity) {
@@ -33,6 +34,7 @@ public class ThucPhamDAO implements SystemDAO<ThucPham, Integer> {
                 entity.getTenNL(),
                 entity.getNgaymua(),
                 entity.getNgaynhap(),
+                entity.getGiaNhap(),
                 entity.getSoLuong(),
                 entity.getDVT(),
                 entity.getMaNV(),
@@ -46,6 +48,7 @@ public class ThucPhamDAO implements SystemDAO<ThucPham, Integer> {
                 entity.getTenNL(),
                 entity.getNgaymua(),
                 entity.getNgaynhap(),
+                entity.getGiaNhap(),
                 entity.getSoLuong(),
                 entity.getDVT(),
                 entity.getMaNV(),
@@ -71,11 +74,12 @@ public class ThucPhamDAO implements SystemDAO<ThucPham, Integer> {
                 tp.setTenNL(rs.getString(3));
                 tp.setNgaymua(rs.getDate(4));
                 tp.setNgaynhap(rs.getDate(5));
-                tp.setSoLuong(rs.getInt(6));
-                tp.setDVT(rs.getString(7));
-                tp.setMaNV(rs.getString(8));
-                tp.setMoTa(rs.getString(9));
-                tp.setTrangThai(rs.getBoolean(10));
+                tp.setGiaNhap(rs.getInt(6));
+                tp.setSoLuong(rs.getInt(7));
+                tp.setDVT(rs.getString(8));
+                tp.setMaNV(rs.getString(9));
+                tp.setMoTa(rs.getString(10));
+                tp.setTrangThai(rs.getBoolean(11));
                 list.add(tp);
             }
             rs.getStatement().getConnection().close();

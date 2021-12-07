@@ -118,7 +118,9 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
                 tp.getTenNL(),
                 ltpdao.selectById(tp.getMaLoaiTP()).getTenLoaiTP(),
                 tp.getDVT().trim(),
-                tp.getSoLuong()});
+                tp.getSoLuong(),
+                tp.getGiaNhap()
+            });
         });
     }
 
@@ -135,7 +137,8 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
                 ltpdao.selectById(tp.getMaLoaiTP()).getTenLoaiTP(),
                 tp.getDVT(),
                 tp.getNgaynhap(),
-                tp.getNgaymua(), 
+                tp.getNgaymua(),
+                tp.getGiaNhap()
             });
         });
     }
@@ -217,14 +220,24 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
         tp.setSoLuong(Integer.parseInt(txtSoLuong.getText().trim()));
         tp.setNgaymua(txtNgaymua.getDate());
         tp.setNgaynhap(Xdate.now());
-        tp.setDVT(cboDVT.getSelectedItem()+"");
+        tp.setDVT(cboDVT.getSelectedItem() + "");
         tp.setMaLoaiTP(lstLoaiThucPhams.get(cboLoaiThucPham.getSelectedIndex()).getMaLoaiTP());
         tp.setMoTa(txtMoTa.getText().trim());
         tp.setMaNV(Auth.user.getMaNV());
+        tp.setGiaNhap(0);
         tp.setTrangThai(true);
         return tp;
     }
 
+    void updateGia() {
+        row = tblDS.getSelectedRow();
+        String newGia = MsgBox.promt(this, "Mời nhập giá nhập!");
+        dtmDS.setValueAt(newGia, row, 5);
+        ThucPham tp = tpdao.selectById((Integer)tblDS.getValueAt(row, 0));
+        tp.setGiaNhap(Integer.parseInt(newGia));
+        tpdao.update(tp);
+        fillToDanhSach();
+    }
     void chiTiet() {
         row = tblDS.getSelectedRow();
         setForm(tpdao.selectById(Integer.parseInt(tblDS.getValueAt(row, 0).toString())));
@@ -333,14 +346,14 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
             if (saveFile != null) {
                 saveFile = new File(saveFile.toString() + ".xlsx");
                 XSSFWorkbook wb = new XSSFWorkbook();
-                XSSFSheet sheet  = wb.createSheet("ThucPham");
+                XSSFSheet sheet = wb.createSheet("ThucPham");
                 XSSFRow rowcol = sheet.createRow(0);
                 for (int i = 0; i < tblDS.getColumnCount(); i++) {
                     XSSFCell cell = rowcol.createCell(i);
                     cell.setCellValue(tblDS.getColumnName(i));
                 }
                 for (int j = 0; j < tblDS.getRowCount(); j++) {
-                    XSSFRow row = sheet.createRow(j+1);
+                    XSSFRow row = sheet.createRow(j + 1);
                     for (int k = 0; k < tblDS.getColumnCount(); k++) {
                         XSSFCell cell = row.createCell(k);
                         if (tblDS.getValueAt(j, k) != null) {
@@ -352,7 +365,8 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
                 wb.write(out);
                 wb.close();
                 out.close();
-                Xmail.sendExcelNL(lstNhanViens.get(cboNVMua.getSelectedIndex()).getEmail(),saveFile);
+                Xmail.sendExcelNL(lstNhanViens.get(cboNVMua.getSelectedIndex()).getEmail(), saveFile);
+                MsgBox.alert(this, "Gửi mail thành công!");
                 openFile(saveFile.toString());
             } else {
                 MsgBox.alert(this, "Bạn chưa chọn vị trí lưu!");
@@ -804,13 +818,13 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
         tblDS.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tblDS.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Mã TP", "Tên TP", "Loại thực phẩm", "Đơn vị tính", "Số lượng"
+                "Mã TP", "Tên TP", "Loại thực phẩm", "Đơn vị tính", "Số lượng", "Giá nhập"
             }
         ));
         tblDS.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -825,7 +839,7 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
 
         btnNextDS1.setBackground(new java.awt.Color(0, 51, 153));
         btnNextDS1.setForeground(new java.awt.Color(255, 255, 255));
-        btnNextDS1.setText("XEM CHI TIẾT");
+        btnNextDS1.setText("UPDATE GIÁ NHẬP");
         btnNextDS1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNextDS1ActionPerformed(evt);
@@ -1003,13 +1017,13 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
         tblLT.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tblLT.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã TP", "Tên TP", "Sl", "Loại  TP", "Đơn vị tính", "Ngày nhập", "Ngày tạo"
+                "Mã TP", "Tên TP", "Sl", "Loại  TP", "Đơn vị tính", "Ngày nhập", "Ngày tạo", "Giá nhập"
             }
         ));
         tblLT.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1193,7 +1207,8 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
     private void btnNextDS1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextDS1ActionPerformed
         // TODO add your handling code here:
         if (tblDS.getSelectedRow() >= 0) {
-            chiTiet();
+            updateGia();
+            MsgBox.alert(this, "Update giá nhập thành công!");
         } else {
             MsgBox.alert(this, "Vui lòng chọn nguyên liệu cần xem chi tiết!");
         }

@@ -18,6 +18,7 @@ public class ThucPham {
     private String tenNL;
     private Date ngaymua;
     private Date ngaynhap;
+    private int giaNhap;
     private int soLuong;
     private String DVT;
     private String maNV;
@@ -27,12 +28,13 @@ public class ThucPham {
     public ThucPham() {
     }
 
-    public ThucPham(int maNL, String maLoaiTP, String tenNL, Date ngaymua, Date ngaynhap, int soLuong, String DVT, String maNV, String moTa, boolean trangThai) {
+    public ThucPham(int maNL, String maLoaiTP, String tenNL, Date ngaymua, Date ngaynhap, int giaNhap, int soLuong, String DVT, String maNV, String moTa, boolean trangThai) {
         this.maNL = maNL;
         this.maLoaiTP = maLoaiTP;
         this.tenNL = tenNL;
         this.ngaymua = ngaymua;
         this.ngaynhap = ngaynhap;
+        this.giaNhap = giaNhap;
         this.soLuong = soLuong;
         this.DVT = DVT;
         this.maNV = maNV;
@@ -80,6 +82,14 @@ public class ThucPham {
         this.ngaynhap = ngaynhap;
     }
 
+    public int getGiaNhap() {
+        return giaNhap;
+    }
+
+    public void setGiaNhap(int giaNhap) {
+        this.giaNhap = giaNhap;
+    }
+
     public int getSoLuong() {
         return soLuong;
     }
@@ -121,11 +131,9 @@ public class ThucPham {
     }
 
     
-
-    
     @Override
     public String toString() {
-        return "ThucPham{" + "maNL=" + maNL + ", maLoaiTP=" + maLoaiTP + ", tenNL=" + tenNL + ", ngaymua=" + ngaymua + ", ngaynhap=" + ngaynhap + ", soLuong=" + soLuong + ", maNV=" + maNV +", DVT=" + DVT + ", moTa=" + moTa + ", trangThai=" + trangThai + '}';
+        return "ThucPham{" + "maNL=" + maNL + ", maLoaiTP=" + maLoaiTP + ", tenNL=" + tenNL + ", ngaymua=" + ngaymua + ", ngaynhap=" + ngaynhap + ", gianhap=" + giaNhap + ", soLuong=" + soLuong + ", maNV=" + maNV +", DVT=" + DVT + ", moTa=" + moTa + ", trangThai=" + trangThai + '}';
     }
 
 
