@@ -35,6 +35,16 @@ public class SuKienKhuyenMai {
     public SuKienKhuyenMai() {
     }
 
+    public SuKienKhuyenMai(String tenSKKM, double giaTriKM, Date ngayBatDau, Date ngayKetThuc, Date ngayTao, String maNV, boolean trangThai) {
+        this.tenSKKM = tenSKKM;
+        this.giaTriKM = giaTriKM;
+        this.ngayBatDau = ngayBatDau;
+        this.ngayKetThuc = ngayKetThuc;
+        this.ngayTao = ngayTao;
+        this.maNV = maNV;
+        this.trangThai = trangThai;
+    }
+
     public int getMaSKKM() {
         return maSKKM;
     }
