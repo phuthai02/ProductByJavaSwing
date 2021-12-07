@@ -103,7 +103,7 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
     void fillTableLT() {
         modelLT.setRowCount(0);
         Map<String, String> mapNV = new NhanVienDAO().selectHoTenNV();
-        List<SuKienKhuyenMai> list = daoSK.selectPagingFull(getSuKienLT(), 1, txtTimKiemLT.getText(), Xdate.toString(new Date(), "yyyy-MM-dd"), pageIndexLT);
+        List<SuKienKhuyenMai> list = daoSK.selectPagingFull(getSuKienLT(), 0, txtTimKiemLT.getText(), Xdate.toString(new Date(), "yyyy-MM-dd"), pageIndexLT);
         lblIndexLT.setText(pageIndexLT + 1 + "");
         for (SuKienKhuyenMai sk : list) {
             modelLT.addRow(new Object[]{
@@ -162,6 +162,9 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
 
     SuKienKhuyenMai getForm() {
         SuKienKhuyenMai sk = new SuKienKhuyenMai();
+        if(txtMaSKKM.getText().length()==0){
+            txtMaSKKM.setText("0");
+        }
         sk.setMaSKKM(Integer.parseInt(txtMaSKKM.getText()));
         sk.setTenSKKM(txtTenSKKM.getText());
         sk.setGiaTriKM(Double.parseDouble(txtGiaTriKM.getText()));
@@ -187,26 +190,27 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
     }
 
     boolean checkValidate() {
-        if (txtMaSKKM.getText().trim() == null) {
-            MsgBox.alert(this, "Vui lòng nhập mã sự kiện!");
-            txtMaSKKM.requestFocus();
-            return false;
-        } else if (txtTenSKKM.getText().trim() == null) {
+        if (txtTenSKKM.getText().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập tên sự kiện!");
             txtTenSKKM.requestFocus();
             return false;
-        } else if (txtGiaTriKM.getText().trim() == null) {
-            MsgBox.alert(this, "Vui giá trị khuyến mãi!");
+        }
+        if (txtGiaTriKM.getText().length() == 0) {
+            MsgBox.alert(this, "Vui lòng nhập giá trị khuyến mãi!");
             txtGiaTriKM.requestFocus();
             return false;
-        } else if (txtNgayBatDau.getDate() == null) {
+        }
+        if (txtNgayBatDau.getDate() == null) {
             MsgBox.alert(this, "Vui lòng chọn ngày bắt đầu!");
             return false;
-        } else if (txtNgayKetThuc.getDate() == null) {
+        }
+        if (txtNgayKetThuc.getDate() == null) {
             MsgBox.alert(this, "Vui lòng chọn ngày kết thúc!");
             return false;
-        } else if (txtNgayTao.getDate() == null) {
+        }
+        if (txtNgayTao.getDate() == null) {
             MsgBox.alert(this, "Vui lòng chọn ngày tạo!");
+            return false;
         }
         return true;
     }
@@ -214,21 +218,17 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
     void insert() {
         if (checkValidate()) {
             SuKienKhuyenMai sk = getForm();
-            if (!(daoSK.selectById(sk.getMaSKKM() + "") == null)) {
-                MsgBox.alert(this, "Mã sự kiện đã tồn tại");
-                return;
-            } else {
-                try {
-                    daoSK.insert(sk);
-                    this.fillTableDS();
-                    this.clearForm();
-                    MsgBox.alert(this, "Thêm mới thành công!");
-                } catch (Exception e) {
-                    MsgBox.alert(this, "Thêm mới thất bại!");
-                    e.printStackTrace();
-                }
+            try {
+                daoSK.insert(sk);
+                this.fillTableDS();
+                this.clearForm();
+                MsgBox.alert(this, "Thêm mới thành công!");
+            } catch (Exception e) {
+                MsgBox.alert(this, "Thêm mới thất bại!");
+                e.printStackTrace();
             }
         }
+
     }
 
     void update() {
@@ -313,7 +313,6 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
         tabThongTin = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        txtMaSKKM = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -328,6 +327,7 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
         txtNgayKetThuc = new com.toedter.calendar.JDateChooser();
         txtGiaTriKM = new javax.swing.JTextField();
         btnMoi = new javax.swing.JButton();
+        txtMaSKKM = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         tabLuuTru = new javax.swing.JPanel();
@@ -550,8 +550,6 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("Mã SKKM");
 
-        txtMaSKKM.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Tên SKKM");
 
@@ -618,29 +616,30 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addComponent(jLabel7))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addComponent(jLabel6)))
+                        .addComponent(jLabel6))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel2)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel5)
+                                .addComponent(jLabel3)))))
                 .addGap(46, 46, 46)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtNgayBatDau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtNgayKetThuc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txtNgayTao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(txtMaSKKM, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTenSKKM)
-                    .addComponent(txtGiaTriKM))
+                    .addComponent(txtGiaTriKM)
+                    .addComponent(txtMaSKKM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(80, 80, 80))
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(206, Short.MAX_VALUE)
                 .addComponent(btnThem)
                 .addGap(45, 45, 45)
                 .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -653,15 +652,14 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txtMaSKKM, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(txtMaSKKM, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2))
-                                .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(txtTenSKKM, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel3))
@@ -671,15 +669,15 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel4))
                                 .addGap(18, 18, 18)
                                 .addComponent(txtNgayBatDau, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel5))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNgayKetThuc, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(18, 18, 18)
                         .addComponent(txtNgayTao, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel7)))
                 .addGap(54, 54, 54)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -687,7 +685,7 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
                     .addComponent(btnSua)
                     .addComponent(btnXoa)
                     .addComponent(btnMoi))
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addContainerGap(87, Short.MAX_VALUE))
         );
 
         jPanel2.setBackground(new java.awt.Color(241, 194, 50));
@@ -944,7 +942,7 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabs, javax.swing.GroupLayout.PREFERRED_SIZE, 545, Short.MAX_VALUE)
+            .addComponent(tabs)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -1137,7 +1135,7 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
     private javax.swing.JTable tblDanhSach;
     private javax.swing.JTable tblLuuTru;
     private javax.swing.JTextField txtGiaTriKM;
-    private javax.swing.JTextField txtMaSKKM;
+    private javax.swing.JLabel txtMaSKKM;
     private com.toedter.calendar.JDateChooser txtNgayBatDau;
     private com.toedter.calendar.JDateChooser txtNgayKetThuc;
     private com.toedter.calendar.JDateChooser txtNgayTao;
