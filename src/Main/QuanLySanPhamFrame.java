@@ -1290,7 +1290,7 @@ public class QuanLySanPhamFrame extends javax.swing.JFrame {
     }
 
     void delete() {
-        if (MsgBox.confirm(this, "Bạn có chắc chắn muốn xoá nhân viên này?")) {
+        if (MsgBox.confirm(this, "Bạn có chắc chắn muốn xoá sản phẩm này?")) {
             try {
                 daoSP.delete(txtMaSP.getText());
                 pageIndexDS = 0;

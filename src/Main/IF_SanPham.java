@@ -370,7 +370,7 @@ public class IF_SanPham extends javax.swing.JInternalFrame {
     }
 
     void delete() {
-        if (MsgBox.confirm(this, "Bạn có chắc chắn muốn xoá nhân viên này?")) {
+        if (MsgBox.confirm(this, "Bạn có chắc chắn muốn xoá sản phẩm này?")) {
             try {
                 daoSP.delete(txtMaSP.getText());
                 pageIndexDS = 0;
