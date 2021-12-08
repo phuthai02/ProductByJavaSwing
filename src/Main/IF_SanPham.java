@@ -279,7 +279,9 @@ public class IF_SanPham extends javax.swing.JInternalFrame {
             MsgBox.alert(this, "Vui lòng nhập mã sản phẩm!");
             txtMaSP.requestFocus();
             return false;
-        } else if (txtTenSP.getText().trim().length() == 0) {
+        }
+
+        if (txtTenSP.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập tên sản phẩm!");
             txtTenSP.requestFocus();
             return false;
@@ -291,13 +293,22 @@ public class IF_SanPham extends javax.swing.JInternalFrame {
             MsgBox.alert(this, "Tên sản phẩm không được chứa kí tự đặc biệt");
             txtTenSP.requestFocus();
             return false;
-        } else if (txtDonGia.getText().trim().length() == 0) {
+        } else if (txtTenSP.getText().trim().length() >= 1 && txtTenSP.getText().trim().length() < 3) {
+            MsgBox.alert(this, " Tên sản phẩm ít nhất 3 kí tự!");
+            txtTenSP.requestFocus();
+            return false;
+        } else if (txtTenSP.getText().trim().length() > 30) {
+            MsgBox.alert(this, " Tên sản phẩm tối đa 30 kí tự!");
+            txtTenSP.requestFocus();
+            return false;
+        }
+        if (txtDonGia.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập đơn giá sản phẩm!");
             txtDonGia.requestFocus();
             return false;
         } else {
             try {
-                if (Integer.parseInt(txtDonGia.getText().trim()) < 0) {
+                if (Integer.parseInt(txtDonGia.getText()) < 0) {
                     MsgBox.alert(this, "Vui lòng nhập đơn giá lớn hơn 0!");
                     txtDonGia.requestFocus();
                     return false;
@@ -308,11 +319,15 @@ public class IF_SanPham extends javax.swing.JInternalFrame {
                 return false;
             }
         }
+        if (txtMota.getText().trim().length() > 225) {
+            MsgBox.alert(this, " Mô tả tối đa 225 kí tự!");
+            txtMota.requestFocus();
+            return false;
+        }
         if (lblAnh.getToolTipText() == null) {
             MsgBox.alert(this, "Vui lòng chọn ảnh sản phẩm!");
             return false;
         }
-
         return true;
     }
 

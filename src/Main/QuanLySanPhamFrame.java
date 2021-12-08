@@ -93,10 +93,10 @@ public class QuanLySanPhamFrame extends javax.swing.JFrame {
         txtTenSP = new javax.swing.JTextField();
         cboLoaiSP = new javax.swing.JComboBox<>();
         cboDVT = new javax.swing.JComboBox<>();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        txtMota = new javax.swing.JTextArea();
         jLabel8 = new javax.swing.JLabel();
         txtTaoBoi = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtMota = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
@@ -404,12 +404,12 @@ public class QuanLySanPhamFrame extends javax.swing.JFrame {
 
         cboDVT.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        txtMota.setColumns(20);
-        txtMota.setRows(5);
-        jScrollPane3.setViewportView(txtMota);
-
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("Tạo bởi:");
+
+        txtMota.setColumns(20);
+        txtMota.setRows(5);
+        jScrollPane2.setViewportView(txtMota);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -436,8 +436,8 @@ public class QuanLySanPhamFrame extends javax.swing.JFrame {
                             .addComponent(txtDonGia, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(txtTenSP)
                             .addComponent(cboDVT, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(txtTaoBoi))))
+                            .addComponent(txtTaoBoi)
+                            .addComponent(jScrollPane2))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -481,12 +481,12 @@ public class QuanLySanPhamFrame extends javax.swing.JFrame {
                             .addComponent(txtTaoBoi))))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnThem)
                         .addComponent(btnSua)
                         .addComponent(btnXoa))
-                    .addComponent(jLabel7))
+                    .addComponent(jLabel7)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -956,7 +956,7 @@ public class QuanLySanPhamFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JLabel lblAnh;
     private javax.swing.JLabel lblSo;
@@ -988,7 +988,7 @@ public class QuanLySanPhamFrame extends javax.swing.JFrame {
         lstLSP = daoLSP.selectAll();
         daoBC = new BanChoDAO();
         setDefaultCloseOperation(2);
-//        Auth.user = new NhanVienDAO().selectById("PH16552");
+//        Auth.user = new NhanVienDAO().selectById("NV03");
         prepareGUI();
         tabs.setSelectedIndex(0);
         modelDS = (DefaultTableModel) tblSanPham.getModel();
@@ -1201,18 +1201,36 @@ public class QuanLySanPhamFrame extends javax.swing.JFrame {
     }
 
     boolean checkValidate() {
-
-        if (txtMaSP.getText().length() == 0) {
+        String s = txtTenSP.getText().replaceAll("[^0-9]", "");
+        String pKiTu = txtTenSP.getText().replaceAll("[^!@#$%&*()_+=|<>?{}\\\\[\\\\]~-]", "");
+        if (txtMaSP.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập mã sản phẩm!");
             txtMaSP.requestFocus();
             return false;
         }
-        if (txtTenSP.getText().length() == 0) {
+
+        if (txtTenSP.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập tên sản phẩm!");
             txtTenSP.requestFocus();
             return false;
+        } else if ((txtTenSP.getText().trim().matches(s))) {
+            MsgBox.alert(this, "Tên sản phẩm phải chứa kí tự chữ");
+            txtTenSP.requestFocus();
+            return false;
+        } else if ((txtTenSP.getText().trim().matches(pKiTu))) {
+            MsgBox.alert(this, "Tên sản phẩm không được chứa kí tự đặc biệt");
+            txtTenSP.requestFocus();
+            return false;
+        } else if (txtTenSP.getText().trim().length() >= 1 && txtTenSP.getText().trim().length() < 3) {
+            MsgBox.alert(this, " Tên sản phẩm ít nhất 3 kí tự!");
+            txtTenSP.requestFocus();
+            return false;
+        } else if (txtTenSP.getText().trim().length() > 30) {
+            MsgBox.alert(this, " Tên sản phẩm tối đa 30 kí tự!");
+            txtTenSP.requestFocus();
+            return false;
         }
-        if (txtDonGia.getText().length() == 0) {
+        if (txtDonGia.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập đơn giá sản phẩm!");
             txtDonGia.requestFocus();
             return false;
@@ -1229,12 +1247,15 @@ public class QuanLySanPhamFrame extends javax.swing.JFrame {
                 return false;
             }
         }
-        if (lblAnh.getToolTipText()
-                == null) {
+        if (txtMota.getText().trim().length() > 225) {
+            MsgBox.alert(this, " Mô tả tối đa 225 kí tự!");
+            txtMota.requestFocus();
+            return false;
+        }
+        if (lblAnh.getToolTipText()== null) {
             MsgBox.alert(this, "Vui lòng chọn ảnh sản phẩm!");
             return false;
         }
-
         return true;
     }
 
