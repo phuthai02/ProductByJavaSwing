@@ -16,9 +16,9 @@ import java.sql.ResultSet;
  */
 public class Xjdbc {
 //    THÁI
-    static String user = "sa", pass = "123456";
+    static String user = "sa", pass = "1312002";
     static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    static String url = "jdbc:sqlserver://THAIDP\\SQLEXPRESS:1433;databaseName=QuanLyNhaHang";
+    static String url = "jdbc:sqlserver://localhost\\DESKTOP-IVAQ5LR\\SQLEXPRESS:1433;databaseName=QuanLyNhaHang";
 //Hoa
 //    static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 //    static String url = "jdbc:sqlserver://localhost\\DESKTOP-3Q9DDTP\\SQLEXPRESS:1433;databaseName=QuanLyNhaHang";
