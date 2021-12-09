@@ -54,7 +54,10 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
         tabs.setSelectedIndex(0);
         modelDS = (DefaultTableModel) tblDanhSach.getModel();
         modelLT = (DefaultTableModel) tblLuuTru.getModel();
-
+        SuKienKhuyenMai sk = new SuKienKhuyenMai();
+        sk.setNgayTao(Xdate.now());
+        setForm(sk);
+        txtNgayTao.setEnabled(false);
     }
 
     void prepareGUI() {
@@ -95,7 +98,7 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
                 sk.getNgayBatDau(),
                 sk.getNgayKetThuc(),
                 sk.getNgayTao(),
-                sk.getMaNV(),});
+                sk.getMaNV()});
 
         }
     }
@@ -113,7 +116,7 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
                 sk.getNgayBatDau(),
                 sk.getNgayKetThuc(),
                 sk.getNgayTao(),
-                sk.getMaNV(),});
+                sk.getMaNV()});
 
         }
     }
@@ -152,7 +155,7 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
     }
 
     void setForm(SuKienKhuyenMai sk) {
-        txtMaSKKM.setText(sk.getMaSKKM() + "");
+        txtMaSKKM.setText(sk.getMaSKKM()+"");
         txtTenSKKM.setText(sk.getTenSKKM());
         txtGiaTriKM.setText(sk.getGiaTriKM() + "");
         txtNgayBatDau.setDate(sk.getNgayBatDau());
@@ -162,7 +165,7 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
 
     SuKienKhuyenMai getForm() {
         SuKienKhuyenMai sk = new SuKienKhuyenMai();
-        if(txtMaSKKM.getText().length()==0){
+        if (txtMaSKKM.getText().length() == 0) {
             txtMaSKKM.setText("0");
         }
         sk.setMaSKKM(Integer.parseInt(txtMaSKKM.getText()));
@@ -190,14 +193,42 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
     }
 
     boolean checkValidate() {
-        if (txtTenSKKM.getText().length() == 0) {
+        if (txtTenSKKM.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập tên sự kiện!");
             txtTenSKKM.requestFocus();
             return false;
         }
-        if (txtGiaTriKM.getText().length() == 0) {
+        if (txtGiaTriKM.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập giá trị khuyến mãi!");
             txtGiaTriKM.requestFocus();
+            return false;
+        } else {
+            try {
+                if (Double.parseDouble(txtGiaTriKM.getText().trim()) < 0) {
+                    MsgBox.alert(this, "Vui lòng nhập giá trị khuyến mãi lớn hơn 0!");
+                    txtGiaTriKM.requestFocus();
+                    return false;
+                }
+            } catch (Exception e) {
+                MsgBox.alert(this, "Vui lòng nhập vào số!");
+                txtGiaTriKM.requestFocus();
+                return false;
+            }
+        }
+        int ngayBD;
+        int ngayKT;
+        if (txtNgayBatDau.getDate() == null) {
+            ngayBD = 20000101;
+        } else {
+            ngayBD = Integer.parseInt(Xdate.toString(txtNgayBatDau.getDate(), "yyyyMMdd"));
+        }
+        if (txtNgayKetThuc.getDate() == null) {
+            ngayKT = 20220101;
+        } else {
+            ngayKT = Integer.parseInt(Xdate.toString(txtNgayKetThuc.getDate(), "yyyyMMdd"));
+        }
+        if (ngayKT < ngayBD) {
+            MsgBox.alert(this, "Ngày kết thúc phải sau ngày bắt đầu");
             return false;
         }
         if (txtNgayBatDau.getDate() == null) {
@@ -623,12 +654,11 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
                         .addComponent(jLabel6))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(29, 29, 29)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel5)
-                                .addComponent(jLabel3)))))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2))))
                 .addGap(46, 46, 46)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtNgayBatDau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -652,10 +682,11 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtMaSKKM, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
+                .addGap(14, 14, 14)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
