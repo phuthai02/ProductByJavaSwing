@@ -22,7 +22,8 @@ public class BanDatDAO implements SystemDAO<BanDat, String> {
     String SQL_Insert = "insert into BanDat values(?,?,?,?)";
     String SQL_Update = "UPDATE dbo.BanDat SET MaBan = ?, GioDat = ?,MaKH = ?,MaNV =? WHERE MaBan = ? AND GioDat = ?";
     String SQL_Delete = "DELETE FROM dbo.BanDat WHERE MaBan  = ? AND GioDat = ?";
-     String SQL_SelectByGioDat = "Select * from bandat where GioDat like ?";
+    String SQL_SelectByGioDat = "Select * from bandat where GioDat like ?";
+    String SQL_SelectByMaKH = "Select * from bandat where MaKH like ?";
 
     @Override
     public List<BanDat> selectBySql(String sql, Object... args) {
@@ -50,6 +51,10 @@ public class BanDatDAO implements SystemDAO<BanDat, String> {
 
     public List<BanDat> selectByDay(String maBan, String gioDat) {
         return selectBySql(SQL_SelectByID, maBan, "%" + gioDat + "%");
+    }
+
+    public List<BanDat> selectByMaKH(int MaKH) {
+        return selectBySql(SQL_SelectByMaKH, MaKH);
     }
 
     @Override

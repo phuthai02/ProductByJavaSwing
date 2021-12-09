@@ -20,10 +20,10 @@ import org.jfree.chart.ChartPanel;
  *
  * @author doanp
  */
-public class ThongKeFrame extends javax.swing.JFrame {
+public class IF_ThongKe extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new form ThongKeFrame
+     * Creates new form IF_ThongKe
      */
     DefaultTableModel modelSP;
     DefaultTableModel modelNL;
@@ -31,15 +31,15 @@ public class ThongKeFrame extends javax.swing.JFrame {
     DefaultTableModel modelNV;
     DefaultTableModel modelDT;
 
-    public ThongKeFrame() {
+    public IF_ThongKe(int indexTab) {
         initComponents();
         init();
+        tabs.setSelectedIndex(indexTab);
     }
 
     void init() {
         setSize(1200, 700);
         setResizable(false);
-        setLocationRelativeTo(null);
         setTitle("THỐNG KÊ");
         setDefaultCloseOperation(2);
         prepareGUI();
@@ -188,7 +188,7 @@ public class ThongKeFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tabs = new javax.swing.JTabbedPane();
         pnl = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -235,7 +235,7 @@ public class ThongKeFrame extends javax.swing.JFrame {
         tblDT = new javax.swing.JTable();
         pnlChartDT = new javax.swing.JPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setClosable(true);
 
         jLabel1.setBackground(new java.awt.Color(241, 194, 50));
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -271,7 +271,7 @@ public class ThongKeFrame extends javax.swing.JFrame {
         pnlChartSP.setLayout(pnlChartSPLayout);
         pnlChartSPLayout.setHorizontalGroup(
             pnlChartSPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 426, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         pnlChartSPLayout.setVerticalGroup(
             pnlChartSPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -312,12 +312,12 @@ public class ThongKeFrame extends javax.swing.JFrame {
                             .addComponent(txtESP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtLSP))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE))
                     .addComponent(pnlChartSP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Sản phẩm", pnl);
+        tabs.addTab("Sản phẩm", pnl);
 
         jLabel2.setBackground(new java.awt.Color(241, 194, 50));
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -353,7 +353,7 @@ public class ThongKeFrame extends javax.swing.JFrame {
         pnlChartNL.setLayout(pnlChartNLLayout);
         pnlChartNLLayout.setHorizontalGroup(
             pnlChartNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 426, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         pnlChartNLLayout.setVerticalGroup(
             pnlChartNLLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -395,12 +395,12 @@ public class ThongKeFrame extends javax.swing.JFrame {
                             .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnLNL, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE))
                     .addComponent(pnlChartNL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Nguyên liệu", jPanel2);
+        tabs.addTab("Nguyên liệu", jPanel2);
 
         jLabel3.setBackground(new java.awt.Color(241, 194, 50));
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -436,7 +436,7 @@ public class ThongKeFrame extends javax.swing.JFrame {
         pnlChartKH.setLayout(pnlChartKHLayout);
         pnlChartKHLayout.setHorizontalGroup(
             pnlChartKHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 426, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         pnlChartKHLayout.setVerticalGroup(
             pnlChartKHLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -478,12 +478,12 @@ public class ThongKeFrame extends javax.swing.JFrame {
                             .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnLKH, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE))
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE))
                     .addComponent(pnlChartKH, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Khách hàng", jPanel3);
+        tabs.addTab("Khách hàng", jPanel3);
 
         jLabel4.setBackground(new java.awt.Color(241, 194, 50));
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -519,7 +519,7 @@ public class ThongKeFrame extends javax.swing.JFrame {
         pnlChartNV.setLayout(pnlChartNVLayout);
         pnlChartNVLayout.setHorizontalGroup(
             pnlChartNVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 426, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         pnlChartNVLayout.setVerticalGroup(
             pnlChartNVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -561,12 +561,12 @@ public class ThongKeFrame extends javax.swing.JFrame {
                             .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnLNV, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE))
                     .addComponent(pnlChartNV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Nhân viên", jPanel4);
+        tabs.addTab("Nhân viên", jPanel4);
 
         jLabel5.setBackground(new java.awt.Color(241, 194, 50));
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -597,7 +597,7 @@ public class ThongKeFrame extends javax.swing.JFrame {
         pnlChartDT.setLayout(pnlChartDTLayout);
         pnlChartDTLayout.setHorizontalGroup(
             pnlChartDTLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 426, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         pnlChartDTLayout.setVerticalGroup(
             pnlChartDTLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -639,34 +639,34 @@ public class ThongKeFrame extends javax.swing.JFrame {
                             .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnLDT, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 479, Short.MAX_VALUE))
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE))
                     .addComponent(pnlChartDT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Doanh thu", jPanel5);
+        tabs.addTab("Doanh thu", jPanel5);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(tabs, javax.swing.GroupLayout.DEFAULT_SIZE, 992, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 593, Short.MAX_VALUE)
+            .addComponent(tabs)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnLNLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLNLActionPerformed
-        fillTableNL();
-    }//GEN-LAST:event_btnLNLActionPerformed
-
     private void txtLSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLSPActionPerformed
         fillTableSP();
     }//GEN-LAST:event_txtLSPActionPerformed
+
+    private void btnLNLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLNLActionPerformed
+        fillTableNL();
+    }//GEN-LAST:event_btnLNLActionPerformed
 
     private void btnLKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLKHActionPerformed
         fillTableKH();
@@ -676,40 +676,6 @@ public class ThongKeFrame extends javax.swing.JFrame {
         fillTableNV();
     }//GEN-LAST:event_btnLNVActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ThongKeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ThongKeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ThongKeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ThongKeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ThongKeFrame().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLDT;
@@ -735,13 +701,13 @@ public class ThongKeFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JPanel pnl;
     private javax.swing.JPanel pnlChartDT;
     private javax.swing.JPanel pnlChartKH;
     private javax.swing.JPanel pnlChartNL;
     private javax.swing.JPanel pnlChartNV;
     private javax.swing.JPanel pnlChartSP;
+    private javax.swing.JTabbedPane tabs;
     private javax.swing.JTable tblDT;
     private javax.swing.JTable tblKH;
     private javax.swing.JTable tblNL;
@@ -759,5 +725,4 @@ public class ThongKeFrame extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser txtESP;
     private javax.swing.JButton txtLSP;
     // End of variables declaration//GEN-END:variables
-
 }

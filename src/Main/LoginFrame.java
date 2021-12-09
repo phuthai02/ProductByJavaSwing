@@ -159,6 +159,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jPanel1.setOpaque(false);
         jPanel1.setLayout(null);
 
+        txtTenDangNhap.setText("NV01");
         txtTenDangNhap.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtTenDangNhapFocusGained(evt);
@@ -268,6 +269,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jPanel1.add(lblShow);
         lblShow.setBounds(690, 210, 30, 30);
 
+        txtMatKhau.setText("123");
         txtMatKhau.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtMatKhauFocusGained(evt);
