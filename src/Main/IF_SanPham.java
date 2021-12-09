@@ -328,7 +328,7 @@ public class IF_SanPham extends javax.swing.JInternalFrame {
     }
 
     boolean checkMa() {
-        String ma = txtMaSP.getText();
+        String ma = txtMaSP.getText().trim();
         List<SanPham> list = daoSP.selectAll();
         for (SanPham sp : list) {
             if (sp.getMaSP().trim().equalsIgnoreCase(ma)) {
@@ -384,13 +384,13 @@ public class IF_SanPham extends javax.swing.JInternalFrame {
     }
 
     void delete() {
-        if (daoBC.selectById(txtMaSP.getText()) != null) {
+        if (daoBC.selectById(txtMaSP.getText().trim()) != null) {
             MsgBox.confirm(this, "Không thể xóa");
             return;
         }
         if (MsgBox.confirm(this, "Bạn có chắc chắn muốn xoá sản phẩm này?")) {
             try {
-                daoSP.delete(txtMaSP.getText());
+                daoSP.delete(txtMaSP.getText().trim());
                 pageIndexDS = 0;
                 pageIndexLT = 0;
                 fillToDanhSach();

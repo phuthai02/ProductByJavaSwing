@@ -88,7 +88,7 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
     void fillTableDS() {
         modelDS.setRowCount(0);
         Map<String, String> mapNV = new NhanVienDAO().selectHoTenNV();
-        List<SuKienKhuyenMai> list = daoSK.selectPagingFull(getSuKien(), 1, txtTimKiemDS.getText(), Xdate.toString(new Date(), "yyyy-MM-dd"), pageIndexDS);
+        List<SuKienKhuyenMai> list = daoSK.selectPagingFull(getSuKien(), 1, txtTimKiemDS.getText().trim(), Xdate.toString(new Date(), "yyyy-MM-dd"), pageIndexDS);
         lblIndexDS.setText(pageIndexDS + 1 + "");
         for (SuKienKhuyenMai sk : list) {
             modelDS.addRow(new Object[]{
@@ -106,7 +106,7 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
     void fillTableLT() {
         modelLT.setRowCount(0);
         Map<String, String> mapNV = new NhanVienDAO().selectHoTenNV();
-        List<SuKienKhuyenMai> list = daoSK.selectPagingFull(getSuKienLT(), 0, txtTimKiemLT.getText(), Xdate.toString(new Date(), "yyyy-MM-dd"), pageIndexLT);
+        List<SuKienKhuyenMai> list = daoSK.selectPagingFull(getSuKienLT(), 0, txtTimKiemLT.getText().trim(), Xdate.toString(new Date(), "yyyy-MM-dd"), pageIndexLT);
         lblIndexLT.setText(pageIndexLT + 1 + "");
         for (SuKienKhuyenMai sk : list) {
             modelLT.addRow(new Object[]{
@@ -146,8 +146,8 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
     void updateStatusPage() {
         boolean firstDS = pageIndexDS == 0;
         boolean firstLT = pageIndexLT == 0;
-        boolean lastDS = daoSK.selectPagingFull(getSuKien(), 1, txtTimKiemDS.getText(), Xdate.toString(new Date(), "yyyy-MM-dd"), pageIndexDS + 1).isEmpty();
-        boolean lastLT = daoSK.selectPagingFull(getSuKienLT(), 1, txtTimKiemLT.getText(), Xdate.toString(new Date(), "yyyy-MM-dd"), pageIndexLT + 1).isEmpty();
+        boolean lastDS = daoSK.selectPagingFull(getSuKien(), 1, txtTimKiemDS.getText().trim(), Xdate.toString(new Date(), "yyyy-MM-dd"), pageIndexDS + 1).isEmpty();
+        boolean lastLT = daoSK.selectPagingFull(getSuKienLT(), 1, txtTimKiemLT.getText().trim(), Xdate.toString(new Date(), "yyyy-MM-dd"), pageIndexLT + 1).isEmpty();
         btnPreDS.setEnabled(!firstDS);
         btnNextDS.setEnabled(!lastDS);
         btnPreLT.setEnabled(!firstLT);
@@ -165,12 +165,12 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
 
     SuKienKhuyenMai getForm() {
         SuKienKhuyenMai sk = new SuKienKhuyenMai();
-        if (txtMaSKKM.getText().length() == 0) {
+        if (txtMaSKKM.getText().trim().length() == 0) {
             txtMaSKKM.setText("0");
         }
-        sk.setMaSKKM(Integer.parseInt(txtMaSKKM.getText()));
-        sk.setTenSKKM(txtTenSKKM.getText());
-        sk.setGiaTriKM(Double.parseDouble(txtGiaTriKM.getText()));
+        sk.setMaSKKM(Integer.parseInt(txtMaSKKM.getText().trim()));
+        sk.setTenSKKM(txtTenSKKM.getText().trim());
+        sk.setGiaTriKM(Double.parseDouble(txtGiaTriKM.getText().trim()));
         sk.setNgayBatDau(txtNgayBatDau.getDate());
         sk.setNgayKetThuc(txtNgayKetThuc.getDate());
         sk.setNgayTao(txtNgayTao.getDate());
@@ -229,6 +229,15 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
         } else {
             ngayKT = Integer.parseInt(Xdate.toString(txtNgayKetThuc.getDate(), "yyyyMMdd"));
         }
+         if (ngayBD < Integer.parseInt(txtNgayTao.getDate()+"")) {
+            MsgBox.alert(this, "Ngày bắt đầu phải sau ngày tạo");
+            return false;
+        }
+        if (ngayKT < Integer.parseInt(txtNgayTao.getDate()+"")) {
+            MsgBox.alert(this, "Ngày kết thúc phải sau ngày tạo");
+            return false;
+        }
+        
         if (ngayKT < ngayBD) {
             MsgBox.alert(this, "Ngày kết thúc phải sau ngày bắt đầu");
             return false;
@@ -241,6 +250,7 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
             MsgBox.alert(this, "Vui lòng chọn ngày kết thúc!");
             return false;
         }
+        
         if (txtNgayTao.getDate() == null) {
             MsgBox.alert(this, "Vui lòng chọn ngày tạo!");
             return false;
@@ -283,7 +293,7 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
     void delete() {
         if (MsgBox.confirm(this, "Bạn có chắc muốn xóa sự kiện này ?")) {
             try {
-                daoSK.delete(txtMaSKKM.getText());
+                daoSK.delete(txtMaSKKM.getText().trim());
                 pageIndexDS = 0;
                 pageIndexLT = 0;
                 fillTableDS();
