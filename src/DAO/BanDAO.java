@@ -22,7 +22,7 @@ public class BanDAO implements SystemDAO<Ban, String> {
     String SQL_Insert = "insert into Ban values(?,?,?,?,?)";
     String SQL_Update = "update Ban set TenBan=?, ViTri=?, TrangThai=?, SanSang=? WHERE MaBan=?";
     String SQL_Delete = "update Ban set TrangThai=0 where MaBan=?";
-    String SQL_SelectPaging = "SELECT * FROM dbo.Ban WHERE TrangThai=? AND ViTri LIKE ? AND (TenBan LIKE ? OR MaBan LIKE ?) AND SanSang LIKE ? ORDER BY MaBan OFFSET 11*? ROWS FETCH NEXT 11 ROWS ONLY";
+    String SQL_SelectPaging = "SELECT * FROM dbo.Ban WHERE TrangThai=? AND ViTri LIKE ? AND (TenBan LIKE ? OR MaBan LIKE ?) AND SanSang LIKE ? AND MaBan != 'MV' ORDER BY MaBan OFFSET 11*? ROWS FETCH NEXT 11 ROWS ONLY";
     String SQL_SelectID = "select * from Ban where MaBan=?";
     String SQL_SelectTang = "SELECT DISTINCT ViTri FROM dbo.Ban where TrangThai = 1";
     String SQL_Count = "SELECT COUNT(*) FROM dbo.BangCho WHERE MaBan = ?";

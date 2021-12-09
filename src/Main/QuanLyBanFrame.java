@@ -22,11 +22,8 @@ import Untils.Auth;
 import Untils.MsgBox;
 import Untils.Xcurrency;
 import Untils.Xdate;
-import Untils.Xmail;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Date;
 
 import java.util.List;
@@ -267,32 +264,34 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtTimKiem)
-                    .addComponent(cboTang, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(btnPre)
-                        .addGap(33, 33, 33)
-                        .addComponent(lbTable)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
-                        .addComponent(btnNext))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(rdoCoKhach)
-                            .addComponent(rdoTrong)
-                            .addComponent(rdoALL)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
+                            .addComponent(txtTimKiem)
+                            .addComponent(cboTang, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(btnPre)
+                                .addGap(33, 33, 33)
+                                .addComponent(lbTable)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                                .addComponent(btnNext))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(rdoCoKhach)
+                                    .addComponent(rdoTrong)
+                                    .addComponent(rdoALL)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnHuy, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnXacNhan))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnHuy, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnXacNhan))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -334,6 +333,11 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
         btn1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btn1.setOpaque(true);
         btn1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btn1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn1MouseClicked(evt);
+            }
+        });
         pnlBan.add(btn1);
 
         btn2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -1450,6 +1454,15 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
     private void btnXoaBanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaBanActionPerformed
         xoaBan();
     }//GEN-LAST:event_btnXoaBanActionPerformed
+
+    private void btn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn1MouseClicked
+        if (evt.getClickCount() == 2 && !btnXacNhan.isVisible()) {
+            lblMaBan.setText(btn1.getToolTipText());
+            fillTableSP(new BanChoDAO().selectByBan(btn1.getToolTipText()));
+            tabs.setSelectedIndex(1);
+        }
+        setBorder(btn1);
+    }//GEN-LAST:event_btn1MouseClicked
     void themBan() {
         if (checkValidateQL()) {
             new BanDAO().insert(getFormQL());

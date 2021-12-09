@@ -25,6 +25,7 @@ public class KhachHangDao implements SystemDAO<KhachHang, Integer> {
     String SQL_SelectHoTenNV = "select MaNV,TenNV from NhanVien";
     String SQL_SelectSDT = "select * from KhachHang where SDT like ?";
     String SQL_InsertNoID = "insert into  KhachHang(TenKH,SDT,Email,NgaySinh,GioiTinh,MaNV,TrangThai) values(?,?,?,?,?,?,1)";
+    String SQL_SelectSN = "select * from KhachHang where NgaySinh like ?";
 
     @Override
     public int insert(KhachHang entity) {
@@ -96,6 +97,10 @@ public class KhachHangDao implements SystemDAO<KhachHang, Integer> {
     public List<KhachHang> selectByKeyWord(Integer keyWord, int Status) {
         return null;
 
+    }
+
+    public List<KhachHang> selectBySN(String sinhNhat) {
+        return selectBySql(SQL_SelectSN, "%" + sinhNhat + "%");
     }
 
     @Override
