@@ -316,8 +316,8 @@ public class IF_SanPham extends javax.swing.JInternalFrame {
                 return false;
             }
         }
-        if (txtMota.getText().trim().length() > 225) {
-            MsgBox.alert(this, " Mô tả tối đa 225 kí tự!");
+        if (txtMota.getText().trim().length() > 50) {
+            MsgBox.alert(this, " Mô tả tối đa 50 kí tự!");
             txtMota.requestFocus();
             return false;
         } else if (lblAnh.getToolTipText().trim().length() == 0) {
