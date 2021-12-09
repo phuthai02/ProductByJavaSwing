@@ -155,7 +155,7 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
     }
 
     void setForm(SuKienKhuyenMai sk) {
-        txtMaSKKM.setText(sk.getMaSKKM()+"");
+        txtMaSKKM.setText(sk.getMaSKKM() + "");
         txtTenSKKM.setText(sk.getTenSKKM());
         txtGiaTriKM.setText(sk.getGiaTriKM() + "");
         txtNgayBatDau.setDate(sk.getNgayBatDau());
@@ -187,7 +187,9 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
 
     void clearForm() {
         SuKienKhuyenMai sk = new SuKienKhuyenMai();
+        sk.setNgayTao(Xdate.now());
         this.setForm(sk);
+        txtNgayTao.setEnabled(false);
         this.row = -1;
         statusButton();
     }
