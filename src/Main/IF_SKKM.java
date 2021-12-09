@@ -229,15 +229,15 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
         } else {
             ngayKT = Integer.parseInt(Xdate.toString(txtNgayKetThuc.getDate(), "yyyyMMdd"));
         }
-         if (ngayBD < Integer.parseInt(txtNgayTao.getDate()+"")) {
+        if (ngayBD < Integer.parseInt(Xdate.toString(txtNgayTao.getDate(), "yyyyMMdd"))) {
             MsgBox.alert(this, "Ngày bắt đầu phải sau ngày tạo");
             return false;
         }
-        if (ngayKT < Integer.parseInt(txtNgayTao.getDate()+"")) {
+        if (ngayKT < Integer.parseInt(Xdate.toString(txtNgayTao.getDate(), "yyyyMMdd"))) {
             MsgBox.alert(this, "Ngày kết thúc phải sau ngày tạo");
             return false;
         }
-        
+
         if (ngayKT < ngayBD) {
             MsgBox.alert(this, "Ngày kết thúc phải sau ngày bắt đầu");
             return false;
@@ -250,7 +250,7 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
             MsgBox.alert(this, "Vui lòng chọn ngày kết thúc!");
             return false;
         }
-        
+
         if (txtNgayTao.getDate() == null) {
             MsgBox.alert(this, "Vui lòng chọn ngày tạo!");
             return false;
