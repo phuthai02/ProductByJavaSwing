@@ -41,6 +41,7 @@ public class KhachHangDao implements SystemDAO<KhachHang, Integer> {
             + "         MaBan,\n"
             + "         MaNV\n"
             + "ORDER BY HoaDon.MaHD DESC;";
+    String SQL_SelectSN = "select * from KhachHang where NgaySinh like ?";
 
     @Override
     public int insert(KhachHang entity) {
@@ -123,6 +124,10 @@ public class KhachHangDao implements SystemDAO<KhachHang, Integer> {
         return list.get(0);
     }
 
+    public List<KhachHang> selectBySN(String sinhNhat) {
+        return selectBySql(SQL_SelectSN, "%" + sinhNhat + "%");
+    }
+
     public KhachHang selectSDT(String SDT) {
         return selectBySql(SQL_SelectSDT, SDT).isEmpty() ? null : selectBySql(SQL_SelectSDT, SDT).get(0);
     }
@@ -149,14 +154,14 @@ public class KhachHangDao implements SystemDAO<KhachHang, Integer> {
         List<Object[]> obj = new ArrayList<>();
         try {
             ResultSet rs = Xjdbc.query(SQL_SelectHD, makh);
-            while (rs.next()) {                
+            while (rs.next()) {
                 obj.add(new Object[]{
-                rs.getInt(1),
-                rs.getString(2),
-                rs.getInt(3),
-                rs.getString(4),
-                rs.getString(5),
-                rs.getInt(6)
+                    rs.getInt(1),
+                    rs.getString(2),
+                    rs.getInt(3),
+                    rs.getString(4),
+                    rs.getString(5),
+                    rs.getInt(6)
                 });
             }
         } catch (Exception e) {
