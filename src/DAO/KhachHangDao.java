@@ -25,7 +25,22 @@ public class KhachHangDao implements SystemDAO<KhachHang, Integer> {
     String SQL_SelectHoTenNV = "select MaNV,TenNV from NhanVien";
     String SQL_SelectSDT = "select * from KhachHang where SDT like ?";
     String SQL_InsertNoID = "insert into  KhachHang(TenKH,SDT,Email,NgaySinh,GioiTinh,MaNV,TrangThai) values(?,?,?,?,?,?,1)";
-    String SQL_SelectSN = "select * from KhachHang where NgaySinh like ?";
+    String SQL_SelectHD = "SELECT HoaDon.MaHD,\n"
+            + "       NgayTao,\n"
+            + "       MaSKKM,\n"
+            + "       MaBan,\n"
+            + "       MaNV,\n"
+            + "       SUM(SoLuong * Gia)\n"
+            + "FROM dbo.HoaDon\n"
+            + "    JOIN dbo.HoaDonChiTiet\n"
+            + "        ON HoaDonChiTiet.MaHD = HoaDon.MaHD\n"
+            + "		WHERE MaKH = ?\n"
+            + "GROUP BY HoaDon.MaHD,\n"
+            + "         NgayTao,\n"
+            + "         MaSKKM,\n"
+            + "         MaBan,\n"
+            + "         MaNV\n"
+            + "ORDER BY HoaDon.MaHD DESC;";
 
     @Override
     public int insert(KhachHang entity) {
@@ -99,10 +114,6 @@ public class KhachHangDao implements SystemDAO<KhachHang, Integer> {
 
     }
 
-    public List<KhachHang> selectBySN(String sinhNhat) {
-        return selectBySql(SQL_SelectSN, "%" + sinhNhat + "%");
-    }
-
     @Override
     public KhachHang selectById(Integer id) {
         List<KhachHang> list = this.selectBySql(SQL_SelectID, id);
@@ -120,6 +131,10 @@ public class KhachHangDao implements SystemDAO<KhachHang, Integer> {
         return this.selectBySql("Select *from KhachHang");
     }
 
+    public List<KhachHang> selectDSHD(Integer makh) {
+        return this.selectBySql(SQL_SelectHD, makh);
+    }
+
     public List<KhachHang> selectByKeyWord(String keyWord, int status, int pageIndex) {
         String sql = "SELECT*FROM KHACHHANG WHERE TrangThai =? AND(MaKH LIKE ? OR TenKH LIKE ? OR SDT LIKE ?) ORDER BY MaKH OFFSET ?*15 ROWS  FETCH NEXT 15 ROWS ONLY";
         return this.selectBySql(sql, status, "%" + keyWord + "%", "%" + keyWord + "%", "%" + keyWord + "%", pageIndex);
@@ -128,5 +143,24 @@ public class KhachHangDao implements SystemDAO<KhachHang, Integer> {
     public List<KhachHang> selectPaging(int Status, int pageIndex, String manv) {
         List<KhachHang> list = this.selectBySql(SQL_SelectPaging, Status, "%" + manv + "%", pageIndex);
         return list;
+    }
+
+    public List<Object[]> selectByHD(int makh) {
+        List<Object[]> obj = new ArrayList<>();
+        try {
+            ResultSet rs = Xjdbc.query(SQL_SelectHD, makh);
+            while (rs.next()) {                
+                obj.add(new Object[]{
+                rs.getInt(1),
+                rs.getString(2),
+                rs.getInt(3),
+                rs.getString(4),
+                rs.getString(5),
+                rs.getInt(6)
+                });
+            }
+        } catch (Exception e) {
+        }
+        return obj;
     }
 }
