@@ -279,9 +279,7 @@ public class IF_SanPham extends javax.swing.JInternalFrame {
             MsgBox.alert(this, "Vui lòng nhập mã sản phẩm!");
             txtMaSP.requestFocus();
             return false;
-        }
-
-        if (txtTenSP.getText().trim().length() == 0) {
+        } else if (txtTenSP.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập tên sản phẩm!");
             txtTenSP.requestFocus();
             return false;
@@ -301,8 +299,7 @@ public class IF_SanPham extends javax.swing.JInternalFrame {
             MsgBox.alert(this, " Tên sản phẩm tối đa 30 kí tự!");
             txtTenSP.requestFocus();
             return false;
-        }
-        if (txtDonGia.getText().trim().length() == 0) {
+        } else if (txtDonGia.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập đơn giá sản phẩm!");
             txtDonGia.requestFocus();
             return false;
@@ -323,8 +320,7 @@ public class IF_SanPham extends javax.swing.JInternalFrame {
             MsgBox.alert(this, " Mô tả tối đa 225 kí tự!");
             txtMota.requestFocus();
             return false;
-        }
-        if (lblAnh.getToolTipText() == null) {
+        } else if (lblAnh.getToolTipText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng chọn ảnh sản phẩm!");
             return false;
         }
