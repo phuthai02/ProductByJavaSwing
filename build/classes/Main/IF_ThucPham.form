@@ -227,6 +227,10 @@
                                               <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                              <Group type="102" alignment="1" attributes="0">
+                                                  <EmptySpace max="32767" attributes="0"/>
+                                                  <Component id="txtMoTa" min="-2" pref="424" max="-2" attributes="0"/>
+                                              </Group>
                                               <Group type="102" attributes="0">
                                                   <EmptySpace max="-2" attributes="0"/>
                                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -234,16 +238,12 @@
                                                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                                           <Component id="cboLoaiThucPham" alignment="0" max="32767" attributes="0"/>
                                                           <Component id="txtTen" alignment="0" max="32767" attributes="0"/>
-                                                          <Component id="lblngayTao" max="32767" attributes="0"/>
                                                           <Component id="lblMa" alignment="0" max="32767" attributes="0"/>
                                                           <Component id="cboDVT" alignment="0" min="-2" pref="424" max="-2" attributes="0"/>
                                                       </Group>
                                                       <Component id="txtNgaymua" alignment="0" min="-2" pref="424" max="-2" attributes="0"/>
+                                                      <Component id="lblNgayTao" alignment="1" min="-2" pref="424" max="-2" attributes="0"/>
                                                   </Group>
-                                              </Group>
-                                              <Group type="102" alignment="1" attributes="0">
-                                                  <EmptySpace max="32767" attributes="0"/>
-                                                  <Component id="txtMoTa" min="-2" pref="424" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -292,17 +292,22 @@
                                           <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="lblngayTao" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
-                                      <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" attributes="0">
+                                          <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
+                                          <Component id="lblNgayTao" min="-2" pref="35" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                                       <Component id="txtMoTa" min="-2" pref="95" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="58" max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
                                       <Component id="btnMoi" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
                                       <Component id="btnThem" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -480,11 +485,6 @@
                             <Property name="text" type="java.lang.String" value="Ng&#xe0;y mua"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JLabel" name="lblngayTao">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="03/12/2021"/>
-                          </Properties>
-                        </Component>
                         <Component class="javax.swing.JLabel" name="lblMa">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="1"/>
@@ -512,6 +512,11 @@
                           <AuxValues>
                             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
                           </AuxValues>
+                        </Component>
+                        <Component class="com.toedter.calendar.JDateChooser" name="lblNgayTao">
+                          <Properties>
+                            <Property name="dateFormatString" type="java.lang.String" value="dd/MM/yyyy"/>
+                          </Properties>
                         </Component>
                       </SubComponents>
                     </Container>
@@ -553,7 +558,7 @@
                                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                               <Component id="btnNextDS" min="-2" max="-2" attributes="0"/>
                                               <EmptySpace max="32767" attributes="0"/>
-                                              <Component id="btnNextDS1" min="-2" max="-2" attributes="0"/>
+                                              <Component id="btnUpdateGia" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" attributes="0">
                                               <EmptySpace max="-2" attributes="0"/>
@@ -591,7 +596,7 @@
                                           <Component id="btnPreDS" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="lblPageIndexDS" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="btnNextDS" alignment="3" min="-2" max="-2" attributes="0"/>
-                                          <Component id="btnNextDS1" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                                          <Component id="btnUpdateGia" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                                       </Group>
                                       <EmptySpace max="-2" attributes="0"/>
                                   </Group>
@@ -668,7 +673,7 @@
                         </Component>
                         <Component class="com.toedter.calendar.JDateChooser" name="CLDNgayMua">
                           <Properties>
-                            <Property name="dateFormatString" type="java.lang.String" value="yyyy-MM-dd"/>
+                            <Property name="dateFormatString" type="java.lang.String" value="dd/MM/yyyy"/>
                           </Properties>
                           <Events>
                             <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="CLDNgayMuaPropertyChange"/>
@@ -843,7 +848,7 @@
                         </Component>
                       </SubComponents>
                     </Container>
-                    <Component class="javax.swing.JButton" name="btnNextDS1">
+                    <Component class="javax.swing.JButton" name="btnUpdateGia">
                       <Properties>
                         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                           <Color blue="99" green="33" red="0" type="rgb"/>
@@ -854,7 +859,7 @@
                         <Property name="text" type="java.lang.String" value="UPDATE GI&#xc1; NH&#x1eac;P"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNextDS1ActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateGiaActionPerformed"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel8">
@@ -995,6 +1000,9 @@
                           </Properties>
                         </Component>
                         <Component class="com.toedter.calendar.JDateChooser" name="CLDNgayMua1">
+                          <Properties>
+                            <Property name="dateFormatString" type="java.lang.String" value="dd/MM/yyyy"/>
+                          </Properties>
                           <Events>
                             <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="CLDNgayMua1PropertyChange"/>
                           </Events>
