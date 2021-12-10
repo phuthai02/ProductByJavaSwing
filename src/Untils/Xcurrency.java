@@ -45,7 +45,7 @@ public class Xcurrency {
     public static int toInt(String tienTe) {
         String x = "";
         for (int i = 0; i < tienTe.length(); i++) {
-            if (!tienTe.substring(i, i + 1).equals(".") && !tienTe.substring(i, i + 1).equals(" ") && !tienTe.substring(i, i + 1).equals("đ")) {
+            if (!tienTe.substring(i, i + 1).equals(".") && !tienTe.substring(i, i + 1).equals(" ") && !tienTe.substring(i, i + 1).equals("đ")&& !tienTe.substring(i, i + 1).equals("₫")&& !tienTe.substring(i, i + 1).equals(" ")) {
                 x += tienTe.substring(i, i + 1);
             }
         }
