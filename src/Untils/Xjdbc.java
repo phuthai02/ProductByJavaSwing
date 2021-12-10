@@ -16,9 +16,9 @@ import java.sql.ResultSet;
  */
 public class Xjdbc {
 //    THÁI
-    static String user = "sa", pass = "1312002";
-    static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    static String url = "jdbc:sqlserver://localhost\\DESKTOP-IVAQ5LR\\SQLEXPRESS:1433;databaseName=QuanLyNhaHang";
+//    static String user = "sa", pass = "1312002";
+//    static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+//    static String url = "jdbc:sqlserver://localhost\\DESKTOP-IVAQ5LR\\SQLEXPRESS:1433;databaseName=QuanLyNhaHang";
 //Hoa
 //    static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 //    static String url = "jdbc:sqlserver://localhost\\DESKTOP-3Q9DDTP\\SQLEXPRESS:1433;databaseName=QuanLyNhaHang";
@@ -28,6 +28,12 @@ public class Xjdbc {
 //    static String user = "sa", pass = "hoilamgi";
 //    static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 //    static String url = "jdbc:sqlserver://localhost\\LAPTOP-1357SSIS\\SQLEXPRESS:1433;databaseName=QuanLyNhaHang";
+    
+       static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    static String url = "jdbc:sqlserver://localhost\\LAPTOP-S81INCKV:1433;databaseName=QuanLyNhaHang";
+    static String user = "sa";
+    static String pass = "123";
+
     static {
         try {
             Class.forName(driver);

@@ -1940,7 +1940,7 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
         List<SanPham> lst = new SanPhamDAO().selectByLoai("%" + getCboLoai() + "%");
         modelDS.setRowCount(0);
         for (SanPham sp : lst) {
-            if ((sp.getMaSP().toUpperCase().contains(txtTimKiemTT.getText().toUpperCase()) || sp.getTenSanPham().toUpperCase().contains(txtTimKiemTT.getText().toUpperCase())) && checkSP(sp.getMaSP())) {;
+            if ((sp.getMaSP().toUpperCase().contains(txtTimKiemTT.getText().trim().toUpperCase()) || sp.getTenSanPham().toUpperCase().contains(txtTimKiemTT.getText().toUpperCase().trim())) && checkSP(sp.getMaSP())) {;
                 modelDS.addRow(new Object[]{sp.getMaSP(), sp.getTenSanPham(), sp.getDonViTinh(), Xcurrency.toCurrency(sp.getDonGia())});
             }
         }
@@ -2051,6 +2051,7 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
             modelDS.removeRow(row);
         } catch (Exception e) {
             MsgBox.alert(this, "Số lượng không đúng định dạng");
+            e.printStackTrace();
         }
     }
 
@@ -2111,7 +2112,7 @@ public class QuanLyBanFrame extends javax.swing.JFrame {
 
     void fillTable() {
         updateStatusTable();
-        List<Ban> lst = daoBan.selectPagingFull(1, getCboTable(), txtTimKiem.getText(), getRdoSatus(), pageIndexTB);
+        List<Ban> lst = daoBan.selectPagingFull(1, getCboTable(), txtTimKiem.getText().trim(), getRdoSatus(), pageIndexTB);
         Component cm[] = pnlBan.getComponents();
         for (int i = 0; i < cm.length - 1; i++) {
             try {

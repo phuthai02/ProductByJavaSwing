@@ -41,13 +41,13 @@ public class ThanhToanFrame extends javax.swing.JFrame {
     String maBan;
     DefaultTableModel modelSP;
     List<SuKienKhuyenMai> lstSKKM;
-    
+
     public ThanhToanFrame(String Ban) {
         initComponents();
         maBan = Ban;
         init();
     }
-    
+
     void init() {
         setLocationRelativeTo(null);
         setResizable(false);
@@ -56,7 +56,7 @@ public class ThanhToanFrame extends javax.swing.JFrame {
         jLabel3.setBackground(new Color(Integer.parseInt(Auth.user.getMauNen(), 16)));
         prepareGUI();
     }
-    
+
     void prepareGUI() {
         setTableSP();
         fillCboSK();
@@ -64,7 +64,7 @@ public class ThanhToanFrame extends javax.swing.JFrame {
         DefaultForm(true);
         thanhToan();
     }
-    
+
     void DefaultForm(boolean done) {
         btnHoanThanh.setEnabled(!done);
         btnInHoaDon.setEnabled(!done);
@@ -74,30 +74,33 @@ public class ThanhToanFrame extends javax.swing.JFrame {
         txtNgaySinh.setEnabled(done);
         btnHuyChon.setEnabled(!done);
     }
-    
+
     void huyChon() {
-        DefaultForm(true);
-        txtTen.setText("");
-        txtEmail.setText("");
-        txtNgaySinh.setDate(null);
-        rdoNam.setSelected(true);
-        txtSDT.setText("");
-        rdoNam.setEnabled(true);
-        rdoNu.setEnabled(true);
-        btnKT.setEnabled(true);
-        btnThemMoi.setEnabled(true);
+        if (MsgBox.confirm(this, "Bạn có chắc chắn muốn hủy không?")) {
+            DefaultForm(true);
+            txtTen.setText("");
+            txtEmail.setText("");
+            txtNgaySinh.setDate(null);
+            rdoNam.setSelected(true);
+            txtSDT.setText("");
+            rdoNam.setEnabled(true);
+            rdoNu.setEnabled(true);
+            btnKT.setEnabled(true);
+            btnThemMoi.setEnabled(true);
+        }
+
     }
-    
+
     void traLai() {
         int tongCong = Xcurrency.toInt(lblTongcong.getText());
-        int traLai = Integer.parseInt(txtKhachDua.getText()) - tongCong;
+        int traLai = Integer.parseInt(txtKhachDua.getText().trim()) - tongCong;
         if (traLai > 0) {
             lblTraLai.setText(Xcurrency.toCurrency(traLai));
         } else {
             lblTraLai.setText("Còn thiếu " + Xcurrency.toCurrency(Math.abs(traLai)));
         }
     }
-    
+
     void setTextToLB() {
         lblBan.setText(new BanDAO().selectById(maBan).getTenBan());
         lblOrder.setText(new NhanVienDAO().selectById(new BanChoDAO().getNV(maBan)).getTenNV());
@@ -105,7 +108,7 @@ public class ThanhToanFrame extends javax.swing.JFrame {
         lblGioRa.setText(Xdate.toString(new Date(), "hh:mm:ss - EE, dd/MM/yyyy"));
         lblThanhToan.setText(Auth.user.getTenNV());
     }
-    
+
     void thanhToan() {
         lblCongtien.setText(getCongTien());
         lblGiam.setText(getGiam());
@@ -115,12 +118,12 @@ public class ThanhToanFrame extends javax.swing.JFrame {
             traLai();
         }
     }
-    
+
     String getTongCong() {
         int tongCong = Xcurrency.toInt(lblCongtien.getText()) - Xcurrency.toInt(lblGiam.getText());
         return Xcurrency.toCurrency(tongCong);
     }
-    
+
     String getGiam() {
         if (cboSK.getItemCount() > 0) {
             int tienGiam = Xcurrency.toInt(lblCongtien.getText());
@@ -130,7 +133,7 @@ public class ThanhToanFrame extends javax.swing.JFrame {
             return "0 đ";
         }
     }
-    
+
     String getCongTien() {
         int tongTien = 0;
         for (int i = 0; i < tblSP.getRowCount(); i++) {
@@ -138,7 +141,7 @@ public class ThanhToanFrame extends javax.swing.JFrame {
         }
         return Xcurrency.toCurrency(tongTien);
     }
-    
+
     void fillCboSK() {
         cboSK.removeAllItems();
         lstSKKM = new SKKMDAO().selectSKDDR(1, Xdate.toString(new Date(), "yyyy-MM-dd"));
@@ -146,12 +149,12 @@ public class ThanhToanFrame extends javax.swing.JFrame {
             cboSK.addItem(sk.getTenSKKM());
         }
     }
-    
+
     void kiemTra() {
         if (txtSDT.getText().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập số điện thoại!");
         } else {
-            KhachHang ks = new KhachHangDao().selectSDT(txtSDT.getText());
+            KhachHang ks = new KhachHangDao().selectSDT(txtSDT.getText().trim());
             if (!(ks == null)) {
                 txtTen.setText(ks.getTenKH());
                 txtEmail.setText(ks.getEmail());
@@ -176,7 +179,7 @@ public class ThanhToanFrame extends javax.swing.JFrame {
             }
         }
     }
-    
+
     void setTableSP() {
         String h[] = {"Mã sản phẩm", "Tên sản phẩm", "Số lượng", "ĐVT", "Đơn giá", "Tổng tiền"};
         modelSP = new DefaultTableModel(h, 0) {
@@ -188,14 +191,14 @@ public class ThanhToanFrame extends javax.swing.JFrame {
         tblSP.setModel(modelSP);
         fillTableDS();
     }
-    
+
     void fillTableDS() {
         modelSP.setRowCount(0);
         List<BanCho> lst = new BanChoDAO().selectByBan(maBan);
         for (BanCho banCho : lst) {
             SanPham sp = new SanPhamDAO().selectById(banCho.getMaSP());
             modelSP.addRow(new Object[]{sp.getMaSP(), sp.getTenSanPham(), banCho.getSoLuong(), sp.getDonViTinh(), Xcurrency.toCurrency(sp.getDonGia()), Xcurrency.toCurrency(sp.getDonGia() * banCho.getSoLuong())});
-            
+
         }
     }
 
@@ -614,7 +617,7 @@ public class ThanhToanFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtKhachDuaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKhachDuaKeyReleased
-        if (!(txtKhachDua.getText().length() == 0)) {
+        if (!(txtKhachDua.getText().trim().length() == 0)) {
             try {
                 traLai();
             } catch (Exception e) {
@@ -623,52 +626,66 @@ public class ThanhToanFrame extends javax.swing.JFrame {
             }
         } else {
             lblTraLai.setText("0 đ");
-            
+
         }
     }//GEN-LAST:event_txtKhachDuaKeyReleased
     void themMoi() {
         if (checkValidate()) {
-            KhachHang kh = new KhachHang(txtTen.getText(), txtSDT.getText(), txtEmail.getText(), txtNgaySinh.getDate(), rdoNam.isSelected(), Auth.user.getMaNV(), true);
+            KhachHang kh = new KhachHang(txtTen.getText().trim(), txtSDT.getText().trim(), txtEmail.getText().trim(), txtNgaySinh.getDate(), rdoNam.isSelected(), Auth.user.getMaNV(), true);
             new KhachHangDao().insertNoID(kh);
             MsgBox.alert(this, "Thêm mới thành công");
         }
     }
-    
+
     void hoanThanh() {
-        HoaDon hd = new HoaDon(new KhachHangDao().selectSDT(txtSDT.getText()).getMaKH(), Xdate.toString(new Date(), "yyyy-MM-dd"), "", Auth.user.getMaNV(), lstSKKM.get(cboSK.getSelectedIndex()).getMaSKKM(), maBan, true);
+        HoaDon hd = new HoaDon(new KhachHangDao().selectSDT(txtSDT.getText().trim()).getMaKH(), Xdate.toString(new Date(), "yyyy-MM-dd"), "", Auth.user.getMaNV(), lstSKKM.get(cboSK.getSelectedIndex()).getMaSKKM(), maBan, true);
         new HoaDonDAO().insert(hd);
         int maHD = new HoaDonDAO().selectMaHD(maBan).getMaHD();
         for (int i = 0; i < tblSP.getRowCount(); i++) {
             HoaDonChiTiet hdct = new HoaDonChiTiet(maHD, tblSP.getValueAt(i, 0).toString(), Integer.parseInt(tblSP.getValueAt(i, 2).toString()), Xcurrency.toInt(tblSP.getValueAt(i, 4).toString()), true);
             new HoaDonChiTietDAO().insert(hdct);
         }
-        Xmail.sendThanks(txtEmail.getText(), txtTen.getText());
+        Xmail.sendThanks(txtEmail.getText().trim(), txtTen.getText().trim());
         MsgBox.alert(this, "Thanh toán thành công!");
         new BanChoDAO().delete(maBan);
         new QuanLyBanFrame().setVisible(true);
         dispose();
     }
-    
+
     boolean checkValidate() {
-        String pEmail = "^.+@fpt.edu.vn$";
+        String pEmail = "^[A-Za-z0-9]+[A-Za-z0-9]*+@fpt.edu.vn$";
         String pSDT = "^0[0-9]{9}$";
-        if (txtTen.getText().length() == 0) {
+        String s = txtTen.getText().replaceAll("[^0-9]", "");
+        String pKiTu = txtTen.getText().replaceAll("[^!@#$%&*()_+=|<>?{}\\\\[\\\\]~-]", "");
+        if (txtTen.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập tên khách hàng!");
             txtTen.requestFocus();
             return false;
-        } else if (txtSDT.getText().length() == 0) {
+        } else if ((txtTen.getText().trim().matches(s))) {
+            MsgBox.alert(this, "Tên khách hàng phải chứa kí tự chữ");
+            txtTen.requestFocus();
+            return false;
+        } else if ((txtTen.getText().trim().matches(pKiTu))) {
+            MsgBox.alert(this, "Tên khách hàng không được chứa kí tự đặc biệt");
+            txtTen.requestFocus();
+            return false;
+        } else if (!(txtTen.getText().trim().length() >= 6 && txtTen.getText().trim().length() <= 50)) {
+            MsgBox.alert(this, "Họ tên khách hàng chứa từ 6 đến 50 kí tự");
+            txtTen.requestFocus();
+            return false;
+        } else if (txtSDT.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập SDT khách hàng!");
             txtSDT.requestFocus();
             return false;
-        } else if (!txtSDT.getText().matches(pSDT)) {
+        } else if (!txtSDT.getText().trim().matches(pSDT)) {
             MsgBox.alert(this, "SDT không đúng định dạng!");
             txtSDT.requestFocus();
             return false;
-        } else if (txtEmail.getText().length() == 0) {
+        } else if (txtEmail.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập email khách hàng!");
             txtEmail.requestFocus();
             return false;
-        } else if (!txtEmail.getText().matches(pEmail)) {
+        } else if (!txtEmail.getText().trim().matches(pEmail)) {
             MsgBox.alert(this, "Email không đúng định dạng!");
             txtEmail.requestFocus();
             return false;
@@ -693,11 +710,18 @@ public class ThanhToanFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnThemMoiActionPerformed
 
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
-        dispose();
+        if (MsgBox.confirm(this, "Bạn có chắc chắn muốn hủy không?")) {
+            dispose();
+        }
+
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void btnHoanThanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoanThanhActionPerformed
-        hoanThanh();
+        if (txtKhachDua.getText().trim().length() == 0) {
+            MsgBox.alert(this, "Khách đưa không được để trống!");
+        } else {
+            hoanThanh();
+        }
     }//GEN-LAST:event_btnHoanThanhActionPerformed
 
     private void btnHuyChonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyChonActionPerformed
