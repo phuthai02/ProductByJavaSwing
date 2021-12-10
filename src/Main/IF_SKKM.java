@@ -200,13 +200,18 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
             txtTenSKKM.requestFocus();
             return false;
         }
+        if (txtTenSKKM.getText().trim().length() > 30) {
+            MsgBox.alert(this, "Tên sự kiện nhỏ hơn 30 kí tự!");
+            txtTenSKKM.requestFocus();
+            return false;
+        }
         if (txtGiaTriKM.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập giá trị khuyến mãi!");
             txtGiaTriKM.requestFocus();
             return false;
         } else {
             try {
-                if (Double.parseDouble(txtGiaTriKM.getText().trim()) < 0) {
+                if (Double.parseDouble(txtGiaTriKM.getText().trim()) <= 0) {
                     MsgBox.alert(this, "Vui lòng nhập giá trị khuyến mãi lớn hơn 0!");
                     txtGiaTriKM.requestFocus();
                     return false;
@@ -220,12 +225,22 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
         int ngayBD;
         int ngayKT;
         if (txtNgayBatDau.getDate() == null) {
+            MsgBox.alert(this, "Vui lòng chọn ngày bắt đầu");
+            return false;
+        } 
+        if (txtNgayKetThuc.getDate() == null) {           
+            MsgBox.alert(this, "Vui lòng chọn ngày kết thúc");
+            return false;
+        }
+        if (txtNgayBatDau.getDate() == null) {
             ngayBD = 20000101;
+            MsgBox.alert(this, "Vui lòng chọn ngày bắt đầu");
         } else {
             ngayBD = Integer.parseInt(Xdate.toString(txtNgayBatDau.getDate(), "yyyyMMdd"));
         }
         if (txtNgayKetThuc.getDate() == null) {
             ngayKT = 20220101;
+            MsgBox.alert(this, "Vui lòng chọn ngày kết thúc");
         } else {
             ngayKT = Integer.parseInt(Xdate.toString(txtNgayKetThuc.getDate(), "yyyyMMdd"));
         }
@@ -283,6 +298,7 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
                 this.fillTableLT();
                 clearForm();
                 MsgBox.alert(this, "Cập nhật thành công!");
+                tabs.setSelectedIndex(0);
             } catch (Exception e) {
                 MsgBox.alert(this, "Cập nhật thất bại!");
                 e.printStackTrace();
@@ -1071,7 +1087,7 @@ public class IF_SKKM extends javax.swing.JInternalFrame {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         update();
-        tabs.setSelectedIndex(0);
+       
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
