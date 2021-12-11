@@ -579,6 +579,11 @@ public class IF_ThongKe extends javax.swing.JInternalFrame {
         jLabel10.setText("đến");
 
         btnLDT.setText("Lọc");
+        btnLDT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLDTActionPerformed(evt);
+            }
+        });
 
         tblDT.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -675,6 +680,10 @@ public class IF_ThongKe extends javax.swing.JInternalFrame {
     private void btnLNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLNVActionPerformed
         fillTableNV();
     }//GEN-LAST:event_btnLNVActionPerformed
+
+    private void btnLDTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLDTActionPerformed
+       fillTableDT();
+    }//GEN-LAST:event_btnLDTActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
