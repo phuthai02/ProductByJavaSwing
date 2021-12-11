@@ -50,7 +50,7 @@ public class IF_ThongTin extends javax.swing.JInternalFrame {
         jPanel1.setBackground(cl);
         Auth.user.setMauNen(hexString);
         new NhanVienDAO().update(Auth.user);
-        MsgBox.alert(this, "Khởi động lại để thống để cập nhật thay đổi");
+        MsgBox.alert(this, "Khởi động lại hệ thống để cập nhật thay đổi");
     }
     /**
      * This method is called from within the constructor to initialize the form.
