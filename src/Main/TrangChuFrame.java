@@ -253,7 +253,6 @@ public class TrangChuFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton7 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         pnBG2 = new javax.swing.JPanel();
         btnBan = new javax.swing.JButton();
@@ -278,6 +277,8 @@ public class TrangChuFrame extends javax.swing.JFrame {
         jMenuItem15 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem16 = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem18 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -294,8 +295,6 @@ public class TrangChuFrame extends javax.swing.JFrame {
         jMenuItem13 = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem12 = new javax.swing.JMenuItem();
-
-        jButton7.setText("jButton7");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Hệ thống quản lý nhà hàng");
@@ -507,6 +506,16 @@ public class TrangChuFrame extends javax.swing.JFrame {
             }
         });
         jMenu6.add(jMenuItem16);
+        jMenu6.add(jSeparator2);
+
+        jMenuItem18.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F5, 0));
+        jMenuItem18.setText("Thanh toán");
+        jMenuItem18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem18ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem18);
 
         jMenuBar1.add(jMenu6);
 
@@ -711,10 +720,6 @@ public class TrangChuFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jMenu4ActionPerformed
 
-    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
-        showTT();
-    }//GEN-LAST:event_jMenuItem13ActionPerformed
-
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         if (!Auth.isManager()) {
             MsgBox.alert(this, "Bạn không có quyền!");
@@ -775,6 +780,14 @@ public class TrangChuFrame extends javax.swing.JFrame {
         showBan(4);
     }//GEN-LAST:event_jButton6ActionPerformed
 
+    private void jMenuItem13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem13ActionPerformed
+        showTT();
+    }//GEN-LAST:event_jMenuItem13ActionPerformed
+
+    private void jMenuItem18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem18ActionPerformed
+        showBan(5);
+    }//GEN-LAST:event_jMenuItem18ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -819,7 +832,6 @@ public class TrangChuFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -836,6 +848,7 @@ public class TrangChuFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
     private javax.swing.JMenuItem jMenuItem16;
+    private javax.swing.JMenuItem jMenuItem18;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -846,6 +859,7 @@ public class TrangChuFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JLabel lblClock;
     private javax.swing.JLabel lblDay;
     private javax.swing.JLabel lblHinhAnh;
@@ -901,98 +915,4 @@ public class TrangChuFrame extends javax.swing.JFrame {
         t.start();
     }
 
-    void openDoiMatKhau() {
-        if (Auth.isLogin()) {
-            new DoiMatKhauFrame().setVisible(true);
-        } else {
-            MsgBox.alert(this, "Vui lòng đăng nhập!");
-        }
-    }
-
-    void openLichSuGiaoDich() {
-        if (Auth.isLogin()) {
-//            new LichSuGiaoDichFrame().setVisible(true);
-        } else {
-            MsgBox.alert(this, "Vui lòng đăng nhập!");
-        }
-    }
-
-    void openSuKien() {
-        if (Auth.isLogin()) {
-            new QuanLySKKMFrame().setVisible(true);
-        } else {
-            MsgBox.alert(this, "Vui lòng đăng nhập!");
-        }
-    }
-
-    void openChonBan(int index) {
-        if (Auth.isLogin()) {
-            QuanLyBanFrame qlb = new QuanLyBanFrame();
-            qlb.setVisible(true);
-        } else {
-            MsgBox.alert(this, "Vui lòng đăng nhập!");
-        }
-    }
-
-    void openQLThucPham() {
-        if (Auth.isLogin()) {
-            new QuanLyThucPhamFrame().setVisible(true);
-        } else {
-            MsgBox.alert(this, "Vui lòng đăng nhập!");
-        }
-    }
-
-    void openQuanLySanPham() {
-        if (Auth.isLogin()) {
-            new QuanLySanPhamFrame().setVisible(true);
-        } else {
-            MsgBox.alert(this, "Vui lòng đăng nhập!");
-        }
-    }
-
-    void openQuanLyKhachHang() {
-        if (Auth.isLogin()) {
-            new QuanLyKhachHangFrame().setVisible(true);
-        } else {
-            MsgBox.alert(this, "Vui lòng đăng nhập!");
-        }
-    }
-
-    void openQuanLyNhanVien() {
-        if (Auth.isLogin()) {
-            new QuanLyNhanVienFrame().setVisible(true);
-        } else {
-            MsgBox.alert(this, "Vui lòng đăng nhập!");
-        }
-    }
-
-    void openSuKienKhuyenMai() {
-        if (Auth.isLogin()) {
-            new QuanLySKKMFrame().setVisible(true);
-        } else {
-            MsgBox.alert(this, "Vui lòng đăng nhập!");
-        }
-    }
-
-    void openThongke(int index) {
-        if (Auth.isLogin()) {
-            if (index == 4 && index == 5 && !Auth.isManager()) {
-                MsgBox.alert(this, "Bạn không có quyền xem");
-            } else {
-//                ThongKeFrame tk = new ThongKeFrame();
-//                tk.setVisible(true);
-//                tk.selectTab(index);
-            }
-        } else {
-            MsgBox.alert(this, "Vui lòng đăng nhập!");
-        }
-    }
-
-    void openThongTin() {
-        if (Auth.isLogin()) {
-            new ThongTinFrame().setVisible(true);
-        } else {
-            MsgBox.alert(this, "Vui lòng đăng nhập!");
-        }
-    }
 }
