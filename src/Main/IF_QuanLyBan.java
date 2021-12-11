@@ -1773,8 +1773,8 @@ public class IF_QuanLyBan extends javax.swing.JInternalFrame {
         lstDB = new BanDatDAO().selectALL();
         modelDB.setRowCount(0);
         for (BanDat banDat : lstDB) {
-            if (new BanDAO().selectById(banDat.getMaBan()).getTenBan().toUpperCase().contains(txtTimBanDat.getText().toUpperCase())
-                    || new KhachHangDao().selectById(banDat.getMaKH()).getTenKH().toUpperCase().contains(txtTimBanDat.getText().toUpperCase())) {
+            if (new BanDAO().selectById(banDat.getMaBan()).getTenBan().toUpperCase().contains(txtTimBanDat.getText().toUpperCase().trim())
+                    || new KhachHangDao().selectById(banDat.getMaKH()).getTenKH().toUpperCase().contains(txtTimBanDat.getText().toUpperCase().trim())) {
                 modelDB.addRow(new Object[]{
                     new BanDAO().selectById(banDat.getMaBan()).getTenBan(),
                     new KhachHangDao().selectById(banDat.getMaKH()).getTenKH(),
@@ -2464,16 +2464,30 @@ public class IF_QuanLyBan extends javax.swing.JInternalFrame {
     }
 
     boolean checkValidateQL() {
-        if (txtMaBan.getText().length() == 0) {
+        String s = txtTenBan.getText().replaceAll("[^0-9]", "");
+        String pKiTu = txtTenBan.getText().replaceAll("[^!@#$%&*()_+=|<>?{}\\\\[\\\\]~-]", "");
+        if (txtMaBan.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập mã bàn!");
+            txtMaBan.requestFocus();
+            return false;
+        } else if ((txtMaBan.getText().trim().matches(pKiTu))) {
+            MsgBox.alert(this, "Mã bàn không được chứa kí tự đặc biệt");
             txtMaBan.requestFocus();
             return false;
         } else if (new BanDAO().selectById(txtMaBan.getText()) != null && tblQL.getSelectedRow() < 0) {
             MsgBox.alert(this, "Mã bàn đã tồn tại!");
             txtTenBan.requestFocus();
             return false;
-        } else if (txtTenBan.getText().length() == 0) {
+        } else if (txtTenBan.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập tên bàn!");
+            txtTenBan.requestFocus();
+            return false;
+        } else if ((txtTenBan.getText().trim().matches(pKiTu))) {
+            MsgBox.alert(this, "Tên Bàn không được chứa kí tự đặc biệt");
+            txtTenBan.requestFocus();
+            return false;
+        } else if (!(txtTenBan.getText().trim().length() <= 50)) {
+            MsgBox.alert(this, "Tên bàn không quá 50 kí tự");
             txtTenBan.requestFocus();
             return false;
         }
