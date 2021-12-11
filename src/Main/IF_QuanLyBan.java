@@ -29,7 +29,6 @@ import Untils.MsgBox;
 import Untils.XBill;
 import Untils.Xcurrency;
 import Untils.Xdate;
-import Untils.Xmail;
 import com.itextpdf.text.BadElementException;
 import java.awt.Color;
 import java.awt.Component;
@@ -2197,6 +2196,10 @@ public class IF_QuanLyBan extends javax.swing.JInternalFrame {
 
     void themBan() {
         if (checkValidateQL()) {
+            if (Integer.parseInt(getFormQL().getViTri()) < 0) {
+                MsgBox.alert(this, "Tầng phải >= 0 !");
+                return;
+            }
             new BanDAO().insert(getFormQL());
             rowQL = -1;
             changeTable();
@@ -2206,6 +2209,10 @@ public class IF_QuanLyBan extends javax.swing.JInternalFrame {
 
     void suaBan() {
         if (checkValidateQL()) {
+            if (Integer.parseInt(getFormQL().getViTri()) < 0) {
+                MsgBox.alert(this, "Tầng phải >= 0 !");
+                return;
+            }
             new BanDAO().update(getFormQL());
             rowQL = -1;
             changeTable();
@@ -3052,6 +3059,7 @@ public class IF_QuanLyBan extends javax.swing.JInternalFrame {
         txtTenTT.setEnabled(done);
         txtNgaySinhTT.setEnabled(done);
         btnHuyChonTT.setEnabled(!done);
+        txtKhachDua.setEnabled(!done);
     }
 
     void huyChonTT() {
@@ -3070,7 +3078,7 @@ public class IF_QuanLyBan extends javax.swing.JInternalFrame {
     void traLaiTT() {
         int tongCong = Xcurrency.toInt(lblTongcong.getText());
         int traLai = Integer.parseInt(txtKhachDua.getText()) - tongCong;
-        if (traLai > 0 && tblSP1.getRowCount() > 0) {
+        if (traLai >= 0 && tblSP1.getRowCount() > 0) {
             lblTraLai.setText(Xcurrency.toCurrency(traLai));
             btnHoanThanhTT.setEnabled(true);
             btnInHoaDonTT.setEnabled(true);
@@ -3150,9 +3158,8 @@ public class IF_QuanLyBan extends javax.swing.JInternalFrame {
                 btnKTTT.setEnabled(false);
                 btnThemMoiTT.setEnabled(false);
                 btnHuyChonTT.setEnabled(true);
+                txtKhachDua.setEnabled(true);
             } else {
-                btnHoanThanhTT.setEnabled(false);
-                btnInHoaDonTT.setEnabled(false);
                 MsgBox.alert(this, "Số điện thoại không tồn tại!");
             }
         }

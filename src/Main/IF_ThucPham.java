@@ -28,7 +28,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -232,11 +231,12 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
         row = tblDS.getSelectedRow();
         String newGia = MsgBox.promt(this, "Mời nhập giá nhập!");
         dtmDS.setValueAt(newGia, row, 5);
-        ThucPham tp = tpdao.selectById((Integer)tblDS.getValueAt(row, 0));
+        ThucPham tp = tpdao.selectById((Integer) tblDS.getValueAt(row, 0));
         tp.setGiaNhap(Integer.parseInt(newGia));
         tpdao.update(tp);
         fillToDanhSach();
     }
+
     void chiTiet() {
         row = tblDS.getSelectedRow();
         setForm(tpdao.selectById(Integer.parseInt(tblDS.getValueAt(row, 0).toString())));
@@ -1232,9 +1232,10 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void CLDNgayMuaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_CLDNgayMuaPropertyChange
-        // TODO add your handling code here:
         if (CLDNgayMua != null && tpdao != null) {
             fillToDanhSach();
+            lblNgayMua.setText(Xdate.toString(CLDNgayMua.getDate(), "dd/MM/yyyy"));
+            lblNgayTaoDS.setText("Không có hóa đơn");
         }
     }//GEN-LAST:event_CLDNgayMuaPropertyChange
 

@@ -159,13 +159,17 @@ public class LoginFrame extends javax.swing.JFrame {
         jPanel1.setOpaque(false);
         jPanel1.setLayout(null);
 
-        txtTenDangNhap.setText("NV01");
         txtTenDangNhap.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtTenDangNhapFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 txtTenDangNhapFocusLost(evt);
+            }
+        });
+        txtTenDangNhap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTenDangNhapActionPerformed(evt);
             }
         });
         txtTenDangNhap.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -269,7 +273,6 @@ public class LoginFrame extends javax.swing.JFrame {
         jPanel1.add(lblShow);
         lblShow.setBounds(690, 210, 30, 30);
 
-        txtMatKhau.setText("123");
         txtMatKhau.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtMatKhauFocusGained(evt);
@@ -419,6 +422,10 @@ public class LoginFrame extends javax.swing.JFrame {
     private void lblQMKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblQMKMouseClicked
         fg.setVisible(true);
     }//GEN-LAST:event_lblQMKMouseClicked
+
+    private void txtTenDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenDangNhapActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTenDangNhapActionPerformed
 
     /**
      * @param args the command line arguments
