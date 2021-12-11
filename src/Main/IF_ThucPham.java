@@ -71,6 +71,7 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
         jPanel2.setBackground(new Color(Integer.parseInt(Auth.user.getMauNen(), 16)));
         CLDNgayMua.setDate(new Date());
         CLDNgayMua1.setDate(new Date());
+        lblNgayTao.setDate(new Date());
         dtmDS = (DefaultTableModel) tblDS.getModel();
         dtmLT = (DefaultTableModel) tblLT.getModel();
         tabs.setSelectedIndex(1);
@@ -85,6 +86,7 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
         fillcboDVT(cboDVT);
         fillcboNVMua();
         updateStatus();
+        lblNgayTao.setEnabled(false);
     }
 
     void fillcboLTP() {
@@ -104,13 +106,13 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
     }
 
     void fillToDanhSach() {
-        List<ThucPham> lst = tpdao.selectPagingFull(1, pageIndexDS, txtTimDS.getText(), Xdate.toString(CLDNgayMua.getDate(), "yyyy-MM-dd"));
+        List<ThucPham> lst = tpdao.selectPagingFull(1, pageIndexDS, txtTimDS.getText().trim(), Xdate.toString(CLDNgayMua.getDate(), "yyyy-MM-dd"));
         lblPageIndexDS.setText(pageIndexDS + 1 + "");
         updateStatusPage();
         dtmDS.setRowCount(0);
         lst.forEach((tp) -> {
-            lblNgayMua.setText(Xdate.toString(tp.getNgaymua(), "yyyy-MM-dd"));
-            lblNgayTaoDS.setText(Xdate.toString(tp.getNgaynhap(), "yyyy-MM-dd"));
+            lblNgayMua.setText(Xdate.toString(tp.getNgaymua(), "dd/MM/yyyy"));
+            lblNgayTaoDS.setText(Xdate.toString(tp.getNgaynhap(), "dd/MM/yyyy"));
             dtmDS.addRow(new Object[]{
                 tp.getMaNL(),
                 tp.getTenNL(),
@@ -123,7 +125,7 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
     }
 
     void fillToLuuTru() {
-        List<ThucPham> lst = tpdao.selectPagingFull(0, pageIndexLT, txtTimLT.getText(), Xdate.toString(CLDNgayMua1.getDate(), "yyyy-MM-dd"));
+        List<ThucPham> lst = tpdao.selectPagingFull(0, pageIndexLT, txtTimLT.getText().trim(), Xdate.toString(CLDNgayMua1.getDate(), "yyyy-MM-dd"));
         lblPageIndexLT.setText(pageIndexLT + 1 + "");
         updateStatusPage();
         dtmLT.setRowCount(0);
@@ -172,7 +174,7 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
         cboLoaiThucPham.setSelectedItem(ltpdao.selectById(tp.getMaLoaiTP()).getTenLoaiTP());
         txtNgaymua.setDate((tp.getNgaymua()));
         cboDVT.setSelectedItem(tp.getDVT());
-        lblngayTao.setText(Xdate.toString(tp.getNgaynhap(), "yyyy-MM-dd"));
+        lblNgayTao.setDate(tp.getNgaynhap());
         txtMoTa.setText(tp.getMoTa());
     }
 
@@ -226,8 +228,10 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
         tp.setTrangThai(true);
         return tp;
     }
-
     void updateGia() {
+        try { 
+        String pSoLuong = "^\\+?[1-9]\\d*$";
+        int i = -1;
         row = tblDS.getSelectedRow();
         String newGia = MsgBox.promt(this, "Mời nhập giá nhập!");
         dtmDS.setValueAt(newGia, row, 5);
@@ -235,6 +239,25 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
         tp.setGiaNhap(Integer.parseInt(newGia));
         tpdao.update(tp);
         fillToDanhSach();
+        while (i < 0) {
+            String newGia = MsgBox.promt(this, "Mời nhập giá nhập!");   
+            if (!(newGia.trim().length() > 0)) {
+                MsgBox.alert(this, "Không được để trống!");
+            } else if (!(newGia.trim().matches(pSoLuong))) {
+                MsgBox.alert(this, "Giá nhập phải là số dương!");
+            } else {
+                i++;
+                dtmDS.setValueAt(newGia, row, 5);
+                ThucPham tp = tpdao.selectById((Integer) tblDS.getValueAt(row, 0));
+                tp.setGiaNhap(Integer.parseInt(newGia.trim()));
+                tpdao.update(tp);
+                fillToDanhSach();
+                MsgBox.alert(this, "Update giá nhập thành công!");
+                break;
+            }
+        }
+        } catch (Exception e) {
+        }
     }
 
     void chiTiet() {
@@ -262,6 +285,10 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
             MsgBox.alert(this, "Tên nguyên liệu không được chứa kí tự đặc biệt");
             txtTen.requestFocus();
             return false;
+        } else if (!(txtTen.getText().trim().length() <= 30 && txtTen.getText().trim().length() >= 3)) {
+            MsgBox.alert(this, "Tên nguyên liệu phải chứa từ 3 đến 30 kí tự!");
+            txtTen.requestFocus();
+            return false;
         } else if (txtSoLuong.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập số lượng!");
             txtSoLuong.requestFocus();
@@ -273,8 +300,15 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
         } else if (txtNgaymua.getDate() == null) {
             MsgBox.alert(this, "Vui lòng nhập ngày mua!");;
             return false;
+        } else if (Integer.parseInt(Xdate.toString(txtNgaymua.getDate(), "yyyyMMdd")) < Integer.parseInt(Xdate.toString(lblNgayTao.getDate(), "yyyyMMdd"))) {
+            MsgBox.alert(this, "Ngày mua không được trước ngày tạo!");;
+            return false;
         } else if (txtMoTa.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập mô tả!");
+            txtMoTa.requestFocus();
+            return false;
+        } else if (!(txtMoTa.getText().trim().length() <= 30 && txtMoTa.getText().trim().length() > 0)) {
+            MsgBox.alert(this, "Tên nguyên liệu phải chứa từ 1 đến 30 kí tự!");
             txtMoTa.requestFocus();
             return false;
         }
@@ -338,37 +372,42 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
     }
 
     void xuatExcel() {
+        ThucPham tp = new ThucPham();
         try {
-            JFileChooser chooser = new JFileChooser("excels");
-            chooser.showSaveDialog(this);
-            File saveFile = chooser.getSelectedFile();
-            if (saveFile != null) {
-                saveFile = new File(saveFile.toString() + ".xlsx");
-                XSSFWorkbook wb = new XSSFWorkbook();
-                XSSFSheet sheet = wb.createSheet("ThucPham");
-                XSSFRow rowcol = sheet.createRow(0);
-                for (int i = 0; i < tblDS.getColumnCount(); i++) {
-                    XSSFCell cell = rowcol.createCell(i);
-                    cell.setCellValue(tblDS.getColumnName(i));
-                }
-                for (int j = 0; j < tblDS.getRowCount(); j++) {
-                    XSSFRow row = sheet.createRow(j + 1);
-                    for (int k = 0; k < tblDS.getColumnCount(); k++) {
-                        XSSFCell cell = row.createCell(k);
-                        if (tblDS.getValueAt(j, k) != null) {
-                            cell.setCellValue(tblDS.getValueAt(j, k).toString());
+            if (tblDS.getRowCount() == 0) {
+                MsgBox.alert(this, "Chưa có nguyên liệu nào trong danh sách cần mua!");
+            } else {
+                JFileChooser chooser = new JFileChooser("excels");
+                chooser.showSaveDialog(this);
+                File saveFile = chooser.getSelectedFile();
+                if (saveFile != null) {
+                    saveFile = new File(saveFile.toString() + ".xlsx");
+                    XSSFWorkbook wb = new XSSFWorkbook();
+                    XSSFSheet sheet = wb.createSheet("ThucPham");
+                    XSSFRow rowcol = sheet.createRow(0);
+                    for (int i = 0; i < tblDS.getColumnCount(); i++) {
+                        XSSFCell cell = rowcol.createCell(i);
+                        cell.setCellValue(tblDS.getColumnName(i));
+                    }
+                    for (int j = 0; j < tblDS.getRowCount(); j++) {
+                        XSSFRow row = sheet.createRow(j + 1);
+                        for (int k = 0; k < tblDS.getColumnCount(); k++) {
+                            XSSFCell cell = row.createCell(k);
+                            if (tblDS.getValueAt(j, k) != null) {
+                                cell.setCellValue(tblDS.getValueAt(j, k).toString());
+                            }
                         }
                     }
+                    FileOutputStream out = new FileOutputStream(new File(saveFile.toString()));
+                    wb.write(out);
+                    wb.close();
+                    out.close();
+                    Xmail.sendExcelNL(lstNhanViens.get(cboNVMua.getSelectedIndex()).getEmail(), saveFile,Xdate.toDate(lblNgayMua.getText(), "dd/MM/yyyy"));
+                    MsgBox.alert(this, "Gửi mail thành công!");
+                    openFile(saveFile.toString());
+                } else {
+                    MsgBox.alert(this, "Bạn chưa chọn vị trí lưu!");
                 }
-                FileOutputStream out = new FileOutputStream(new File(saveFile.toString()));
-                wb.write(out);
-                wb.close();
-                out.close();
-                Xmail.sendExcelNL(lstNhanViens.get(cboNVMua.getSelectedIndex()).getEmail(), saveFile);
-                MsgBox.alert(this, "Gửi mail thành công!");
-                openFile(saveFile.toString());
-            } else {
-                MsgBox.alert(this, "Bạn chưa chọn vị trí lưu!");
             }
         } catch (FileNotFoundException e) {
             System.out.println(e);
@@ -422,10 +461,10 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
         btnXoa = new javax.swing.JButton();
         btnMoi = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        lblngayTao = new javax.swing.JLabel();
         lblMa = new javax.swing.JLabel();
         lblDVT = new javax.swing.JLabel();
         cboDVT = new javax.swing.JComboBox<>();
+        lblNgayTao = new com.toedter.calendar.JDateChooser();
         jPanel6 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         txtTimDS = new javax.swing.JTextField();
@@ -440,7 +479,7 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
         btnNextDS = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblDS = new javax.swing.JTable();
-        btnNextDS1 = new javax.swing.JButton();
+        btnUpdateGia = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         lblNgayTaoDS = new javax.swing.JLabel();
@@ -570,14 +609,14 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Ngày mua");
 
-        lblngayTao.setText("03/12/2021");
-
         lblMa.setText("1");
 
         lblDVT.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lblDVT.setText("Đơn vị tính");
 
         cboDVT.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lblNgayTao.setDateFormatString("dd/MM/yyyy");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -606,6 +645,9 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
                             .addComponent(jLabel4)
                             .addComponent(jLabel7))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtMoTa, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -613,13 +655,10 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
                                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(cboLoaiThucPham, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(txtTen, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(lblngayTao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(lblMa, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(cboDVT, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(txtNgaymua, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtMoTa, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(txtNgaymua, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblNgayTao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -653,15 +692,18 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addComponent(jLabel5)))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblngayTao, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel4))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(lblNgayTao, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel7)
                     .addComponent(txtMoTa, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnThem)
@@ -721,7 +763,7 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
             }
         });
 
-        CLDNgayMua.setDateFormatString("yyyy-MM-dd");
+        CLDNgayMua.setDateFormatString("dd/MM/yyyy");
         CLDNgayMua.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 CLDNgayMuaPropertyChange(evt);
@@ -836,12 +878,12 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
         });
         jScrollPane1.setViewportView(tblDS);
 
-        btnNextDS1.setBackground(new java.awt.Color(0, 51, 153));
-        btnNextDS1.setForeground(new java.awt.Color(255, 255, 255));
-        btnNextDS1.setText("UPDATE GIÁ NHẬP");
-        btnNextDS1.addActionListener(new java.awt.event.ActionListener() {
+        btnUpdateGia.setBackground(new java.awt.Color(0, 51, 153));
+        btnUpdateGia.setForeground(new java.awt.Color(255, 255, 255));
+        btnUpdateGia.setText("UPDATE GIÁ NHẬP");
+        btnUpdateGia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNextDS1ActionPerformed(evt);
+                btnUpdateGiaActionPerformed(evt);
             }
         });
 
@@ -880,7 +922,7 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnNextDS)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnNextDS1))
+                                .addComponent(btnUpdateGia))
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 550, Short.MAX_VALUE)))
@@ -909,7 +951,7 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
                             .addComponent(btnPreDS)
                             .addComponent(lblPageIndexDS)
                             .addComponent(btnNextDS)
-                            .addComponent(btnNextDS1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnUpdateGia, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())))
         );
 
@@ -933,6 +975,7 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
         jButton6.setForeground(new java.awt.Color(255, 255, 255));
         jButton6.setText("TÌM KIẾM");
 
+        CLDNgayMua1.setDateFormatString("dd/MM/yyyy");
         CLDNgayMua1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 CLDNgayMua1PropertyChange(evt);
@@ -1203,15 +1246,14 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_tblDSMouseClicked
 
-    private void btnNextDS1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextDS1ActionPerformed
+    private void btnUpdateGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateGiaActionPerformed
         // TODO add your handling code here:
         if (tblDS.getSelectedRow() >= 0) {
             updateGia();
-            MsgBox.alert(this, "Update giá nhập thành công!");
         } else {
             MsgBox.alert(this, "Vui lòng chọn nguyên liệu cần xem chi tiết!");
         }
-    }//GEN-LAST:event_btnNextDS1ActionPerformed
+    }//GEN-LAST:event_btnUpdateGiaActionPerformed
 
     private void tblLTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLTMouseClicked
         // TODO add your handling code here:
@@ -1236,6 +1278,11 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
             fillToDanhSach();
             lblNgayMua.setText(Xdate.toString(CLDNgayMua.getDate(), "dd/MM/yyyy"));
             lblNgayTaoDS.setText("Không có hóa đơn");
+        // TODO add your handling code here:
+        
+        if (CLDNgayMua != null && tpdao != null) {
+            fillToDanhSach();
+            
         }
     }//GEN-LAST:event_CLDNgayMuaPropertyChange
 
@@ -1258,12 +1305,12 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnKhoiPhuc;
     private javax.swing.JButton btnMoi;
     private javax.swing.JButton btnNextDS;
-    private javax.swing.JButton btnNextDS1;
     private javax.swing.JButton btnNextLT;
     private javax.swing.JButton btnPreDS;
     private javax.swing.JButton btnPreLT;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnUpdateGia;
     private javax.swing.JButton btnXoa;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
@@ -1303,10 +1350,10 @@ public class IF_ThucPham extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lblDVT;
     private javax.swing.JLabel lblMa;
     private javax.swing.JLabel lblNgayMua;
+    private com.toedter.calendar.JDateChooser lblNgayTao;
     private javax.swing.JLabel lblNgayTaoDS;
     private javax.swing.JLabel lblPageIndexDS;
     private javax.swing.JLabel lblPageIndexLT;
-    private javax.swing.JLabel lblngayTao;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JTable tblDS;
     private javax.swing.JTable tblLT;

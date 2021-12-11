@@ -90,7 +90,7 @@ public class Xmail {
         }
     }
 
-    public static void sendExcelNL(String mailTo, File f) {
+    public static void sendExcelNL(String mailTo, File f, Date d) {
         Properties props = new Properties();
 
         props.put("mail.smtp.user", "username");
@@ -108,6 +108,8 @@ public class Xmail {
         //----------------------------
         String accountName = "thaidpph17321@fpt.edu.vn";
         String accountPassword = "thaiad1121";
+//        String accountName = "minhdungvipro@gmail.com";
+//        String accountPassword = "redsun1803";
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             @Override
             protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
@@ -120,7 +122,7 @@ public class Xmail {
             message.setFrom(new InternetAddress("thaidpph17321@fpt.edu.vn"));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(mailTo));
-            message.setSubject("Thông báo mua nguyên liệu");
+            message.setSubject("Thông báo mua nguyên liệu ngày " + Xdate.toString(d, "dd/MM/yyyy"));
             message.setText("Hệ thống quản lý nhà hàng");
 
             MimeBodyPart contentPart = new MimeBodyPart();

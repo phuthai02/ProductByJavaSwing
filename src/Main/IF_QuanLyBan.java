@@ -1997,8 +1997,10 @@ public class IF_QuanLyBan extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
     private void btnHoanThanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoanThanhActionPerformed
-        if (!checkSave()) {
+        if (!checkSave() && tblSP.getSelectedRow() >= 0) {
             hoanThanh();
+        } else if (tblSP.getSelectedRow() < 0) {
+            MsgBox.alert(this, "Vui lòng chọn sản phẩm!");
         } else {
             MsgBox.alert(this, "Vui lòng lưu lại thay đổi trước khi hoàn thành!");
         }
@@ -2323,8 +2325,8 @@ public class IF_QuanLyBan extends javax.swing.JInternalFrame {
         lstDB = new BanDatDAO().selectALL();
         modelDB.setRowCount(0);
         for (BanDat banDat : lstDB) {
-            if (new BanDAO().selectById(banDat.getMaBan()).getTenBan().toUpperCase().contains(txtTimBanDat.getText().toUpperCase())
-                    || new KhachHangDao().selectById(banDat.getMaKH()).getTenKH().toUpperCase().contains(txtTimBanDat.getText().toUpperCase())) {
+            if (new BanDAO().selectById(banDat.getMaBan()).getTenBan().toUpperCase().contains(txtTimBanDat.getText().toUpperCase().trim())
+                    || new KhachHangDao().selectById(banDat.getMaKH()).getTenKH().toUpperCase().contains(txtTimBanDat.getText().toUpperCase().trim())) {
                 modelDB.addRow(new Object[]{
                     new BanDAO().selectById(banDat.getMaBan()).getTenBan(),
                     new KhachHangDao().selectById(banDat.getMaKH()).getTenKH(),
@@ -2378,25 +2380,39 @@ public class IF_QuanLyBan extends javax.swing.JInternalFrame {
     }
 
     boolean checkValidate() {
-        String pEmail = "^.+@fpt.edu.vn$";
+        String pEmail = "^[A-Za-z0-9]+[A-Za-z0-9]*+@fpt.edu.vn$";
         String pSDT = "^0[0-9]{9}$";
-        if (txtTen.getText().length() == 0) {
+        String s = txtTen.getText().replaceAll("[^0-9]", "");
+        String pKiTu = txtTen.getText().replaceAll("[^!@#$%&*()_+=|<>?{}\\\\[\\\\]~-]", "");
+        if (txtTen.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập tên khách hàng!");
             txtTen.requestFocus();
             return false;
-        } else if (txtSDT.getText().length() == 0) {
+        } else if ((txtTen.getText().trim().matches(s))) {
+            MsgBox.alert(this, "Tên khách hàng phải chứa kí tự chữ");
+            txtTen.requestFocus();
+            return false;
+        } else if ((txtTen.getText().trim().matches(pKiTu))) {
+            MsgBox.alert(this, "Tên khách hàng không được chứa kí tự đặc biệt");
+            txtTen.requestFocus();
+            return false;
+        } else if (!(txtTen.getText().trim().length() >= 6 && txtTen.getText().trim().length() <= 50)) {
+            MsgBox.alert(this, "Họ tên khách hàng chứa từ 6 đến 50 kí tự");
+            txtTen.requestFocus();
+            return false;
+        } else if (txtSDT.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập SDT khách hàng!");
             txtSDT.requestFocus();
             return false;
-        } else if (!txtSDT.getText().matches(pSDT)) {
+        } else if (!txtSDT.getText().trim().matches(pSDT)) {
             MsgBox.alert(this, "SDT không đúng định dạng!");
             txtSDT.requestFocus();
             return false;
-        } else if (txtEmail.getText().length() == 0) {
+        } else if (txtEmail.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập email khách hàng!");
             txtEmail.requestFocus();
             return false;
-        } else if (!txtEmail.getText().matches(pEmail)) {
+        } else if (!txtEmail.getText().trim().matches(pEmail)) {
             MsgBox.alert(this, "Email không đúng định dạng!");
             txtEmail.requestFocus();
             return false;
@@ -2451,17 +2467,17 @@ public class IF_QuanLyBan extends javax.swing.JInternalFrame {
 
     void themMoi() {
         if (checkValidate()) {
-            KhachHang kh = new KhachHang(txtTen.getText(), txtSDT.getText(), txtEmail.getText(), txtNgaySinh.getDate(), rdoNam.isSelected(), Auth.user.getMaNV(), true);
+            KhachHang kh = new KhachHang(txtTen.getText().trim(), txtSDT.getText().trim(), txtEmail.getText().trim(), txtNgaySinh.getDate(), rdoNam.isSelected(), Auth.user.getMaNV(), true);
             new KhachHangDao().insertNoID(kh);
             MsgBox.alert(this, "Thêm mới thành công");
         }
     }
 
     void kiemTra() {
-        if (txtSDT.getText().length() == 0) {
+        if (txtSDT.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập số điện thoại!");
         } else {
-            KhachHang ks = new KhachHangDao().selectSDT(txtSDT.getText());
+            KhachHang ks = new KhachHangDao().selectSDT(txtSDT.getText().trim());
             if (!(ks == null)) {
                 txtTen.setText(ks.getTenKH());
                 txtEmail.setText(ks.getEmail());
@@ -2482,10 +2498,10 @@ public class IF_QuanLyBan extends javax.swing.JInternalFrame {
     }
 
     void kiemTraCheckIn() {
-        if (txtSDT1.getText().length() == 0) {
+        if (txtSDT1.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập số điện thoại!");
         } else {
-            KhachHang ks = new KhachHangDao().selectSDT(txtSDT1.getText());
+            KhachHang ks = new KhachHangDao().selectSDT(txtSDT1.getText().trim());
             if (!(ks == null)) {
                 txtTen1.setText(ks.getTenKH());
                 txtEmail1.setText(ks.getEmail());
@@ -2550,7 +2566,7 @@ public class IF_QuanLyBan extends javax.swing.JInternalFrame {
     }
 
     boolean checkSave() {
-        if (new BanDAO().selectCount(lblMaBan.getText()) < tblSP.getRowCount() || checkSave) {
+        if (new BanDAO().selectCount(lblMaBan.getText().trim()) < tblSP.getRowCount() || checkSave) {
             return true;
         }
         return false;
@@ -2733,7 +2749,7 @@ public class IF_QuanLyBan extends javax.swing.JInternalFrame {
         List<SanPham> lst = new SanPhamDAO().selectByLoai("%" + getCboLoai() + "%");
         modelDS.setRowCount(0);
         for (SanPham sp : lst) {
-            if ((sp.getMaSP().toUpperCase().contains(txtTimKiemTT.getText().toUpperCase()) || sp.getTenSanPham().toUpperCase().contains(txtTimKiemTT.getText().toUpperCase())) && checkSP(sp.getMaSP())) {;
+            if ((sp.getMaSP().toUpperCase().contains(txtTimKiemTT.getText().toUpperCase().trim()) || sp.getTenSanPham().toUpperCase().contains(txtTimKiemTT.getText().toUpperCase().trim())) && checkSP(sp.getMaSP())) {;
                 modelDS.addRow(new Object[]{sp.getMaSP(), sp.getTenSanPham(), sp.getDonViTinh(), Xcurrency.toCurrency(sp.getDonGia())});
             }
         }
@@ -2848,6 +2864,7 @@ public class IF_QuanLyBan extends javax.swing.JInternalFrame {
             modelDS.removeRow(row);
         } catch (Exception e) {
             MsgBox.alert(this, "Số lượng không đúng định dạng");
+            e.printStackTrace();
         }
     }
 
@@ -2912,7 +2929,7 @@ public class IF_QuanLyBan extends javax.swing.JInternalFrame {
 
     void fillTable() {
         updateStatusTable();
-        List<Ban> lst = daoBan.selectPagingFull(1, getCboTable(), txtTimKiem.getText(), getRdoSatus(), pageIndexTB);
+        List<Ban> lst = daoBan.selectPagingFull(1, getCboTable(), txtTimKiem.getText().trim(), getRdoSatus(), pageIndexTB);
         Component cm[] = pnlBan.getComponents();
         for (int i = 0; i < cm.length - 1; i++) {
             try {
@@ -3010,16 +3027,30 @@ public class IF_QuanLyBan extends javax.swing.JInternalFrame {
     }
 
     boolean checkValidateQL() {
-        if (txtMaBan.getText().length() == 0) {
+        String s = txtTenBan.getText().replaceAll("[^0-9]", "");
+        String pKiTu = txtTenBan.getText().replaceAll("[^!@#$%&*()_+=|<>?{}\\\\[\\\\]~-]", "");
+        if (txtMaBan.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập mã bàn!");
+            txtMaBan.requestFocus();
+            return false;
+        } else if ((txtMaBan.getText().trim().matches(pKiTu))) {
+            MsgBox.alert(this, "Mã bàn không được chứa kí tự đặc biệt");
             txtMaBan.requestFocus();
             return false;
         } else if (new BanDAO().selectById(txtMaBan.getText()) != null && tblQL.getSelectedRow() < 0) {
             MsgBox.alert(this, "Mã bàn đã tồn tại!");
             txtTenBan.requestFocus();
             return false;
-        } else if (txtTenBan.getText().length() == 0) {
+        } else if (txtTenBan.getText().trim().length() == 0) {
             MsgBox.alert(this, "Vui lòng nhập tên bàn!");
+            txtTenBan.requestFocus();
+            return false;
+        } else if ((txtTenBan.getText().trim().matches(pKiTu))) {
+            MsgBox.alert(this, "Tên Bàn không được chứa kí tự đặc biệt");
+            txtTenBan.requestFocus();
+            return false;
+        } else if (!(txtTenBan.getText().trim().length() <= 50)) {
+            MsgBox.alert(this, "Tên bàn không quá 50 kí tự");
             txtTenBan.requestFocus();
             return false;
         }
